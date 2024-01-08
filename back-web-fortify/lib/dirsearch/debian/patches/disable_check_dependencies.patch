@@ -1,0 +1,11 @@
+Index: dirsearch-0.4.3/options.ini
+===================================================================
+--- dirsearch-0.4.3.orig/options.ini
++++ dirsearch-0.4.3/options.ini
+@@ -1,5 +1,5 @@
+ # User options are saved here
+ 
+ [options]
+-check-dependencies = True
++check-dependencies = False
+ 

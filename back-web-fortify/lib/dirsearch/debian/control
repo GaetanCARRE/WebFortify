@@ -1,0 +1,41 @@
+Source: dirsearch
+Section: misc
+Priority: optional
+Maintainer: Debian Security Tools <team+pkg-security@tracker.debian.org>
+Uploaders: Clay Stan <claystan97@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               dh-python,
+               python3-all,
+               python3-certifi,
+               python3-colorama,
+               python3-requests,
+               python3-setuptools,
+               python3-jinja2,
+               python3-pyparsing,
+               python3-requests-ntlm,
+               python3-defusedxml,
+Standards-Version: 4.6.2.0
+Homepage: https://github.com/maurosoria/dirsearch
+Vcs-Browser: https://salsa.debian.org/pkg-security-team/dirsearch
+Vcs-Git: https://salsa.debian.org/pkg-security-team/dirsearch.git
+Testsuite: autopkgtest-pkg-python
+Rules-Requires-Root: no
+
+Package: dirsearch
+Architecture: all
+Depends: python3-colorama,
+         python3-requests,
+         python3-requests-ntlm,
+         python3-jinja2,
+         python3-pyparsing,
+         python3-defusedxml,
+         ${misc:Depends},
+         ${python3:Depends}
+Description: Web path scanner
+ This package contains is a command-line tool designed to brute force
+ directories and files in webservers.
+ .
+ As a feature-rich tool, dirsearch gives users the opportunity to perform a
+ complex web content discovering, with many vectors for the wordlist, high
+ accuracy, impressive performance, advanced connection/request settings, modern
+ brute-force techniques and nice output.

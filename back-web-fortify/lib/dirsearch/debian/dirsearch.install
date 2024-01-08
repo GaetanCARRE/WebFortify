@@ -1,0 +1,2 @@
+debian/helper-script/* usr/bin
+config.ini etc/dirsearch

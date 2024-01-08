@@ -1,0 +1,25 @@
+Description: use /etc/dirsearch as the config file path
+
+install the config file in /etc/dirsearch, not in
+/usr/share/dirsearch/dirsearch
+
+Author: Clay Stan <claystan97@gmail.com>
+Author: Sophie Brun <sophie@offensive-security.com>
+
+---
+Forwarded: not-needed
+Last-Update: 2023-10-24
+
+Index: dirsearch/lib/parse/cmdline.py
+===================================================================
+--- dirsearch.orig/lib/parse/cmdline.py
++++ dirsearch/lib/parse/cmdline.py
+@@ -68,7 +68,7 @@ def parse_arguments():
+         dest="config",
+         metavar="PATH",
+         help="Full path to config file, see 'config.ini' for example (Default: config.ini)",
+-        default=FileUtils.build_path(SCRIPT_PATH, "config.ini"),
++        default=FileUtils.build_path(SCRIPT_PATH, "/etc/dirsearch/config.ini"),
+     )
+ 
+     # Dictionary Settings
