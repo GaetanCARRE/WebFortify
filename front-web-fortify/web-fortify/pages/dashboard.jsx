@@ -24,20 +24,71 @@ import { Doughnut, Pie } from 'react-chartjs-2';
 
 export default function DashBoard() {
 
+  /* LOGS */
+
   const [logs, setLogs] = useState([{AttackType:'XSS', Succes:false, URL:'localhost:8080', time:32212, color:0},
                                     {AttackType:'SQL Injection', Succes:false, URL:'localhost:8080', time:441322212, color:1},
                                     {AttackType:'CSRF', Succes:false, URL:'localhost:8080', time:11322212, color:0},
-                                    {AttackType:'LFI', Succes:false, URL:'localhost:8080', time:1212, color:1},
+                                    {AttackType:'LFI', Succes:true, URL:'localhost:8080', time:1212, color:1},
                                     {AttackType:'RFI', Succes:false, URL:'localhost:8080', time:13212, color:0},
                                     {AttackType:'RCE', Succes:false, URL:'localhost:8080', time:132212, color:1}    
 ]) // [{AttackType:CSS, Succes:false, URL: localhost:8080, time:1322212},{},]
 
-  const [selectedItems, setSelectedItems] = useState([]);
+
+  /* END LOGS */
+ 
+
+  /* DROPWONW */
+
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const [selectedAttacks, setSelectedAttacks] = useState([]);
+
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleItemClick = (item) => {    
+
+    const isSelected = selectedAttacks.includes(item);
+
+    if (isSelected) {
+      // delete item from selected items
+      setSelectedAttacks(selectedAttacks.filter((i) => i !== item));
+    } else {
+      setSelectedAttacks([...selectedAttacks, item]);
+    }
+
+    
+  };
+
+  useEffect(() => {
+    console.log(selectedAttacks)
+  }
+  , [selectedAttacks])
+
+  /*END DROPDOWN */
+
+  /* CONFIGURATION VARIABLES */
+
+  const [url, setUrl] = useState('')
+  const [port, setPort] = useState('')
+  const [projectFolder, setProjectFolder] = useState('')
+
+
+  /* END CONFIGURATION VARIABLES */
+
+
+
+  /* FUNCTION */
 
   async function StartRunningProcess() {
     console.log("Start Running Process")
-    console.log(selectedItems)
+    console.log(selectedAttacks)
   }
+
+  /* END FUNCTION */
 
 
 
@@ -87,24 +138,82 @@ export default function DashBoard() {
                         Type Attack
                       </div>
 
-                      <DropDown />
+                      {/* DROPDOWN */}
+
+
+                      <div className="relative inline-block text-left py-2 w-full">
+                        <button
+                          onClick={toggleDropdown}
+                          type="button"
+                          className="flex w-2/3 justify-start items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring focus:border-blue-300"
+                          id="options-menu"
+                          aria-haspopup="true"
+                          aria-expanded="true"
+                        >
+                          <div className="flex w-full">
+                            <div className="w-4/5 flex justify-start">
+                              Select Attack(s)
+                            </div>
+                            <div className="w-1/5 text-right flex justify-end items-center justify-items-end">
+                              {
+                                isOpen ? <img src="/assets/icons/up.svg" className="ml-2 w-3 h-3" /> : <img src="/assets/icons/bottom.svg" className="ml-2 w-3 h-3" />
+                              }
+                              
+                            </div>
+                          </div>
+                        </button>
+
+                        {isOpen && (
+                          <div className="origin-top-left absolute left-0 mt-2 w-2/3 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                            {/* Dropdown content goes here */}
+                            <div className="py-1">
+                              <label id="1" className="block px-4 py-2 text-sm text-gray-700">
+                                <input
+                                  type="checkbox"
+                                  checked={selectedAttacks.includes('Item 1')}
+                                  onChange={() => handleItemClick('Item 1')}
+                                  className="mr-2"
+                                />
+                                Item 1
+                              </label>
+                              <label id="2" className="block px-4 py-2 text-sm text-gray-700">
+                                <input
+                                  type="checkbox"
+                                  checked={selectedAttacks.includes('Item 2')}
+                                  onChange={() => handleItemClick('Item 2')}
+                                  className="mr-2"
+                                />
+                                Item 2
+                              </label>
+                              {/* Add more items as needed */}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+
+                      {/*END DROPDOWN */}
+
 
                       <div className="mt-3 text-[12px] text-violet font-bold">
                         URL to attack
                       </div>
-                      <input id="url" className="mt-1 w-full p-1 shadow-sm rounded-md bg-grisclair" type="text" placeholder="" />
+                      <input id="url" className="mt-1 w-full p-1 shadow-sm rounded-md bg-grisclair" type="text" placeholder=""
+                        onChange={(e) => setUrl(e.target.value)} />
                       
 
                       <div className="mt-3 text-[12px] text-violet font-bold">
                         Specify Port
                       </div>
 
-                      <input id="port" className="mt-1 w-full p-1 shadow-sm rounded-md  bg-grisclair" type="text" placeholder="" />
+                      <input id="port" className="mt-1 w-full p-1 shadow-sm rounded-md  bg-grisclair" type="text" placeholder="" 
+                        onChange={(e) => setPort(e.target.value)} />
 
                       <div className="mt-3 text-[12px] text-violet font-bold">
                         Project's folder path
                       </div>
-                      <input id="projectfolder" className="mt-1 w-full p-1 shadow-sm rounded-md  bg-grisclair" type="text" placeholder="" />
+                      <input id="projectfolder" className="mt-1 w-full p-1 shadow-sm rounded-md  bg-grisclair" type="text" placeholder=""
+                        onChange={(e) => setProjectFolder(e.target.value)} />
 
                     </div>
                     
@@ -186,7 +295,7 @@ export default function DashBoard() {
                           {logs.map((log) => (
                             // if log.color is 0 display bg-white else display bg-grisclair
 
-                            <div id={log.time} className="flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2'}}>
+                            <div key={log.time} className="flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2'}}>
 
                               <div className="flex w-1/4 justify-start items-start justify-items-start">
                                   {log.AttackType}
@@ -206,9 +315,9 @@ export default function DashBoard() {
                                   {log.time}
                               </div>
 
-                              <div className="absolute right-10 ">
-                                  -
-                              </div>
+                              <button className="absolute right-10 ">
+                                <img src="/assets/icons/right.svg" className="w-4 h-4 " />
+                              </button>
 
                             </div>
                           ))}

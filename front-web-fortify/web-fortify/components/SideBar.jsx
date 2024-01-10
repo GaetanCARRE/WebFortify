@@ -25,18 +25,20 @@ export default function Navbar() {
 
                 <div className="justify-center items-center justify-items-center  text-[#5A6ACF] text-[12px]">
                     
-                    <button className=" shadow-md rounded bg-[#b8bde4] py-2 px-4 my-3 w-full flex justify-start items-center justify-items-start ">
-                        <div className="h-2 w-2 mr-1 rounded-sm bg-[#5A67BA]">
-
+                    <button className=" shadow-md hover:shadow-xl  transition ease-in-out  duration-500 rounded bg-[#b8bde4] py-2 px-4 my-3 w-full flex justify-start items-center justify-items-start "
+                     onClick={ () => {  window.location.href = "/dashboard"; } } >                        
+                        <div className="">
+                            <img src="/assets/icons/dash.svg" className="w-4 h-4 mr-1" />
                         </div>
                         DashBoard
                     </button>              
                 </div>
                 <div className="justify-center items-center justify-items-center  text-[#5A6ACF] text-[12px]">
                     
-                    <button className="shadow-md  rounded bg-[#b8bde4] py-2 px-4 my-3 w-full flex justify-start items-center justify-items-start ">
-                        <div className="h-2 w-2 mr-1 rounded-sm bg-[#5A67BA]">
-
+                    <button className="shadow-md hover:shadow-xl  transition ease-in-out  duration-500  rounded bg-[#b8bde4] py-2 px-4 my-3 w-full flex justify-start items-center justify-items-start "
+                    onClick={ () => {  window.location.href = "/history"; } } > 
+                        <div className="">
+                            <img src="/assets/icons/hist.svg" className="w-4 h-4 mr-1" />
                         </div>
                         History
                     </button>              
