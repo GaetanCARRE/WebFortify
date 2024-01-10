@@ -41,9 +41,10 @@ def create_app(test_config=None):
     @app.route('/sqlmap', methods=['POST'])
     def sqlmap():
         url = request.json.get('url')
-        parameter = request.json.get('parameter')
+        options = request.json.get('options')
         cookie = request.json.get('cookie')
-        connector = SQLMapConnector(cookie, url, parameter)
+        
+        connector = SQLMapConnector(cookie, url, options)
         scanid = connector.start_scan()
         while True:
             status = connector.get_scan_status(scanid)
