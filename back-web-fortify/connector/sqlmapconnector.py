@@ -11,7 +11,6 @@ class SQLMapConnector:
         return resp.json()['taskid']
 
     def start_scan(self):
-        headers = {'Cookie': self.cookie}
         taskid = self.create_task()
         data = {
             'url': self.url,
