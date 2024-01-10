@@ -7,7 +7,19 @@ module.exports = {
    
   ],
   theme: {
-    extend: {},
+    extend: {
+      // add color to tailwind
+      colors: {
+        cyan: "#4399FF",
+        grisclair: "#C8CBD9",
+        grisfonce: "#D6D2D2",
+        violet: "#5A6ACF",
+        
+       
+        
+      },
+
+    },
   },
   plugins: [],
 }
