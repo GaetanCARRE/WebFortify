@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: fichier actif",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/sqlmap.py",
+            "args": [
+                "-u",
+                "http://localhost/vulnerabilities/sqli/?id=aaa&Submit=Submit#",
+                "--compressed",
+                "-H",
+                "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:121.0) Gecko/20100101 Firefox/121.0",
+                "-H",
+                "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                "-H",
+                "Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
+                "-H",
+                "Accept-Encoding: gzip, deflate, br",
+                "-H",
+                "Connection: keep-alive",
+                "-H",
+                "Referer: http://localhost/vulnerabilities/sqli/",
+                "-H",
+                "Cookie: PHPSESSID=j0i5bs1ta4k29g07qfg0qt6b96; security=low",
+                "-H",
+                "Upgrade-Insecure-Requests: 1",
+                "-H",
+                "Sec-Fetch-Dest: document",
+                "-H",
+                "Sec-Fetch-Mode: navigate",
+                "-H",
+                "Sec-Fetch-Site: same-origin"
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}

@@ -1,7 +1,7 @@
 import os
 from datetime import date
-from flask import Flask, jsonify
-
+from flask import Flask, jsonify, request
+from connector.sqlmapconnector import SQLMapConnector
 version = "0.0.1"
 
 def create_app(test_config=None):
@@ -37,5 +37,19 @@ def create_app(test_config=None):
             Version=version,
             date=date.today(),
         )
+    
+    @app.route('/sqlmap', methods=['POST'])
+    def sqlmap():
+        url = request.json.get('url')
+        parameter = request.json.get('parameter')
+        cookie = request.json.get('cookie')
+        connector = SQLMapConnector(cookie, url, parameter)
+        scanid = connector.start_scan()
+        while True:
+            status = connector.get_scan_status(scanid)
+            if status == "terminated":
+                break
+        data = connector.get_scan_data(scanid)
+        return jsonify(data)
 
     return app
