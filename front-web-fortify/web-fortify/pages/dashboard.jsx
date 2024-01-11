@@ -315,7 +315,8 @@ export default function DashBoard() {
                                   {log.time}
                               </div>
 
-                              <button className="absolute right-10 ">
+                              <button className="absolute right-10 "
+                                onClick={ () => {  window.location.href = "/correction?attackID=765"; } }>
                                 <img src="/assets/icons/right.svg" className="w-4 h-4 " />
                               </button>
 

@@ -17,7 +17,7 @@ import { useState } from 'react'
 
 
 
-export default function DashBoard() {
+export default function Correction() {
 
   
   const [attack, setAttack] = useState("null");
