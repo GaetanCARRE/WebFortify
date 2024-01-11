@@ -4,6 +4,7 @@ from flask import Flask, jsonify, request
 from lib.XSStrike.run_xss_strike import run_xss_strike
 from lib.XSStrike.testBeautifulSoup import testBeautifulSoup
 import json
+from connector.sqlmapconnector import SQLMapConnector
 
 version = "0.0.1"
 
@@ -29,22 +30,21 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/beautifulsoup', methods=['GET'])
-    def beautifulsoup():
-        try:
-            # Call the testBeautifulSoup function
-            parameters = testBeautifulSoup()
-            return jsonify(parameters)
-        except Exception as e:
-            return jsonify(
-                Status="Error",
-                Message=f"An error occurred: {str(e)}"
-            )
+    @app.route('/hello')
     def hello():
         return 'Hello, World!'
 
-    @app.route('/xssstrike', methods=['POST'])
+    @app.route('/')
     def index():
+        return jsonify(
+            Status="Running",
+            Version=version,
+            date=date.today(),
+        )
+
+
+    @app.route('/xssstrike', methods=['POST'])
+    def test():
         try:
             # Extract parameters from the JSON request
             data = request.get_json()
@@ -64,5 +64,20 @@ def create_app(test_config=None):
                 Status="Error",
                 Message=f"An error occurred: {str(e)}"
             )
+    
+    @app.route('/sqlmap', methods=['POST'])
+    def sqlmap():
+        url = request.json.get('url')
+        options = request.json.get('options')
+        cookie = request.json.get('cookie')
+        
+        connector = SQLMapConnector(cookie, url, options)
+        scanid = connector.start_scan()
+        while True:
+            status = connector.get_scan_status(scanid)
+            if status == "terminated":
+                break
+        data = connector.get_scan_data(scanid)
+        return jsonify(data)
 
     return app
