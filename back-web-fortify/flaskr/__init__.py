@@ -2,7 +2,7 @@ import json
 import os
 from datetime import date
 from flask import Flask, jsonify, request
-from dirsearchscanner import DirsearchScanner
+from dirsearch.DirsearchScanner import DirsearchScanner
 
 version = "0.0.1"
 
