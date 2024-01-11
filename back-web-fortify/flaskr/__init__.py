@@ -1,6 +1,9 @@
 import os
 from datetime import date
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from lib.XSStrike.run_xss_strike import run_xss_strike
+from lib.XSStrike.testBeautifulSoup import testBeautifulSoup
+import json
 
 version = "0.0.1"
 
@@ -26,16 +29,40 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
+    @app.route('/beautifulsoup', methods=['GET'])
+    def beautifulsoup():
+        try:
+            # Call the testBeautifulSoup function
+            parameters = testBeautifulSoup()
+            return jsonify(parameters)
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
     def hello():
         return 'Hello, World!'
 
-    @app.route('/')
+    @app.route('/xssstrike', methods=['POST'])
     def index():
-        return jsonify(
-            Status="Running",
-            Version=version,
-            date=date.today(),
-        )
+        try:
+            # Extract parameters from the JSON request
+            data = request.get_json()
+            target_url = data.get('target_url')
+            param_data = data.get('param_data')
+            headers = data.get('headers')
+
+            # Call the run_xss_strike function
+            run_xss_strike(target_url, param_data, headers)
+
+            with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
+                result_json = json.load(json_file)
+            return jsonify(result_json)
+           
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
 
     return app
