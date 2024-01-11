@@ -1,7 +1,11 @@
 import os
 from datetime import date
 from flask import Flask, jsonify, request
+from lib.XSStrike.run_xss_strike import run_xss_strike
+from lib.XSStrike.testBeautifulSoup import testBeautifulSoup
+import json
 from connector.sqlmapconnector import SQLMapConnector
+
 version = "0.0.1"
 
 def create_app(test_config=None):
@@ -37,6 +41,29 @@ def create_app(test_config=None):
             Version=version,
             date=date.today(),
         )
+
+
+    @app.route('/xssstrike', methods=['POST'])
+    def test():
+        try:
+            # Extract parameters from the JSON request
+            data = request.get_json()
+            target_url = data.get('target_url')
+            param_data = data.get('param_data')
+            headers = data.get('headers')
+
+            # Call the run_xss_strike function
+            run_xss_strike(target_url, param_data, headers)
+
+            with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
+                result_json = json.load(json_file)
+            return jsonify(result_json)
+           
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
     
     @app.route('/sqlmap', methods=['POST'])
     def sqlmap():
