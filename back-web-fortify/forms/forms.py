@@ -73,17 +73,17 @@ def get_form_details(form):
     details["method"] = method
     details["inputs"] = inputs
     return details
-
-
-
-if __name__ == "__main__":
-    # get URL from the command line
-    url = "https://brutelogic.com.br/gym.php"
+   
+        
+def main(url):
     # get all form tags
     forms = get_all_forms(url)
     # iteratte over forms
+    list_forms = []
     for i, form in enumerate(forms, start=1):
         form_details = get_form_details(form)
-        print(json.dumps(form_details))
+        list_forms.append(form_details)
+    return list_forms
+    
 
     

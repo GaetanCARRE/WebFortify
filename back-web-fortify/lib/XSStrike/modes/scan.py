@@ -129,7 +129,6 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
         result_json.append({'payloads': list_payloads, "parameter": paramName})   
         list_payloads = []
         logger.no_format('')
-    logger.info('TAILLE RESULT JSON: %i' % len(result_json))
     json_data = json.dumps(result_json, indent=2)
     with open('./lib/XSStrike/result-XSS-Strike.json', 'a') as json_file:
         json_file.write(json_data + '\n')  # Ajoutez une nouvelle ligne entre chaque enregistrement JSON   
