@@ -145,7 +145,7 @@ export default function DashBoard() {
                         <button
                           onClick={toggleDropdown}
                           type="button"
-                          className="flex w-2/3 justify-start items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring focus:border-blue-300"
+                          className="flex shadow-lg w-2/3 justify-start items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring focus:border-blue-300"
                           id="options-menu"
                           aria-haspopup="true"
                           aria-expanded="true"
@@ -198,7 +198,7 @@ export default function DashBoard() {
                       <div className="mt-3 text-[12px] text-violet font-bold">
                         URL to attack
                       </div>
-                      <input id="url" className="mt-1 w-full p-1 shadow-sm rounded-md bg-grisclair" type="text" placeholder=""
+                      <input id="url" className="shadow-md mt-1 w-full p-1  rounded-md bg-grisclair" type="text" placeholder=""
                         onChange={(e) => setUrl(e.target.value)} />
                       
 
@@ -206,13 +206,13 @@ export default function DashBoard() {
                         Specify Port
                       </div>
 
-                      <input id="port" className="mt-1 w-full p-1 shadow-sm rounded-md  bg-grisclair" type="text" placeholder="" 
+                      <input id="port" className="shadow-md mt-1 w-full p-1  rounded-md  bg-grisclair" type="text" placeholder="" 
                         onChange={(e) => setPort(e.target.value)} />
 
                       <div className="mt-3 text-[12px] text-violet font-bold">
                         Project's folder path
                       </div>
-                      <input id="projectfolder" className="mt-1 w-full p-1 shadow-sm rounded-md  bg-grisclair" type="text" placeholder=""
+                      <input id="projectfolder" className="shadow-md mt-1 w-full p-1 rounded-md  bg-grisclair" type="text" placeholder=""
                         onChange={(e) => setProjectFolder(e.target.value)} />
 
                     </div>
@@ -295,7 +295,7 @@ export default function DashBoard() {
                           {logs.map((log) => (
                             // if log.color is 0 display bg-white else display bg-grisclair
 
-                            <div key={log.time} className="flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2'}}>
+                            <div key={log.time} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2'}}>
 
                               <div className="flex w-1/4 justify-start items-start justify-items-start">
                                   {log.AttackType}

@@ -8,7 +8,7 @@ export default function Navbar() {
         <div className="w-full flex">
             
             
-            <div className="flex py-3 h-16 bg-white w-full justify-center items-center justify-items-center">
+            <div className="flex shadow-md py-3 h-16 bg-white w-full justify-center items-center justify-items-center">
                 
                 <div className="text-[42px] font-bold text-cyan ">
                         WebFortify
