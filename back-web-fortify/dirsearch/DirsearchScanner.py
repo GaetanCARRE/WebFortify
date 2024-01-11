@@ -1,3 +1,4 @@
+import json
 import subprocess
 import re
 
@@ -8,12 +9,14 @@ class DirsearchScanner:
 
     def run_dirsearch(self, target_url):
         dirsearch_command = ["python", self.dirsearch_path, "-u", target_url]
-        output_file = "output_file_dirsearch.txt"
+        output_file = "WebFortify/back-web-fortify/dirsearch/output_file_dirsearch.txt"
         dirsearch_command += ["-o", output_file]
-        wordlist = "wordlist.txt"
+        wordlist = "WebFortify/back-web-fortify/dirsearch/wordlist.txt"
         dirsearch_command += ["-w", wordlist]
-        dirsearch_command += ["-t","100"]
-        ##dirsearch_command += ["--full-url","-r","-R","1"]
+        dirsearch_command += ["-t","1000"]
+        dirsearch_command += ["-r","--recursion-status=200","--deep-recursive"]
+        dirsearch_command += ["--random-agent"]
+        dirsearch_command += ["--crawl"]
         
         try:
             subprocess.run(dirsearch_command, check=True)
@@ -37,7 +40,7 @@ class DirsearchScanner:
             raise Exception("Could not find dirsearch installation path")
         
     def parse_outut_file_dirsearch(self):
-        fichier_nom = "output_file_dirsearch.txt"
+        fichier_nom = "WebFortify/back-web-fortify/dirsearch/output_file_dirsearch.txt"
 
         # Ouvrir le fichier en mode lecture
         with open(fichier_nom, 'r') as fichier:
@@ -58,8 +61,24 @@ class DirsearchScanner:
             # Écrire les résultats dans le fichier
             fichier.writelines(resultats)
             
+    def lire_liste_txt_et_convertir_en_json(self):
+        nom_fichier_entree = "WebFortify/back-web-fortify/dirsearch/output_file_dirsearch.txt"
+        nom_fichier_sortie = "WebFortify/back-web-fortify/dirsearch/output_file_dirsearch.json"
+        # Lire la liste depuis le fichier texte
+        with open(nom_fichier_entree, 'r', encoding='utf-8') as f:
+            liste_mots = [mot.strip() for mot in f.readlines()]
+
+        # Convertir la liste en format JSON
+        liste_json = json.dumps(liste_mots, ensure_ascii=False, indent=2)
+
+        # Écrire la liste au format JSON dans un fichier de sortie
+        with open(nom_fichier_sortie, 'w', encoding='utf-8') as f_out:
+            f_out.write(liste_json)
+
+            
 ##   to use the class dirsearch
 #dirsearch_instance = DirsearchScanner()
 #target_url="https://juice-shop.herokuapp.com/#/"
 #dirsearch_instance.run_dirsearch(target_url)
 #dirsearch_instance.parse_outut_file_dirsearch()
+#dirsearch_instance.lire_liste_txt_et_convertir_en_json()

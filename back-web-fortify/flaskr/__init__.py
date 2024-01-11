@@ -1,6 +1,8 @@
+import json
 import os
 from datetime import date
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from dirsearchscanner import DirsearchScanner
 
 version = "0.0.1"
 
@@ -37,5 +39,25 @@ def create_app(test_config=None):
             Version=version,
             date=date.today(),
         )
+        
+    @app.route('/dirsearch', methods=['POST'])
+    def dirsearch():
+        try:
+            # Extract parameters from the JSON request
+            data = request.get_json()
+            target_url = data.get('target_url')
+            dirsearch_instance = DirsearchScanner()
+            dirsearch_instance.run_dirsearch(target_url)
+            dirsearch_instance.parse_outut_file_dirsearch()
+            dirsearch_instance.lire_liste_txt_et_convertir_en_json()
+            
+            with open('..dirsearch/output_file_dirsearch.json', 'r') as json_file:
+                result_json = json.load(json_file)
+            return jsonify(result_json)
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
 
     return app
