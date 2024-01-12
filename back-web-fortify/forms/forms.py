@@ -75,7 +75,7 @@ def get_form_details(form):
     return details
    
         
-def main(url, cookies=None) :
+def main(url, cookies=None):
     # get all form tags
     forms = get_all_forms(url, cookies=cookies)
     # iteratte over forms
