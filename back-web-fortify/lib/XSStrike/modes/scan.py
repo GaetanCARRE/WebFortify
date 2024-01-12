@@ -14,9 +14,12 @@ from core.requester import requester
 from core.utils import getUrl, getParams, getVar
 from core.wafDetector import wafDetector
 from core.log import setup_logger
+import json
 
 logger = setup_logger(__name__)
 
+
+result_json = []
 
 def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
     GET, POST = (False, True) if paramData else (True, False)
@@ -31,6 +34,8 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
     logger.debug('Scan target: {}'.format(target))
     response = requester(target, {}, headers, GET, delay, timeout).text
 
+    list_vulnerability = []
+
     if not skipDOM:
         logger.run('Checking for DOM vulnerabilities')
         highlighted = dom(response)
@@ -39,7 +44,9 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
             logger.red_line(level='good')
             for line in highlighted:
                 logger.no_format(line, level='good')
+                list_vulnerability.append({'vulnerability': "line : "+ line.replace('\033[92m', '').replace('\033[0m', '').replace('\u001b[93m', '').replace('\u001b[91m', '')})
             logger.red_line(level='good')
+            result_json.append({'vulnerabilities': list_vulnerability})
     host = urlparse(target).netloc  # Extracts host out of the url
     logger.debug('Host to scan: {}'.format(host))
     url = getUrl(target, GET)
@@ -87,12 +94,17 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
             continue
         logger.info('Payloads generated: %i' % total)
         progress = 0
-        for confidence, vects in vectors.items():
+        limit = 0
+        list_payloads = []
+        for confidence, vects in vectors.items():   
             for vect in vects:
+                if(limit >3):
+                    break
                 if core.config.globalVariables['path']:
                     vect = vect.replace('/', '%2F')
                 loggerVector = vect
                 progress += 1
+                limit += 1
                 logger.run('Progress: %i/%i\r' % (progress, total))
                 if not GET:
                     vect = unquote(vect)
@@ -104,9 +116,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
                 bestEfficiency = max(efficiencies)
                 if bestEfficiency == 100 or (vect[0] == '\\' and bestEfficiency >= 95):
                     logger.red_line()
-                    logger.good('Payload: %s' % loggerVector)
-                    logger.info('Efficiency: %i' % bestEfficiency)
-                    logger.info('Confidence: %i' % confidence)
+                    list_payloads.append({'payload': loggerVector})
                     if not skip:
                         choice = input(
                             '%s Would you like to continue scanning? [y/N] ' % que).lower()
@@ -114,7 +124,11 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
                             quit()
                 elif bestEfficiency > minEfficiency:
                     logger.red_line()
-                    logger.good('Payload: %s' % loggerVector)
-                    logger.info('Efficiency: %i' % bestEfficiency)
-                    logger.info('Confidence: %i' % confidence)
+                    list_payloads.append({'payload': loggerVector})
+                    
+        result_json.append({'payloads': list_payloads, "parameter": paramName})   
+        list_payloads = []
         logger.no_format('')
+    json_data = json.dumps(result_json, indent=2)
+    with open('./lib/XSStrike/result-XSS-Strike.json', 'a') as json_file:
+        json_file.write(json_data + '\n')  # Ajoutez une nouvelle ligne entre chaque enregistrement JSON   

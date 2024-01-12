@@ -1,2 +1,6 @@
 Flask==3.0.0
 dirsearch==0.4.3.post1
+fuzzywuzzy
+requests
+requests_html
+bs4
