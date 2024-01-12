@@ -2,9 +2,11 @@ import json
 import os
 from datetime import date
 from flask import Flask, jsonify, request
-from dirsearch.DirsearchScanner import DirsearchScanner
+import threading
+from Dirsearch.DirsearchScanner import DirsearchScanner
 
 version = "0.0.1"
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -44,14 +46,14 @@ def create_app(test_config=None):
     def dirsearch():
         try:
             # Extract parameters from the JSON request
-            data = request.get_json()
-            target_url = data.get('target_url')
+            target_url = request.args.get('url')
             dirsearch_instance = DirsearchScanner()
-            dirsearch_instance.run_dirsearch(target_url)
-            dirsearch_instance.parse_outut_file_dirsearch()
+            thread = threading.Thread(target=dirsearch_instance.run_dirsearch(target_url))
+            thread.start()
+            thread.join()
+            dirsearch_instance.parse_output_file_dirsearch()
             dirsearch_instance.lire_liste_txt_et_convertir_en_json()
-            
-            with open('..dirsearch/output_file_dirsearch.json', 'r') as json_file:
+            with open('../Dirsearch/output_file_dirsearch.json', 'r') as json_file:
                 result_json = json.load(json_file)
             return jsonify(result_json)
         except Exception as e:

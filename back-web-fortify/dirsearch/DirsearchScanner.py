@@ -9,11 +9,11 @@ class DirsearchScanner:
 
     def run_dirsearch(self, target_url):
         dirsearch_command = ["python", self.dirsearch_path, "-u", target_url]
-        output_file = "WebFortify/back-web-fortify/dirsearch/output_file_dirsearch.txt"
+        output_file = "../Dirsearch/output_file_dirsearch.txt"
         dirsearch_command += ["-o", output_file]
-        wordlist = "WebFortify/back-web-fortify/dirsearch/wordlist.txt"
+        wordlist = "../Dirsearch/wordlist_test.txt"
         dirsearch_command += ["-w", wordlist]
-        dirsearch_command += ["-t","1000"]
+        dirsearch_command += ["-t","500"]
         dirsearch_command += ["-r","--recursion-status=200","--deep-recursive"]
         dirsearch_command += ["--random-agent"]
         dirsearch_command += ["--crawl"]
@@ -26,59 +26,68 @@ class DirsearchScanner:
         
             
     def get_dirsearch_path(self):
-        # Exécuter la commande pip show dirsearch
-        result = subprocess.run(['py','-m','pip', 'show', 'dirsearch'], capture_output=True, text=True)
+        try:
+            # Exécuter la commande pip show dirsearch
+            result = subprocess.run(['py','-m','pip', 'show', 'dirsearch'], capture_output=True, text=True)
 
-        # Rechercher le chemin d'installation dans la sortie de la commande
-        match = re.search(r'Location: (.+)', result.stdout)
-        if match:
-            install_path = match.group(1).replace("\\", "/")
-            # Construire le chemin vers le fichier dirsearch.py
-            dirsearch_path = f"{install_path}/dirsearch/dirsearch.py"
-            self.dirsearch_path = dirsearch_path
-        else:
-            raise Exception("Could not find dirsearch installation path")
+            # Rechercher le chemin d'installation dans la sortie de la commande
+            match = re.search(r'Location: (.+)', result.stdout)
+            if match:
+                install_path = match.group(1).replace("\\", "/")
+                # Construire le chemin vers le fichier dirsearch.py
+                dirsearch_path = f"{install_path}/dirsearch/dirsearch.py"
+                self.dirsearch_path = dirsearch_path
+            else:
+                raise Exception("Could not find dirsearch installation path")
+        except subprocess.CalledProcessError as e:
+            print(f"Dirsearch not find: {e}")
         
-    def parse_outut_file_dirsearch(self):
-        fichier_nom = "WebFortify/back-web-fortify/dirsearch/output_file_dirsearch.txt"
+    def parse_output_file_dirsearch(self):
+        try:
+            fichier_nom = "../Dirsearch/output_file_dirsearch.txt"
 
-        # Ouvrir le fichier en mode lecture
-        with open(fichier_nom, 'r') as fichier:
-            # Lire toutes les lignes du fichier
-            lignes = fichier.readlines()
+            # Ouvrir le fichier en mode lecture
+            with open(fichier_nom, 'r') as fichier:
+                # Lire toutes les lignes du fichier
+                lignes = fichier.readlines()
 
-        # Filtrer les lignes commençant par "200" et extraire uniquement l'URL
-        testlignes = lignes
-        resultats = []
-        for ligne in testlignes:
-            if ligne.startswith('200'):
-                testresult = ligne.split(' ')
-                ##print(testresult)
-                resultats.append(testresult[-1])
+            # Filtrer les lignes commençant par "200" et extraire uniquement l'URL
+            testlignes = lignes
+            resultats = []
+            for ligne in testlignes:
+                if ligne.startswith('200'):
+                    testresult = ligne.split(' ')
+                    ##print(testresult)
+                    resultats.append(testresult[-1])
 
-        # Ouvrir le fichier en mode écriture pour réécrire les résultats
-        with open(fichier_nom, 'w') as fichier:
-            # Écrire les résultats dans le fichier
-            fichier.writelines(resultats)
+            # Ouvrir le fichier en mode écriture pour réécrire les résultats
+            with open(fichier_nom, 'w') as fichier:
+                # Écrire les résultats dans le fichier
+                fichier.writelines(resultats)
+        except subprocess.CalledProcessError as e:
+            print(f"Error to parse the file output_file_dirsearch: {e}")
             
     def lire_liste_txt_et_convertir_en_json(self):
-        nom_fichier_entree = "WebFortify/back-web-fortify/dirsearch/output_file_dirsearch.txt"
-        nom_fichier_sortie = "WebFortify/back-web-fortify/dirsearch/output_file_dirsearch.json"
-        # Lire la liste depuis le fichier texte
-        with open(nom_fichier_entree, 'r', encoding='utf-8') as f:
-            liste_mots = [mot.strip() for mot in f.readlines()]
+        try:
+            nom_fichier_entree = "../Dirsearch/output_file_dirsearch.txt"
+            nom_fichier_sortie = "../Dirsearch/output_file_dirsearch.json"
+            # Lire la liste depuis le fichier texte
+            with open(nom_fichier_entree, 'r', encoding='utf-8') as f:
+                liste_mots = [mot.strip() for mot in f.readlines()]
 
-        # Convertir la liste en format JSON
-        liste_json = json.dumps(liste_mots, ensure_ascii=False, indent=2)
+            # Convertir la liste en format JSON
+            liste_json = json.dumps(liste_mots, ensure_ascii=False, indent=2)
 
-        # Écrire la liste au format JSON dans un fichier de sortie
-        with open(nom_fichier_sortie, 'w', encoding='utf-8') as f_out:
-            f_out.write(liste_json)
+            # Écrire la liste au format JSON dans un fichier de sortie
+            with open(nom_fichier_sortie, 'w', encoding='utf-8') as f_out:
+                f_out.write(liste_json)
+        except subprocess.CalledProcessError as e:
+            print(f"Error to create the json file: {e}")
 
             
 ##   to use the class dirsearch
 #dirsearch_instance = DirsearchScanner()
 #target_url="https://juice-shop.herokuapp.com/#/"
 #dirsearch_instance.run_dirsearch(target_url)
-#dirsearch_instance.parse_outut_file_dirsearch()
+#dirsearch_instance.parse_output_file_dirsearch()
 #dirsearch_instance.lire_liste_txt_et_convertir_en_json()
