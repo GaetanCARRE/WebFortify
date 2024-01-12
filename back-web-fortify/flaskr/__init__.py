@@ -68,8 +68,8 @@ def create_app(test_config=None):
             )
 
 
-    @app.route('/xssstrike', methods=['POST'])
-    def test():
+    @app.route('/xsstrike', methods=['POST'])
+    def XSStrike():
         try:
             # Extract parameters from the JSON request
             data = request.get_json()
