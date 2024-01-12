@@ -51,6 +51,7 @@ def create_app(test_config=None):
             data = request.get_json()
             target_url = data.get('target_url')
             cookies = parseCookie.parse_cookie_string(data.get('cookie')) 
+            print(cookies)
                
             # Call the testBeautifulSoup function to get the parameters
             list_forms = forms.main(target_url, cookies=cookies)
@@ -79,11 +80,11 @@ def create_app(test_config=None):
                     dataPOST = dataPOST[:-1]
                          
             # Call the run_xss_strike function
-            run_xss_strike(target_url, dataPOST, data.get('cookie'))
+            run_xss_strike(target_url, dataPOST, "Cookie: "+ data.get('cookie'))
 
             with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
                 result_json = json.load(json_file)
-            return jsonify(list_forms)
+            return jsonify(result_json)
            
         except Exception as e:
             return jsonify(
