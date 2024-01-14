@@ -26,16 +26,15 @@ export default function DashBoard() {
 
   /* LOGS */
 
-  const [logs, setLogs] = useState([{AttackType:'XSS', Succes:false, URL:'localhost:8080', time:32212, color:0},
-                                    {AttackType:'SQL Injection', Succes:false, URL:'localhost:8080', time:441322212, color:1},
-                                    {AttackType:'CSRF', Succes:false, URL:'localhost:8080', time:11322212, color:0},
-                                    {AttackType:'LFI', Succes:true, URL:'localhost:8080', time:1212, color:1},
-                                    {AttackType:'RFI', Succes:false, URL:'localhost:8080', time:13212, color:0},
-                                    {AttackType:'RCE', Succes:false, URL:'localhost:8080', time:132212, color:1}    
-]) // [{AttackType:CSS, Succes:false, URL: localhost:8080, time:1322212},{},]
+  const [scanningStatus, setScanningStatus] = useState(false)
+
+  const [attacksLogs, setAttacksLogs] = useState() 
 
 
   /* END LOGS */
+
+  /*   */
+  
  
 
   /* DROPWONW */
@@ -43,6 +42,8 @@ export default function DashBoard() {
   const [isOpen, setIsOpen] = useState(false);
   
   const [selectedAttacks, setSelectedAttacks] = useState([]);
+
+  const AvailableAttack = ['XSS', 'SQL Injection', 'Dir Search']
 
 
   const toggleDropdown = () => {
@@ -65,6 +66,7 @@ export default function DashBoard() {
 
   useEffect(() => {
     console.log(selectedAttacks)
+    FilterXSSLogs()
   }
   , [selectedAttacks])
 
@@ -83,9 +85,86 @@ export default function DashBoard() {
 
   /* FUNCTION */
 
+  async function FilterXSSLogs( result ){
+
+   
+    var XSSLogs = []
+    let i = 1;
+    let cmpt = 0;
+    try{
+      while (result[i].parameter != null) {
+
+        for (let j = 0; j < result[i].payloads.length; j++) {
+          //result[i].payloads[j] = result[i].payloads[j].replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          var log = {}
+          if(cmpt%2 == 0){
+            log.color = 1
+          }else{
+            log.color = 0
+          }
+          log.AttackType = "XSS"
+          log.Success = true
+          log.target_url = url + "?" + result[i].parameter + "=" + result[i].payloads[j]['payload']
+          log.index = cmpt
+          log.payloads = result[i].payloads[j]['payload']
+
+          cmpt = cmpt + 1
+          
+          XSSLogs.push(log)
+        }
+
+        i++;       
+        
+        
+       
+        
+      }
+
+    }
+    catch{
+      console.log("End of XSS Logs")
+    }
+
+    console.log(XSSLogs)
+    setAttacksLogs(XSSLogs)
+    setScanningStatus(false)
+    
+
+  }
+
   async function StartRunningProcess() {
-    console.log("Start Running Process")
-    console.log(selectedAttacks)
+
+    if(url == ''){
+      alert("Please specify an URL")
+    }else if( selectedAttacks.length == 0){
+      alert("Please select at least one attack")
+    }
+    
+    else{
+
+      console.log("Start Running Process")
+      setScanningStatus(true)
+      console.log(selectedAttacks)
+      console.log(url)
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");    
+
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      fetch("http://localhost:3000/api/xss?target_url=https://brutelogic.com.br/gym.php", requestOptions)
+        .then(response => response.text())      
+        .then(result => FilterXSSLogs(JSON.parse(result)))
+        .catch(error => console.log('error', error));
+
+    }
+
+
+    
   }
 
   /* END FUNCTION */
@@ -123,10 +202,22 @@ export default function DashBoard() {
                             Configuration
                       </div>
                       <div className="flex w-1/2 justify-end items-end justify-items-end">
-                            <button className="bg-[#DDE4F0] py-1 px-5 rounded-md text-[12px] font-thin text-violet shadow-xl"
-                              onClick={StartRunningProcess}>
-                                Start Running Process
-                            </button>
+                            {
+                              scanningStatus ? 
+                              <button className=" min-w-[170px] min-h-8 bg-[#DDE4F0] py-1 px-5 rounded-md text-[12px] font-thin text-violet shadow-xl flex justify-center items-center justify-items-center"
+                                >                                  
+                                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-violet"></div>
+
+                              </button> :
+
+                              <button className="bg-[#DDE4F0] py-1 px-5 rounded-md text-[12px] font-thin text-violet shadow-xl"
+                                onClick={StartRunningProcess}>
+                                 Start Running Process
+                              </button>
+
+                            }
+
+                            
                       </div>
 
                     </div>
@@ -167,24 +258,20 @@ export default function DashBoard() {
                           <div className="origin-top-left absolute left-0 mt-2 w-2/3 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                             {/* Dropdown content goes here */}
                             <div className="py-1">
-                              <label id="1" className="block px-4 py-2 text-sm text-gray-700">
-                                <input
-                                  type="checkbox"
-                                  checked={selectedAttacks.includes('Item 1')}
-                                  onChange={() => handleItemClick('Item 1')}
-                                  className="mr-2"
-                                />
-                                Item 1
-                              </label>
-                              <label id="2" className="block px-4 py-2 text-sm text-gray-700">
-                                <input
-                                  type="checkbox"
-                                  checked={selectedAttacks.includes('Item 2')}
-                                  onChange={() => handleItemClick('Item 2')}
-                                  className="mr-2"
-                                />
-                                Item 2
-                              </label>
+                              {
+                                AvailableAttack.map((item) => (
+                                  <label key={item} id={item} className="block px-4 py-2 text-sm text-gray-700">
+                                    <input
+                                      type="checkbox"
+                                      checked={selectedAttacks.includes(item)}
+                                      onChange={() => handleItemClick(item)}
+                                      className="mr-2"
+                                    />
+                                    {item}
+                                  </label>
+                                ))
+
+                              }
                               {/* Add more items as needed */}
                             </div>
                           </div>
@@ -290,38 +377,47 @@ export default function DashBoard() {
 
                       </div>
 
-                      <div id="displaylog" className="py-1">
+                      <div id="displaylog" className="py-1 max-h-[calc(100%-171px)] overflow-auto">
 
-                          {logs.map((log) => (
-                            // if log.color is 0 display bg-white else display bg-grisclair
+                        { // only display attacklog > [1] because [0] is the title
+                          
+                          attacksLogs && attacksLogs.map((log) => (
 
-                            <div key={log.time} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2'}}>
-
+                            <button key={log.index} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2'}}
+                              onClick={ () => {  window.location.href = ("/correction?attackID=" + log.index); } } >
+                              
                               <div className="flex w-1/4 justify-start items-start justify-items-start">
                                   {log.AttackType}
                               </div>
-                              <div className="flex w-1/4 justify-start items-center justify-items-start">
+                              <div className="flex w-1/4 justify-start items-center justify-items-center">
                                   {
                                     // if log.Succes is true display a green dot else display a red dot
-                                    log.Succes ? <div className="h-3 w-3 rounded-full bg-green-500"></div> : <div className="h-3 w-3 rounded-full bg-red-500"></div>
+                                    log.Success ? <div className="h-3 w-3 rounded-full bg-green-500"></div> : <div className="h-3 w-3 rounded-full bg-red-500"></div>
 
-                                  
                                   }
                               </div>
                               <div className="flex w-1/4 justify-start items-start justify-items-start">
-                                  {log.URL}
+                                  {
+                                    // if target_url is too long display only the 13 first characters and add "..." at the end
+                                    log.target_url.length > 16 ? log.target_url.substring(0, 16) + "..." : log.target_url
+                                  }
                               </div>
                               <div className="flex w-1/4 justify-start items-start justify-items-start">
-                                  {log.time}
+                                  {log.index}
                               </div>
 
-                              <button className="absolute right-10 "
-                                onClick={ () => {  window.location.href = "/correction?attackID=765"; } }>
-                                <img src="/assets/icons/right.svg" className="w-4 h-4 " />
-                              </button>
+                             
 
-                            </div>
-                          ))}
+                            </button>
+
+                          ))
+
+                        }
+                                                  
+                         
+
+                          
+
 
 
 

