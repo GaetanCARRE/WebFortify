@@ -75,7 +75,6 @@ export default function DashBoard() {
   /* CONFIGURATION VARIABLES */
 
   const [url, setUrl] = useState('')
-  const [port, setPort] = useState('')
   const [projectFolder, setProjectFolder] = useState('')
 
 
@@ -289,12 +288,7 @@ export default function DashBoard() {
                         onChange={(e) => setUrl(e.target.value)} />
                       
 
-                      <div className="mt-3 text-[12px] text-violet font-bold">
-                        Specify Port
-                      </div>
-
-                      <input id="port" className="shadow-md mt-1 w-full p-1  rounded-md  bg-grisclair" type="text" placeholder="" 
-                        onChange={(e) => setPort(e.target.value)} />
+                      
 
                       <div className="mt-3 text-[12px] text-violet font-bold">
                         Project's folder path

