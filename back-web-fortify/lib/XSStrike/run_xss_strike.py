@@ -15,7 +15,7 @@ def run_xss_strike(target_url, param_data, headers=None):
         "python",
         "./lib/XSStrike/xsstrike.py",  # Name of the Python file to execute
         "-u", target_url,
-        "--data", param_data,
+        #"--data", param_data,
         "--skip"
         ]
     

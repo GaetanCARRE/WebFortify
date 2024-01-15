@@ -117,7 +117,7 @@ export default function History() {
                         <button
                           onClick={toggleDropdown}
                           type="button"
-                          className="flex shadow-lg w-2/3 justify-start items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring focus:border-blue-300"
+                          className="flex shadow-lg w-1/3 justify-start items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring focus:border-blue-300"
                           id="options-menu"
                           aria-haspopup="true"
                           aria-expanded="true"
