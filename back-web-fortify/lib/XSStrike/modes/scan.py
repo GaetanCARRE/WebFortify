@@ -98,7 +98,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
         list_payloads = []
         for confidence, vects in vectors.items():   
             for vect in vects:
-                if(limit >5):
+                if(limit >15):
                     break
                 if core.config.globalVariables['path']:
                     vect = vect.replace('/', '%2F')
