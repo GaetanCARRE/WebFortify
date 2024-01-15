@@ -98,7 +98,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
         list_payloads = []
         for confidence, vects in vectors.items():   
             for vect in vects:
-                if(limit >3):
+                if(limit >15):
                     break
                 if core.config.globalVariables['path']:
                     vect = vect.replace('/', '%2F')
@@ -116,6 +116,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
                 bestEfficiency = max(efficiencies)
                 if bestEfficiency == 100 or (vect[0] == '\\' and bestEfficiency >= 95):
                     logger.red_line()
+                    logger.good('Payload: %s' % loggerVector)
                     list_payloads.append({'payload': loggerVector})
                     if not skip:
                         choice = input(

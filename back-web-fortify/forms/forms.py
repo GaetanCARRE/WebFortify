@@ -5,10 +5,10 @@ import json
 
 session = HTMLSession()
 
-def get_all_forms(url):
+def get_all_forms(url, cookies=None):
     """Returns all form tags found on a web page's `url` """
     # GET request
-    res = session.get(url)
+    res = session.get(url, cookies=cookies)
     # for javascript driven website
     # res.html.render()
     soup = BeautifulSoup(res.html.html, "html.parser")
@@ -19,7 +19,7 @@ def get_form_details(form):
     including action, method and list of form controls (inputs, etc)"""
     details = {}
     # get the form action (requested URL)
-    action = form.attrs.get("action").lower()
+    action = form.attrs.get("action", "").lower()
     # get the form method (POST, GET, DELETE, etc)
     # if not specified, GET is the default in HTML
     method = form.attrs.get("method", "get").lower()
@@ -27,7 +27,7 @@ def get_form_details(form):
     inputs = []
     for input_tag in form.find_all("input"):
         # get type of input form control
-        input_type = input_tag.attrs.get("type", "text")
+        input_type = input_tag.attrs.get("type", "text").lower()
         # get name attribute
         input_name = input_tag.attrs.get("name")
         # get the default value of that input tag
@@ -75,9 +75,9 @@ def get_form_details(form):
     return details
    
         
-def main(url):
+def main(url, cookies=None) :
     # get all form tags
-    forms = get_all_forms(url)
+    forms = get_all_forms(url, cookies=cookies)
     # iteratte over forms
     list_forms = []
     for i, form in enumerate(forms, start=1):
