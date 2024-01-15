@@ -57,7 +57,7 @@ def create_app(test_config=None):
             thread.join()
             dirsearch_instance.parse_output_file_dirsearch()
             dirsearch_instance.lire_liste_txt_et_convertir_en_json()
-            with open('../Dirsearch/output_file_dirsearch.json', 'r') as json_file:
+            with open('./Dirsearch/output_file_dirsearch.json', 'r') as json_file:
                 result_json = json.load(json_file)
             return jsonify(result_json)
         except Exception as e:
