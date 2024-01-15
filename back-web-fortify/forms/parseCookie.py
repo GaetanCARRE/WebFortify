@@ -2,28 +2,19 @@
 
 def parse_cookie_string(cookie_string):
     cookies = {}
-    # j'ai par exemple un string de cookie de la forme "PHPSESSID=123456; security=low"
-    # je veux un dictionnaire de la forme {PHPSESSID : 123456, security : low} en fonction du nombre de paramètres
-    # je split d'abord le string par ';'
+
+    # split string by ';'
     cookie_string = cookie_string.split(';')
-    # je parcours le tableau de string
+    # if the cookie_string is empty
     if cookie_string == ['']:
         return ""
     for cookie in cookie_string:
-        # je split le string par '='
+        # split the cookie by '='
         cookie = cookie.split('=')
-        # je récupère le nom du cookie
+        # get the name of the cookie
         name = cookie[0].strip()
-        # je récupère la valeur du cookie
+        # get the value of the cookie
         value = cookie[1].strip()
-        # j'ajoute le cookie au dictionnaire
+        # add the cookie to the dictionary
         cookies[name] = value
     return cookies
-    
-    # if '=' in cookie_string:
-    #     name, value = cookie_string.split('=', 1)
-    #     cookies[name.strip()] = value.strip()
-    #     return cookies
-    # else :
-    #     return ""
-   
