@@ -9,6 +9,7 @@ import json
 from connector.sqlmapconnector import SQLMapConnector
 import forms.forms as forms
 import forms.parseCookie as parseCookie
+import forms.parseCookie as parseCookie
 
 version = "0.0.1"
 
@@ -54,9 +55,34 @@ def create_app(test_config=None):
             # Extract parameters from the JSON request
             data = request.get_json()
             target_url = data.get('target_url')
-            param_data = data.get('param_data')
-            headers = data.get('headers')
-
+            cookies = parseCookie.parse_cookie_string(data.get('cookie')) 
+            print(cookies)
+               
+            # Call the testBeautifulSoup function to get the parameters
+            list_forms = forms.main(target_url, cookies=cookies)
+            dataPOST = ""
+            # get the first form of the list
+            if len(list_forms) > 0:
+                form = list_forms[0]
+                if form['method'] == 'GET' or form['method'] == 'get': # add to the url the parameters like "name1=value1&name2=value2"
+                    parameters = ""
+                    # Get the parameters from the list of forms
+                    for form in list_forms:
+                        for input in form['inputs']:
+                            if(input['name'] != None) :
+                                parameters += input['name'] + "=test&"
+                    parameters = parameters[:-1]
+                    target_url = target_url + "?" + parameters
+                elif form['method'] == 'POST' or form['method'] == 'post': # get a list of parameters like "name1=value1&name2=value2"
+                    for input in form['inputs']:
+                        if(input['name'] != None) :
+                            dataPOST += input['name'] 
+                            if(input['value'] == "") :
+                                dataPOST += "=test&"
+                            else:
+                                dataPOST+= "="+ input['value'] + "&"           
+                    dataPOST = dataPOST[:-1]
+                         
             # Call the run_xss_strike function
             run_xss_strike(target_url, dataPOST, "Cookie: "+ data.get('cookie'))
 
