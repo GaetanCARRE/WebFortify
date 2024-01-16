@@ -87,7 +87,11 @@ class DirsearchScanner:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             
+=======
+            
+>>>>>>> ce4c0d81 (feat: working bruteforce)
 =======
             
 >>>>>>> ce4c0d81 (feat: working bruteforce)
