@@ -1,23 +1,31 @@
 import subprocess
 import os 
 
-def run_xss_strike(target_url, param_data, headers=None):
-    
-    file_path = './lib/XSStrike/result-XSS-Strike.json'
 
-    # Command to call xssStrike.py with the specified arguments
-    if os.path.exists(file_path):
-        os.remove(file_path)
-    else :
-        print("The file does not exist")
-  
-    command = [
+def run_xss_strike(target_url, dataPOST, cookies = None):
+    
+    command = []
+        
+    if dataPOST != "":
+        command = [
         "python",
         "./lib/XSStrike/xsstrike.py",  # Name of the Python file to execute
         "-u", target_url,
-        #"--data", param_data,
+        "--data", dataPOST,
+        "--headers", cookies,
+        "--skip", 
+        ]
+    else:
+        command = [
+        "python",
+        "./lib/XSStrike/xsstrike.py",  # Name of the Python file to execute
+        "-u", target_url,
+        "--headers", cookies,
         "--skip"
         ]
+    
+    # display the command to execute
+    print(f"Executing command: {command}")
     
     try:
         # Execute the command

@@ -1,7 +1,7 @@
 import copy
 import re
 from urllib.parse import urlparse, quote, unquote
-
+import os.path
 from core.checker import checker
 from core.colors import end, green, que
 import core.config
@@ -63,6 +63,8 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
     else:
         logger.good('WAF Status: %sOffline%s' % (green, end))
 
+    testIsVulnerable = 0
+    list_vulnerability = []
     for paramName in params.keys():
         paramsCopy = copy.deepcopy(params)
         logger.info('Testing parameter: %s' % paramName)
@@ -98,7 +100,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
         list_payloads = []
         for confidence, vects in vectors.items():   
             for vect in vects:
-                if(limit >3):
+                if(limit >15):
                     break
                 if core.config.globalVariables['path']:
                     vect = vect.replace('/', '%2F')
@@ -116,7 +118,9 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
                 bestEfficiency = max(efficiencies)
                 if bestEfficiency == 100 or (vect[0] == '\\' and bestEfficiency >= 95):
                     logger.red_line()
+                    logger.good('Payload: %s' % loggerVector)
                     list_payloads.append({'payload': loggerVector})
+                    testIsVulnerable = 1
                     if not skip:
                         choice = input(
                             '%s Would you like to continue scanning? [y/N] ' % que).lower()
@@ -125,10 +129,17 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
                 elif bestEfficiency > minEfficiency:
                     logger.red_line()
                     list_payloads.append({'payload': loggerVector})
+                    testIsVulnerable = 1
                     
-        result_json.append({'payloads': list_payloads, "parameter": paramName})   
+        list_vulnerability.append({'payloads': list_payloads, "parameter": paramName})   
         list_payloads = []
         logger.no_format('')
-    json_data = json.dumps(result_json, indent=2)
-    with open('./lib/XSStrike/result-XSS-Strike.json', 'a') as json_file:
-        json_file.write(json_data + '\n')  # Ajoutez une nouvelle ligne entre chaque enregistrement JSON   
+    if testIsVulnerable == 1:
+        content_file = []
+        if os.path.exists('./lib/XSStrike/result-XSS-Strike.json'):
+            with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
+                content_file = json.load(json_file)
+        content_file.append({"url" : target.split('?')[0], "list_vulnerability" : list_vulnerability})
+        json_data = json.dumps(content_file, indent=2)
+        with open('./lib/XSStrike/result-XSS-Strike.json', 'w') as json_file:
+            json_file.write(json_data + '\n')  # Ajoutez une nouvelle ligne entre chaque enregistrement JSON   
