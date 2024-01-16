@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  front-end:
+    build:
+      context: ./front-web-fortify/web-fortify
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    command: npm run dev
+
+  back-end:
+    build:
+      context: ./back-web-fortify
+    ports:
+      - "5000:5000"
+      - "8775:8775"
+    working_dir: /app
+    command: /start_services.sh

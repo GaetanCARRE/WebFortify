@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose the ports Flask and sqlmapapi will run on
+EXPOSE 5000
+EXPOSE 8775
+
+# Copy the startup script into the container and make it executable
+COPY start_services.sh /start_services.sh
+RUN chmod +x /start_services.sh
+
+# Run the startup script when the container launches
+CMD ["/start_services.sh"]
