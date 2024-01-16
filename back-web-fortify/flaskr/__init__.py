@@ -13,7 +13,6 @@ import forms.parseCookie as parseCookie
 from lib.forcebrute.bruteforce import Bruteforce
 
 
-
 version = "0.0.1"
 
 
