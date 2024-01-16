@@ -85,4 +85,8 @@ class DirsearchScanner:
         except subprocess.CalledProcessError as e:
             print(f"Error to create the json file: {e}")
 
+<<<<<<< HEAD
             
+=======
+            
+>>>>>>> ce4c0d81 (feat: working bruteforce)
