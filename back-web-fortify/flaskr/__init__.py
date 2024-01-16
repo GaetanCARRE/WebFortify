@@ -5,10 +5,12 @@ from flask import Flask, jsonify, request
 import threading
 from Dirsearch.DirsearchScanner import DirsearchScanner
 from lib.XSStrike.run_xss_strike import run_xss_strike
+from lib.XSStrike.filter_web_pages import filter_web_pages
 import json
 from connector.sqlmapconnector import SQLMapConnector
 import forms.forms as forms
 import forms.parseCookie as parseCookie
+
 
 version = "0.0.1"
 
@@ -68,42 +70,51 @@ def create_app(test_config=None):
             )
 
 
-    @app.route('/xssstrike', methods=['POST'])
+    @app.route('/xsstrike', methods=['POST'])
     def test():
         try:
+            
+            file_path = './lib/XSStrike/result-XSS-Strike.json'
+            # Command to call xssStrike.py with the specified arguments
+            if os.path.exists(file_path):
+                os.remove(file_path)
+            else :
+                print("The file does not exist")
+        
+            link_web_pages = filter_web_pages()
             # Extract parameters from the JSON request
-            data = request.get_json()
-            target_url = data.get('target_url')
-            cookies = parseCookie.parse_cookie_string(data.get('cookie')) 
-            print(cookies)
-               
-            # Call the testBeautifulSoup function to get the parameters
-            list_forms = forms.main(target_url, cookies=cookies)
-            dataPOST = ""
-            # get the first form of the list
-            if len(list_forms) > 0:
-                form = list_forms[0]
-                if form['method'] == 'GET' or form['method'] == 'get': # add to the url the parameters like "name1=value1&name2=value2"
-                    parameters = ""
-                    # Get the parameters from the list of forms
-                    for form in list_forms:
+            for link_web_page in link_web_pages:
+                data = request.get_json()
+                cookies = parseCookie.parse_cookie_string(data.get('cookie')) 
+                print(link_web_page)
+                # Call the testBeautifulSoup function to get the parameters
+                list_forms = forms.main(link_web_page, cookies=cookies)
+                print(list_forms)
+                dataPOST = ""
+                # get the first form of the list
+                if len(list_forms) > 0:
+                    form = list_forms[0]
+                    if form['method'] == 'GET' or form['method'] == 'get': # add to the url the parameters like "name1=value1&name2=value2"
+                        parameters = ""
+                        # Get the parameters from the list of forms
+                        for form in list_forms:
+                            for input in form['inputs']:
+                                if(input['name'] != None) :
+                                    parameters += input['name'] + "=test&"
+                        parameters = parameters[:-1]
+                        link_web_page = link_web_page + "?" + parameters
+                    elif form['method'] == 'POST' or form['method'] == 'post': # get a list of parameters like "name1=value1&name2=value2"
                         for input in form['inputs']:
                             if(input['name'] != None) :
-                                parameters += input['name'] + "=test&"
-                    parameters = parameters[:-1]
-                    target_url = target_url + "?" + parameters
-                elif form['method'] == 'POST' or form['method'] == 'post': # get a list of parameters like "name1=value1&name2=value2"
-                    for input in form['inputs']:
-                        if(input['name'] != None) :
-                            dataPOST += input['name'] 
-                            if(input['value'] == "") :
-                                dataPOST += "=test&"
-                            else:
-                                dataPOST+= "="+ input['value'] + "&"           
-                    dataPOST = dataPOST[:-1]
-                         
-            # Call the run_xss_strike function
-            run_xss_strike(target_url, dataPOST, "Cookie: "+ data.get('cookie'))
+                                dataPOST += input['name'] 
+                                if(input['value'] == "") :
+                                    dataPOST += "=test&"
+                                else:
+                                    dataPOST+= "="+ input['value'] + "&"           
+                        dataPOST = dataPOST[:-1]
+                            
+                # Call the run_xss_strike function
+                run_xss_strike(link_web_page, dataPOST, "Cookie: "+ data.get('cookie'))
 
             with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
                 result_json = json.load(json_file)

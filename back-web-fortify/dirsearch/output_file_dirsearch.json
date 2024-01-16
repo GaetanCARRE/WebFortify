@@ -1,1 +1,6 @@
-[]
+[
+    "http://127.0.0.1/vulnerabilities/csrf/",
+    "http://127.0.0.1/vulnerabilities/sqli_blind/",
+    "http://127.0.0.1/vulnerabilities/xss_s/", 
+    "http://127.0.0.1/vulnerabilities/xss_s/"
+  ]
