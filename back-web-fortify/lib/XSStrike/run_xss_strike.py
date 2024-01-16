@@ -4,18 +4,8 @@ import os
 
 def run_xss_strike(target_url, dataPOST, cookies = None):
     
-    file_path = './lib/XSStrike/result-XSS-Strike.json'
-
-    # Command to call xssStrike.py with the specified arguments
-    if os.path.exists(file_path):
-        os.remove(file_path)
-    else :
-        print("The file does not exist")
-    
     command = []
-    
-    # "txtName=er&mtxMessage=er&btnSign=Sign%20Guestbook",
-    
+        
     if dataPOST != "":
         command = [
         "python",

