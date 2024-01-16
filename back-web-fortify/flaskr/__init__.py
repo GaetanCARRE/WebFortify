@@ -10,6 +10,8 @@ import json
 from connector.sqlmapconnector import SQLMapConnector
 import forms.forms as forms
 import forms.parseCookie as parseCookie
+from lib.forcebrute.bruteforce import Bruteforce
+
 
 
 version = "0.0.1"
@@ -140,5 +142,38 @@ def create_app(test_config=None):
                 break
         data = connector.get_scan_data(scanid)
         return jsonify(data)
+    
+    @app.route('/bruteforce', methods=['POST'])
+    def bruteforce():
+        url = request.json.get('url')
+        cookies = request.json.get('cookie')
+        if cookies:
+            cookies_list = cookies.split("; ")
+            formatted_cookies = {}
+            for cookie in cookies_list:
+                name, value = cookie.split("=")
+                formatted_cookies[name] = value
+        else:
+            formatted_cookies = None
+        print(formatted_cookies)
+        forms_info = forms.main(url, cookies=formatted_cookies)
+        print(forms_info)
+        for form in forms_info:
+            get_or_post = form['method']
+            for i in form['inputs']:
+                if i['type'] == "text":
+                    login_name = i['name']
+                elif i['type'] == "password":
+                    password_name = i['name']
+        payload_info = {
+            "login_name" : login_name,
+            "password_name" : password_name,
+            "submit_name" : forms_info[0]["submit"]["name"],
+            "submit_value" : forms_info[0]["submit"]["value"]
+        }
+
+        brute = Bruteforce(url,get_or_post, {'Content-Type': 'application/x-www-form-urlencoded'}, payload_info , 0, formatted_cookies)
+        result = brute.run()
+        return jsonify(result)
 
     return app
