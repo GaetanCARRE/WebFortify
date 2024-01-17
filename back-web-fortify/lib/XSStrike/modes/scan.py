@@ -119,6 +119,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
                 if bestEfficiency == 100 or (vect[0] == '\\' and bestEfficiency >= 95):
                     logger.red_line()
                     logger.good('Payload: %s' % loggerVector)
+                    loggerVector = clean_payload(loggerVector)
                     list_payloads.append({'payload': loggerVector})
                     testIsVulnerable = 1
                     if not skip:
@@ -128,6 +129,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
                             quit()
                 elif bestEfficiency > minEfficiency:
                     logger.red_line()
+                    loggerVector = clean_payload(loggerVector)
                     list_payloads.append({'payload': loggerVector})
                     testIsVulnerable = 1
                     
@@ -143,3 +145,24 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
         json_data = json.dumps(content_file, indent=2)
         with open('./lib/XSStrike/result-XSS-Strike.json', 'w') as json_file:
             json_file.write(json_data + '\n')  # Ajoutez une nouvelle ligne entre chaque enregistrement JSON   
+
+
+def param_to_remove(remove, loggerVector) : 
+    try:
+       return re.sub(r''+remove, ' ', loggerVector) 
+    except Exception as e:
+        return loggerVector
+    
+def clean_payload(loggerVector):
+    try:
+        loggerVector = unquote(loggerVector)
+        loggerVector = loggerVector.lower()
+        # remove the \r \rx \t \n \f \+\ and + from the payload
+        loggerVector = param_to_remove('[\rx\t\n\f]', loggerVector)
+        # replace the + with a space
+        loggerVector = param_to_remove('/\+/', loggerVector)
+        # Remplace les occurrences de '+' par un espace
+        loggerVector = param_to_remove('\+', loggerVector)
+        return loggerVector
+    except Exception as e:
+        return loggerVector

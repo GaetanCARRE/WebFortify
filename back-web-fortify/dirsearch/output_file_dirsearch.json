@@ -1,7 +1,3 @@
 [
-  "https://juice-shop.herokuapp.com/video",
-  "https://juice-shop.herokuapp.com/snippets",
-  "https://juice-shop.herokuapp.com/Video",
-  "https://juice-shop.herokuapp.com/main.js",
-  "https://juice-shop.herokuapp.com/promotion"
+  "http://127.0.0.1/vulnerabilities/xss_r/"
 ]
