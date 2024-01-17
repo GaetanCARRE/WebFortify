@@ -23,6 +23,7 @@ def get_form_details(form):
     # get the form method (POST, GET, DELETE, etc)
     # if not specified, GET is the default in HTML
     method = form.attrs.get("method", "get").lower()
+
     # get all form inputs
     inputs = []
     for input_tag in form.find_all("input"):
@@ -57,7 +58,6 @@ def get_form_details(form):
             select_default_value = select_options[0]
         # add the select to the inputs list
         inputs.append({"type": select_type, "name": select_name, "values": select_options, "value": select_default_value})
-
     for textarea in form.find_all("textarea"):
         # get the name attribute
         textarea_name = textarea.attrs.get("name")
@@ -69,13 +69,13 @@ def get_form_details(form):
         inputs.append({"type": textarea_type, "name": textarea_name, "value": textarea_value})
 
         # put everything to the resulting dictionary
-
     # submit button value + name
     submit_tag = form.find(attrs={"type": "submit"})
     details["submit"] = {"name" : submit_tag.attrs.get("name"), "value" : submit_tag.attrs.get("value")}
     details["action"] = action
     details["method"] = method
     details["inputs"] = inputs
+    
     return details
    
         
@@ -90,7 +90,7 @@ def main(url, cookies=None) :
             list_forms.append(form_details)
         return list_forms
     except Exception as e:
-        print(f"No form found")
+        print(e)
         return []
     
 
