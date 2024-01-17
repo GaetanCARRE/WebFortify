@@ -6,14 +6,17 @@ export default function handler(req, res) {
   
   if (req.method === 'GET') {
 
+
     // get param from url ?target_url
-    const target_url = req.query.target_url;
+    //const target_url = req.query.target_url;
+    const project_path = req.query.project_path;
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      "target_url": target_url,
+      "cookie": "",
+      "project_path": project_path,
     });
 
     var requestOptions = {
@@ -25,32 +28,35 @@ export default function handler(req, res) {
     
  function FilterXSS(result) {
 
-  var XSSLogs = []
-    let i = 1;
+    var XSSLogs = []
 
+    var current_time = new Date().getTime()
 
     try{
-      while (result[i].parameter != null) {
 
-        for (let j = 0; j < result[i].payloads.length; j++) {
-          //result[i].payloads[j] = result[i].payloads[j].replace(/</g, "&lt;").replace(/>/g, "&gt;");
-          var log = {}
-        
-          log.AttackType = "XSS"
-          log.Success = true
-          log.target_url = target_url + "?" + result[i].parameter + "=" + result[i].payloads[j]['payload']
-          log.payloads = result[i].payloads[j]['payload']
+      // loop all payloads and add them into XSSLogs with a dict format
 
+      for (var i = 0; i < result.length; i++) {
           
-          XSSLogs.push(log)
+          for (var j = 0; j < result[i].list_vulnerability.length; j++) {
+  
+            for (var k = 0; k < result[i].list_vulnerability[j].payloads.length; k++) {
+  
+              XSSLogs.push({
+                "target_url": result[i].url + "?" + result[i].list_vulnerability[j].parameter + "=" + result[i].list_vulnerability[j].payloads[k].payload,
+                "AttackType": "xss",
+                "payload": result[i].list_vulnerability[j].payloads[k].payload,
+                "Success": true,
+                "corrections": result[i].list_vulnerability[j].corrections,
+                "time": current_time
+              })
+  
+            }
+  
+          }
+  
         }
-
-        i++;       
-        
-        
-       
-        
-      }
+      
 
     }
     catch(err){
@@ -62,7 +68,6 @@ export default function handler(req, res) {
     return XSSLogs
 
 }
-
 
 
     fetch("http://127.0.0.1:5000/xsstrike", requestOptions)

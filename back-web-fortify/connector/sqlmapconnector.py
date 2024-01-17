@@ -27,7 +27,7 @@ class SQLMapConnector:
     
     def get_scan_status(self, taskid):
         resp = requests.get(f"http://127.0.0.1:8775/scan/{taskid}/status")
-        print(resp.json())
+        #print(resp.json())
         return resp.json()['status']
                             
     def get_scan_data(self, taskid):

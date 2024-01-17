@@ -17,33 +17,23 @@ import { useState } from 'react'
 
 
 
-export default function History() {
+export default function History({ projects }) {
 
   
   const [project, setProject] = useState("Select Project");
 
   const [logs, setLogs] = useState([])
 
-  const [userprojects, setUserProjects] = useState([
+  const [userprojects, setUserProjects] = useState([])
 
-    { 
-      projectname: 'Project 1',
-      projectid: 1,
-      logs: [
-        {AttackType:'XSS', Succes:true, URL:'localhost:8080', time:32212, color:0},
-        {AttackType:'SQL Injection', Succes:false, URL:'localhost:8080', time:441322212, color:1}
-      ]
-    },
+  useEffect(() => {
+    console.log( {projects} )
 
-    {
-      projectname: 'Project 2',
-      projectid: 2,
-      logs: [
-        {AttackType:'Brut Force', Succes:true, URL:'localhost:8080', time:7652, color:0},
-        {AttackType:'Terminator', Succes:false, URL:'localhost:8080', time:441322212, color:1}
-      ]
-    },
-  ]);
+    setUserProjects(projects)
+  }
+  , []);
+
+  
   
 
 
@@ -60,7 +50,7 @@ export default function History() {
     toggleDropdown();
     setProject(item);
     for (let i = 0; i < userprojects.length; i++) {
-      if (userprojects[i].projectname == item) {
+      if (userprojects[i].projectName == item) {
         setLogs(userprojects[i].logs)
       }
     }
@@ -136,17 +126,17 @@ export default function History() {
                         </button>
 
                         {isOpen && (
-                          <div className="origin-top-left absolute left-0 mt-2 w-2/3 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                          <div className="origin-top-left absolute left-0 mt-2 w-1/3 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                          
                          
                             <div className="py-1">
                               
                               {
                                 userprojects.map((userproject) => (
-                                  <button key={userproject.projectid} id={userproject.projectid} className="w-full flex justify-start px-4 py-2 text-sm text-gray-700"
-                                    onClick={() => handleItemClick(userproject.projectname)} >
+                                  <button key={userproject.projectName}  className="w-full flex justify-start px-4 py-2 text-sm text-gray-700"
+                                    onClick={() => handleItemClick(userproject.projectName)} >
                                     
-                                    {userproject.projectname}
+                                    {userproject.projectName}
                                   </button>
                                 ))
                               }
@@ -162,39 +152,59 @@ export default function History() {
 
                       <hr className="mt-4 mb-2 h-[2px] bg-grisclair" />
 
-                      <div id="displayproject" className="py-1">
+                      <div id="columnname" className="flex w-full ">
 
-                          { logs.map((log) => (
-                            // if log.color is 0 display bg-white else display bg-grisclair
+                        <div className="flex w-1/4 justify-start items-start justify-items-start">
+                            Type of Attack
+                        </div>
+                      
+                        <div className="flex w-2/4 justify-start items-start justify-items-start">
+                            URL
+                        </div>
+                        <div className="flex w-1/4 justify-start items-start justify-items-start">
+                            Time
+                        </div>                   
 
-                            <div key={log.time} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2'}}>
 
+                      </div>
+
+                      <div id="displayproject" className="py-1 max-h-[calc(100%-171px)] overflow-auto">
+
+
+                      {
+                          // every time attacksLogs is updated, reload the logs display
+                          logs ? logs.map((log) => (  
+                            
+                            <button key={log.index} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2'}}
+                              onClick={ () => {  window.location.href = ("/correction?attackID=" + log.index + "&projectName=" + project); } } >
+                              
                               <div className="flex w-1/4 justify-start items-start justify-items-start">
                                   {log.AttackType}
-                              </div>
-                              <div className="flex w-1/4 justify-start items-center justify-items-start">
+                              </div>                           
+                              <a className="flex w-2/4 justify-start items-start justify-items-start"
+                                href={log.target_url} target="_blank" rel="noreferrer">
                                   {
-                                    // if log.Succes is true display a green dot else display a red dot
-                                    log.Succes ? <div className="h-3 w-3 rounded-full bg-green-500"></div> : <div className="h-3 w-3 rounded-full bg-red-500"></div>
-
-                                  
+                                    // if target_url is too long display only the 13 first characters and add "..." at the end
+                                    log.target_url.length > 60 ? log.target_url.substring(0, 60) + "..." : log.target_url
+                                  }
+                              </a>
+                              <div className="flex w-1/4 justify-start items-start justify-items-start">
+                              {
+                                    // convert log.time to a date format
+                                    new Date(log.time).toLocaleString()
                                   }
                               </div>
-                              <div className="flex w-1/4 justify-start items-start justify-items-start">
-                                  {log.URL}
-                              </div>
-                              <div className="flex w-1/4 justify-start items-start justify-items-start">
-                                  {log.time}
-                              </div>
 
-                              <button className="absolute right-10 "
-                              onClick={ () => {  window.location.href = "/correction?attackID=765"; } }>
-                                <img src="/assets/icons/right.svg" className="w-4 h-4 " />
-                              </button>
+                             
 
-                            </div>
-                                ))}
+                            </button>
 
+                          ))
+                          : <div></div>
+
+                        }
+
+                          
 
 
                         </div>
@@ -226,4 +236,15 @@ export default function History() {
            
     </>
   )
+}
+
+// get static props
+export async function getStaticProps() {
+  const res = await fetch('http://localhost:3000/api/getProjects')
+  const projects = await res.json()
+  console.log(projects)
+
+  return {
+    props: { projects },
+  }
 }

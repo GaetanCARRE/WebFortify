@@ -14,6 +14,8 @@ export default function handler(req, res) {
       function FilterDirSearch(result){
 
         var DirSearchLogs = []
+
+        var current_time = new Date().getTime()
  
         
         try{
@@ -22,9 +24,11 @@ export default function handler(req, res) {
             
             var log = {}
             
-            log.AttackType = "Dir Search"
+            
+            log.AttackType = "fuzzing"
             log.Success = true
-            log.target_url = result[i]            
+            log.target_url = result[i]   
+            log.time = current_time         
 
             
             DirSearchLogs.push(log)
@@ -46,8 +50,7 @@ export default function handler(req, res) {
         redirect: 'follow'
       };
   
-      //fetch(("http://127.0.0.1:5000/dirsearch?url=" + target_url), requestOptions)
-      fetch(("http://127.0.0.1:5000/dirsearch?url=https://juice-shop.herokuapp.com/#/"), requestOptions)
+      fetch(("http://127.0.0.1:5000/dirsearch?url=" + target_url), requestOptions)
         .then(response => response.json())
         .then(result => res.status(200).json(FilterDirSearch(result)))
         .catch(error => console.log('error', error));

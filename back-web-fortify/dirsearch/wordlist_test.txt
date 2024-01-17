@@ -19,6 +19,9 @@ macromedia
 file_upload.php
 swfs
 new
+xss
+sql-injection
+brut-force
 cgi-local
 j
 protected

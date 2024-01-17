@@ -6,6 +6,8 @@ import threading
 from Dirsearch.DirsearchScanner import DirsearchScanner
 from lib.XSStrike.run_xss_strike import run_xss_strike
 from lib.XSStrike.filter_web_pages import filter_web_pages
+from lib.database.fetch_data import createProject
+from lib.database.fetch_data import InsertLogInDataBase
 import json
 from connector.sqlmapconnector import SQLMapConnector
 import forms.forms as forms
@@ -44,6 +46,8 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+    
+
 
     @app.route('/')
     def index():
@@ -52,7 +56,79 @@ def create_app(test_config=None):
             Version=version,
             date=date.today(),
         )
+    
+    @app.route('/createProject', methods=['POST'])
+    def addProject():
+        try:
+            # get url param projectName
+            data = request.get_json()
+            projectName = data.get('projectName')
+            folderPath = data.get('folderPath')
+
+            print(projectName)
+            print(folderPath)
+
+            alreadyExist = createProject(projectName, folderPath)
+            
+            if alreadyExist:
+                return jsonify(
+                    Status="Error",
+                    Message="Project already exists"
+                )
+            else:
+                return jsonify(
+                    Status="Success",
+                    Message="Project created successfully"
+                )
+           
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
         
+    @app.route('/addLogs', methods=['POST'])
+    def addLogs():        
+        try:
+            # get url param projectName
+            data = request.get_json()
+            projectName = data.get('projectName')
+            logs = data.get('logs')
+
+            
+
+            InsertLogInDataBase(projectName, logs)
+
+            return jsonify(
+                Status="Success",
+                Message="Logs added successfully"
+            )
+
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
+            
+        
+
+    @app.route('/getProjects', methods=['GET'])
+    def getProjects():
+        try:
+            if(os.path.exists('./lib/database/projects.json') == False):
+                with open('./lib/fortify/projects.json', 'w') as json_file:
+                    json.dump([], json_file)
+
+            with open('./lib/database/projects.json', 'r') as json_file:
+                result_json = json.load(json_file)
+            return jsonify(result_json)
+        
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
+
     @app.route('/dirsearch', methods=['POST'])
     def dirsearch():
         try:
@@ -83,6 +159,7 @@ def create_app(test_config=None):
             if os.path.exists(file_path):
                 os.remove(file_path)
             else :
+                open(file_path, 'w').close()
                 print("The file does not exist")
             link_web_pages= []
             if(request.json.get('url') != ""):
