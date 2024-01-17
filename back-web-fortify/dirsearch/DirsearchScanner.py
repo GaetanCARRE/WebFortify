@@ -84,4 +84,3 @@ class DirsearchScanner:
                 f_out.write(liste_json)
         except subprocess.CalledProcessError as e:
             print(f"Error to create the json file: {e}")
-

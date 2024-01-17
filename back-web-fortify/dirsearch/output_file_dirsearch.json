@@ -1,6 +1,7 @@
 [
-    "http://127.0.0.1/vulnerabilities/csrf/",
-    "http://127.0.0.1/vulnerabilities/sqli_blind/",
-    "http://127.0.0.1/vulnerabilities/xss_s/", 
-    "http://127.0.0.1/vulnerabilities/xss_s/"
-  ]
+  "https://juice-shop.herokuapp.com/video",
+  "https://juice-shop.herokuapp.com/snippets",
+  "https://juice-shop.herokuapp.com/Video",
+  "https://juice-shop.herokuapp.com/main.js",
+  "https://juice-shop.herokuapp.com/promotion"
+]
