@@ -31,7 +31,11 @@ This project introduces an advanced Web Vulnerability Scanner, a powerful tool d
 - **Security Scanning:** Custom algorithms and techniques for detecting a wide range of web vulnerabilities.
 
 ## Installation
-
+### If you use docker
+You can simply run the following command:
+```
+  docker-compose up -d
+```
 ### React Frontend
 
 1. Install dependencies:

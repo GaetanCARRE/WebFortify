@@ -69,6 +69,10 @@ def get_form_details(form):
         inputs.append({"type": textarea_type, "name": textarea_name, "value": textarea_value})
 
         # put everything to the resulting dictionary
+
+    # submit button value + name
+    submit_tag = form.find(attrs={"type": "submit"})
+    details["submit"] = {"name" : submit_tag.attrs.get("name"), "value" : submit_tag.attrs.get("value")}
     details["action"] = action
     details["method"] = method
     details["inputs"] = inputs
