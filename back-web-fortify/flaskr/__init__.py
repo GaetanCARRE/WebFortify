@@ -89,32 +89,32 @@ def create_app(test_config=None):
                 cookies = parseCookie.parse_cookie_string(data.get('cookie')) 
                 # Call the testBeautifulSoup function to get the parameters
                 list_forms = forms.main(link_web_page, cookies=cookies)
-                print(list_forms)
-                dataPOST = ""
-                # get the first form of the list
-                if len(list_forms) > 0:
-                    form = list_forms[0]
-                    if form['method'] == 'GET' or form['method'] == 'get': # add to the url the parameters like "name1=value1&name2=value2"
-                        parameters = ""
-                        # Get the parameters from the list of forms
-                        for form in list_forms:
+                if(len(list_forms) != 0):
+                    dataPOST = ""
+                    # get the first form of the list
+                    if len(list_forms) > 0:
+                        form = list_forms[0]
+                        if form['method'] == 'GET' or form['method'] == 'get': # add to the url the parameters like "name1=value1&name2=value2"
+                            parameters = ""
+                            # Get the parameters from the list of forms
+                            for form in list_forms:
+                                for input in form['inputs']:
+                                    if(input['name'] != None) :
+                                        parameters += input['name'] + "=test&"
+                            parameters = parameters[:-1]
+                            link_web_page = link_web_page + "?" + parameters
+                        elif form['method'] == 'POST' or form['method'] == 'post': # get a list of parameters like "name1=value1&name2=value2"
                             for input in form['inputs']:
                                 if(input['name'] != None) :
-                                    parameters += input['name'] + "=test&"
-                        parameters = parameters[:-1]
-                        link_web_page = link_web_page + "?" + parameters
-                    elif form['method'] == 'POST' or form['method'] == 'post': # get a list of parameters like "name1=value1&name2=value2"
-                        for input in form['inputs']:
-                            if(input['name'] != None) :
-                                dataPOST += input['name'] 
-                                if(input['value'] == "") :
-                                    dataPOST += "=test&"
-                                else:
-                                    dataPOST+= "="+ input['value'] + "&"           
-                        dataPOST = dataPOST[:-1]
-                            
-                # Call the run_xss_strike function
-                run_xss_strike(link_web_page, dataPOST, "Cookie: "+ data.get('cookie'))
+                                    dataPOST += input['name'] 
+                                    if(input['value'] == "") :
+                                        dataPOST += "=test&"
+                                    else:
+                                        dataPOST+= "="+ input['value'] + "&"           
+                            dataPOST = dataPOST[:-1]
+                                
+                    # Call the run_xss_strike function
+                    run_xss_strike(link_web_page, dataPOST, "Cookie: "+ data.get('cookie'))
 
             if os.path.exists(file_path):
                 with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
