@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 [
   {
     "url": "http://localhost/WebFortify/site-test/pages/file_upload.php",
@@ -8,6 +9,9 @@
     }
   }
 ]
+=======
+[]
+>>>>>>> f449b72e (feat: integration de sql au front)
 =======
 []
 >>>>>>> f449b72e (feat: integration de sql au front)

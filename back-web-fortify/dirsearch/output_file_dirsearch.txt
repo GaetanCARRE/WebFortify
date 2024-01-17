@@ -1052,10 +1052,14 @@ http://localhost/WebFortify/site-test/pages/sql-injection.php
 200     2KB  http://localhost/WebFortify/.git/objects/b7/?C=D;O=D
 
 =======
+=======
+>>>>>>> ce6a570b (feat: integration de sql au front)
 <<<<<<< HEAD
 https://juice-shop.herokuapp.com/video
 https://juice-shop.herokuapp.com/phpinfo
 =======
+=======
+>>>>>>> f449b72e (feat: integration de sql au front)
 # Dirsearch started Sun Jan 28 20:17:09 2024 as: c:/users/julie/appdata/local/packages/pythonsoftwarefoundation.python.3.10_qbz5n2kfra8p0/localcache/local-packages/python310/site-packages/dirsearch/dirsearch.py -u https://plusquungateau.fr/ -o ./Dirsearch/output_file_dirsearch.txt -w ./Dirsearch/wordlist_test.txt -t 500 -r --recursion-status=200 --deep-recursive --random-agent --crawl
 
 
@@ -1366,6 +1370,10 @@ https://juice-shop.herokuapp.com/phpinfo
 
 500     2KB  https://plusquungateau.fr/donations
 
+<<<<<<< HEAD
+500     2KB
+>>>>>>> f449b72e (feat: integration de sql au front)
+=======
 500     2KB
 >>>>>>> f449b72e (feat: integration de sql au front)
 >>>>>>> c8575a7f (feat: integration de sql au front)
