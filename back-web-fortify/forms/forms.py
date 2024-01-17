@@ -81,13 +81,17 @@ def get_form_details(form):
         
 def main(url, cookies=None) :
     # get all form tags
-    forms = get_all_forms(url, cookies=cookies)
-    # iteratte over forms
-    list_forms = []
-    for i, form in enumerate(forms, start=1):
-        form_details = get_form_details(form)
-        list_forms.append(form_details)
-    return list_forms
+    try : 
+        forms = get_all_forms(url, cookies=cookies)
+        # iteratte over forms
+        list_forms = []
+        for i, form in enumerate(forms, start=1):
+            form_details = get_form_details(form)
+            list_forms.append(form_details)
+        return list_forms
+    except Exception as e:
+        print(f"No form found")
+        return []
     
 
     

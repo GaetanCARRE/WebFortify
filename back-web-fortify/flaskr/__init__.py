@@ -87,7 +87,6 @@ def create_app(test_config=None):
             for link_web_page in link_web_pages:
                 data = request.get_json()
                 cookies = parseCookie.parse_cookie_string(data.get('cookie')) 
-                print(link_web_page)
                 # Call the testBeautifulSoup function to get the parameters
                 list_forms = forms.main(link_web_page, cookies=cookies)
                 print(list_forms)
@@ -117,9 +116,12 @@ def create_app(test_config=None):
                 # Call the run_xss_strike function
                 run_xss_strike(link_web_page, dataPOST, "Cookie: "+ data.get('cookie'))
 
-            with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
-                result_json = json.load(json_file)
-            return jsonify(result_json)
+            if os.path.exists(file_path):
+                with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
+                    result_json = json.load(json_file)
+                return jsonify(result_json)
+            else : # I want to return a empty json like []
+                return jsonify([])
            
         except Exception as e:
             return jsonify(
