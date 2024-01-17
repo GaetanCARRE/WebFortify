@@ -11,7 +11,7 @@ from connector.sqlmapconnector import SQLMapConnector
 import forms.forms as forms
 import forms.parseCookie as parseCookie
 from lib.forcebrute.bruteforce import Bruteforce
-
+from icecream import ic
 
 version = "0.0.1"
 
@@ -131,50 +131,76 @@ def create_app(test_config=None):
     
     @app.route('/sqlmap', methods=['POST'])
     def sqlmap():
-        url = request.json.get('url')
+        urls = request.json.get('urls')
         options = request.json.get('options')
         cookie = request.json.get('cookie')
         
-        connector = SQLMapConnector(cookie, url, options)
-        scanid = connector.start_scan()
-        while True:
-            status = connector.get_scan_status(scanid)
-            if status == "terminated":
-                break
-        data = connector.get_scan_data(scanid)
-        return jsonify(data)
+        if not urls:
+            with open('./Dirsearch/output_file_dirsearch.json', 'r') as json_file:
+                result_json = json.load(json_file)
+            print(f"result_json: {result_json}")
+            urls = result_json
+        results = []
+        for url in urls:
+            connector = SQLMapConnector(cookie, url, options)
+            scanid = connector.start_scan()
+            while True:
+                status = connector.get_scan_status(scanid)
+                if status == "terminated":
+                    break
+            data = connector.get_scan_data(scanid)
+            results.append(data)
+        return jsonify(results)
     
     @app.route('/bruteforce', methods=['POST'])
     def bruteforce():
-        url = request.json.get('url')
-        cookies = request.json.get('cookie')
-        if cookies:
-            cookies_list = cookies.split("; ")
-            formatted_cookies = {}
-            for cookie in cookies_list:
-                name, value = cookie.split("=")
-                formatted_cookies[name] = value
-        else:
-            formatted_cookies = None
-        print(formatted_cookies)
-        forms_info = forms.main(url, cookies=formatted_cookies)
-        print(forms_info)
-        for form in forms_info:
-            get_or_post = form['method']
-            for i in form['inputs']:
-                if i['type'] == "text":
-                    login_name = i['name']
-                elif i['type'] == "password":
-                    password_name = i['name']
-        payload_info = {
-            "login_name" : login_name,
-            "password_name" : password_name,
-            "submit_name" : forms_info[0]["submit"]["name"],
-            "submit_value" : forms_info[0]["submit"]["value"]
-        }
 
-        brute = Bruteforce(url,get_or_post, {'Content-Type': 'application/x-www-form-urlencoded'}, payload_info , 0, formatted_cookies)
-        result = brute.run()
-        return jsonify(result)
+        urls = request.json.get('urls')
+            
+        if not urls:
+            with open('./Dirsearch/output_file_dirsearch.json', 'r') as json_file:
+                result_json = json.load(json_file)
+            print(f"result_json: {result_json}")
+            urls = result_json
+        results = []
+        for url in urls:
+            is_login_form = False
+            cookies = request.json.get('cookie')
+            if cookies:
+                cookies_list = cookies.split("; ")
+                formatted_cookies = {}
+                for cookie in cookies_list:
+                    name, value = cookie.split("=")
+                    formatted_cookies[name] = value
+            else:
+                formatted_cookies = None
+            print(formatted_cookies)
+            forms_info = forms.main(url, cookies=formatted_cookies)
+            print(forms_info)
+            
+            for form in forms_info:
+                get_or_post = form['method']
+                for i in form['inputs']:
+                    if i['type'] == "text":
+                        login_name = i['name']
+                    elif i['type'] == "password":
+                        password_name = i['name']
+                        is_login_form = True
+                        ic("Login form found")
+    
+            if is_login_form:
+                payload_info = {
+                    "login_name" : login_name,
+                    "password_name" : password_name,
+                    "submit_name" : forms_info[0]["submit"]["name"],
+                    "submit_value" : forms_info[0]["submit"]["value"]
+                }
+
+                brute = Bruteforce(url,get_or_post, {'Content-Type': 'application/x-www-form-urlencoded'}, payload_info , 0, formatted_cookies)
+
+                result = brute.run()
+                results.append(result)
+
+        return jsonify(results)
 
     return app
