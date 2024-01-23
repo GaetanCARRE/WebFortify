@@ -1,0 +1,33 @@
+{
+    "description_sql_injection": "SQL injection is a security vulnerability that occurs when an attacker can manipulate an application's SQL query by injecting malicious SQL code. This can lead to unauthorized access, data manipulation, and potential data breaches.",
+    "corrections": [
+      {
+        "type": "parameterized_query",
+        "description_vuln": "Your code is vulnerable to SQL injection as it directly includes user input in the SQL query.",
+        "correction_explanation": "To mitigate this risk, it's recommended to use parameterized queries.",
+        "code": {
+          "javascript": "const query = 'SELECT * FROM users WHERE username = ?';\nconst result = await pool.query(query, [userInput]);",
+          "php": "$stmt = $conn->prepare('SELECT * FROM users WHERE username = ?');\n$stmt->bind_param('s', $userInput);\n$stmt->execute();\n$result = $stmt->get_result();",
+          "java": "String query = 'SELECT * FROM users WHERE username = ?';\nPreparedStatement statement = connection.prepareStatement(query);\nstatement.setString(1, userInput);\nResultSet resultSet = statement.executeQuery();"
+        }
+      },
+      {
+        "type": "input_validation",
+        "description_vuln": "There is an opportunity for a user to insert malicious code in your code.",
+        "correction_explanation": "To prevent SQL injection vulnerabilities, it's recommended to use input validation to ensure that user input adheres to expected formats.",
+        "code": {
+          ".js, .ts, .jsx, .tsx": {
+            "date": "import validator from 'validator';\nconst isValid = validator.isDate('<script>alert('Hello')</script>');\nconsole.log(isValid);",
+            "email": "import validator from 'validator';\nconst isValid = validator.isEmail('<script>alert('Hello')</script>');\nconsole.log(isValid);",
+            "alphaNumeric": "import validator from 'validator';\nconst isValid = validator.isAlphanumeric('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+          },
+          ".php, .phtml, .php3, .php4, .php5, .php7, .php8": {
+            "date": "$date = '2022-01-01';\nif (filter_var($date, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '/^\\d{4}-\\d{2}-\\d{2}$/')))) \n{echo 'Valid date format';} \nelse {\necho 'Invalid date format';}",
+            "email": "$email = 'test@example.com';\nif (filter_var($email, FILTER_VALIDATE_EMAIL)) \n{echo 'Valid email format';} \nelse {\necho 'Invalid email format';}",
+            "alphaNumeric": "$input = 'Hello123';\nif (ctype_alnum($input)) {\necho 'Valid alphanumeric input';} \nelse {\necho 'Invalid alphanumeric input';}"
+          }
+        }
+      }
+    ]
+  }
+  
