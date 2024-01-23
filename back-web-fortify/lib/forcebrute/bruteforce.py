@@ -39,6 +39,7 @@ class Bruteforce:
         print(self.find_failed_message())
         failed_message = self.find_failed_message()[0]
         print(f"Failed message: {failed_message}")
+        cred_list = []
         if not failed_message:
             raise Exception("Failed message not found")
         with open(self.wordlist_user, "r") as f:
@@ -53,14 +54,14 @@ class Bruteforce:
                     response = self.get_request(user, password)
                     if failed_message.replace(" ", "") not in response.text.replace(" ", ""):
                         print(f"Found user: {user} and password: {password}")
-                        return {"user": user, "password": password, "url": self.url}
+                        cred_list.append({"user": user, "password": password, "url": self.url})
                 elif self.method.lower() == "post":
                     response = self.post_request(user, password)
                     if failed_message.replace(" ", "") not in response.text.replace(" ", ""):
                         print(f"Found user: {user} and password: {password}")
-                        return {"user": user, "password": password, "url": self.url }
+                        cred_list.append({"user": user, "password": password, "url": self.url})
 
-        return {"user": None, "password": None , "url": self.url}
+        return cred_list
 
     def get_added_content(self, old_html, new_html):
         # Parse the HTML content
