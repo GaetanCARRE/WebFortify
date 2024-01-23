@@ -13,6 +13,7 @@ import forms.parseCookie as parseCookie
 from lib.forcebrute.bruteforce import Bruteforce
 from icecream import ic
 from corrections.find_sql_query import find_sql_queries, finditem
+from time import sleep
 version = "0.0.1"
 
 
@@ -149,6 +150,8 @@ def create_app(test_config=None):
                 status = connector.get_scan_status(scanid)
                 if status == "terminated":
                     break
+                sleep(1)
+
             data = connector.get_scan_data(scanid)
             results.append(data)
             # print(f"results -1 : {results[-1]}")
@@ -159,7 +162,6 @@ def create_app(test_config=None):
             ic(find_sql_queries(path, parameter[0]))
             results[-1]['corrections'] = find_sql_queries(path, parameter[0])
             # except:
-            #     results[-1]['corrections'] = []
         
         return jsonify(results)
     
@@ -173,7 +175,7 @@ def create_app(test_config=None):
                 result_json = json.load(json_file)
             print(f"result_json: {result_json}")
             urls = result_json
-        results = []
+        results = {}
         for url in urls:
             is_login_form = False
             cookies = request.json.get('cookie')
@@ -209,8 +211,7 @@ def create_app(test_config=None):
 
                 brute = Bruteforce(url,get_or_post, {'Content-Type': 'application/x-www-form-urlencoded'}, payload_info , 0, formatted_cookies)
 
-                result = brute.run()
-                results.append(result)
+                results[url] = brute.run()
 
         return jsonify(results)
 

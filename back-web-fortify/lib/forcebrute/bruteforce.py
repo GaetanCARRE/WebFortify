@@ -54,14 +54,16 @@ class Bruteforce:
                     response = self.get_request(user, password)
                     if failed_message.replace(" ", "") not in response.text.replace(" ", ""):
                         print(f"Found user: {user} and password: {password}")
-                        cred_list.append({"user": user, "password": password, "url": self.url})
+                        cred_list.append({"user": user, "password": password})
                 elif self.method.lower() == "post":
                     response = self.post_request(user, password)
                     if failed_message.replace(" ", "") not in response.text.replace(" ", ""):
                         print(f"Found user: {user} and password: {password}")
-                        cred_list.append({"user": user, "password": password, "url": self.url})
-
-        return cred_list
+                        cred_list.append({"user": user, "password": password})
+        if cred_list:
+            return cred_list
+        else: 
+            return None
 
     def get_added_content(self, old_html, new_html):
         # Parse the HTML content
