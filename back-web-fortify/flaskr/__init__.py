@@ -124,7 +124,7 @@ def create_app(test_config=None):
                     result_json = json.load(json_file)
                 return jsonify(result_json)
             else : # I want to return a empty json like []
-                return jsonify([])
+                return jsonify({})
            
         except Exception as e:
             return jsonify(
