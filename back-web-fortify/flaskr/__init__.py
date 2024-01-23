@@ -12,7 +12,7 @@ import forms.forms as forms
 import forms.parseCookie as parseCookie
 from lib.forcebrute.bruteforce import Bruteforce
 from icecream import ic
-
+from corrections.find_sql_query import find_sql_queries, finditem
 version = "0.0.1"
 
 
@@ -134,6 +134,7 @@ def create_app(test_config=None):
         urls = request.json.get('urls')
         options = request.json.get('options')
         cookie = request.json.get('cookie')
+        path = request.json.get('path')
         
         if not urls:
             with open('./Dirsearch/output_file_dirsearch.json', 'r') as json_file:
@@ -150,6 +151,16 @@ def create_app(test_config=None):
                     break
             data = connector.get_scan_data(scanid)
             results.append(data)
+            # print(f"results -1 : {results[-1]}")
+            parameter = finditem(results[-1], 'parameter')
+            print(parameter)
+            # try:
+            print(f"results data : {results[-1]['data']}")
+            ic(find_sql_queries(path, parameter[0]))
+            results[-1]['corrections'] = find_sql_queries(path, parameter[0])
+            # except:
+            #     results[-1]['corrections'] = []
+        
         return jsonify(results)
     
     @app.route('/bruteforce', methods=['POST'])
@@ -203,4 +214,5 @@ def create_app(test_config=None):
 
         return jsonify(results)
 
+        
     return app
