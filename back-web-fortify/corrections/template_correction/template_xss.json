@@ -1,0 +1,19 @@
+{
+    "description_xss": "An XSS attack, or Cross-Site Scripting, is a type of computer attack where a hacker injects malicious code, usually JavaScript, into a website. This code is then executed on the browsers of users visiting the compromised site, enabling the hacker to steal personal information, take control of user accounts, or redirect users to malicious sites. XSS attacks exploit vulnerabilities in web applications, often by manipulating input fields or other interactive fields.",
+    "corrections": [
+        {
+            "type": "escape",
+            "description_vuln": "In your line of code, there is an opportunity for a user to insert malicious code. To prevent this threat, we recommend using the escape() function, which escapes malicious special characters. Applying this security measure ensures that user input is processed securely, minimising the risk of malicious code being injected into the system.",
+            "code": [
+                {
+                    "extension": ".js, .ts, .jsx, .tsx",
+                    "example_code": " import escape from 'lodash.escape';\nconst escapedString = escape('<script>alert('Hello')</script>'); \nconsole.log(escapedString);"
+                },
+                {
+                    "extension": ".php, .phtml, .php3, .php4, .php5, .php7, .php8",
+                    "example_code": "import html \nescaped_string = html.escape('<script>alert('Hello')</script>')\nprint(escaped_string)"
+                }
+            ]
+        }
+    ]
+}
