@@ -133,7 +133,7 @@ def scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip):
                     list_payloads.append({'payload': loggerVector})
                     testIsVulnerable = 1
                     
-        list_vulnerability.append({'payloads': list_payloads, "parameter": paramName, "corrections": []})   
+        list_vulnerability.append({'payloads': list_payloads, "parameter": paramName, "corrections": {}})   
         list_payloads = []
         logger.no_format('')
     if testIsVulnerable == 1:

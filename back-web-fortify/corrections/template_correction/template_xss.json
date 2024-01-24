@@ -14,6 +14,105 @@
                     "example_code": "import html \nescaped_string = html.escape('<script>alert('Hello')</script>')\nprint(escaped_string)"
                 }
             ]
+        },
+        {
+            "type": "input_validation",
+            "description_vuln": "In your line of code, there is an opportunity for a user to insert malicious code. To prevent this threat, we recommend using input validation, which checks user input to ensure that it is valid. Applying this security measure ensures that user input is processed securely, minimising the risk of malicious code being injected into the system.",
+            "code": [
+                {
+                    "extension": ".js, .ts, .jsx, .tsx",
+                    "list_validators" : 
+                    [
+                        {
+                            "validator_type": "email",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isEmail('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        },
+                        {
+                            "validator_type": "date",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDate('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "ascii",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isAscii('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "base32",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isBase32('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "base64",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isBase64('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "boolean",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isBoolean('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "creditCard",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isCreditCard('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "currency",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isCurrency('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "dataURI",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDataURI('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "decimal",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDecimal('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "divisibleBy",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDivisibleBy('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "FQDN",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isFQDN('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }, 
+                        {
+                            "name": "float",
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isFloat('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                        }
+                    ]
+                },
+                {
+                    "extension": ".php, .phtml, .php3, .php4, .php5, .php7, .php8",
+                    "list_validators" : 
+                    [
+                        {
+                            "validator_type": "date",
+                            "example_code": "$date = '2022-01-01';\nif (filter_var($date, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '/^\\d{4}-\\d{2}-\\d{2}$/')))) \n{echo 'Valid date format';} \nelse {\necho 'Invalid date format';}"
+                        }, 
+                        {
+                            "validator_type": "email",
+                            "example_code" : "$email = 'test@example.com';\nif (filter_var($email, FILTER_VALIDATE_EMAIL)) \n{echo 'Valid email format';} \nelse {\necho 'Invalid email format';}"
+                        }, 
+                        {
+                            "validator_type": "ascii",
+                            "example_code" : "$asciiString = 'Hello123';\nif (filter_var($asciiString, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '/^[\\x20-\\x7E]+$/')))) {\necho 'Valid ASCII string';} \nelse {\necho 'Invalid ASCII string';}"
+                        }, 
+                        {
+                            "validator_type": "creditCard", 
+                            "example_code" : "$creditCardNumber  = '1234567890123456';\nif (filter_var($creditCardNumber, FILTER_VALIDATE_REGEXP, array('options' => array('regexp' => '/^\\d{13,19}$/')))) {\necho 'Valid credit card number';} \nelse {\necho 'Invalid credit card number';}"
+                        }, 
+                        {
+                            "validator_type": "domain",
+                            "example_code" : "$domain = 'example.com';\nif (filter_var($domain, FILTER_VALIDATE_DOMAIN)) {\necho 'Valid domain';} \nelse {\necho 'Invalid domain';}"
+                        }, 
+                        {
+                            "validator_type": "float",
+                            "example_code" : "$float = '123.45';\nif (filter_var($float, FILTER_VALIDATE_FLOAT)) {\necho 'Valid float';} \nelse {\necho 'Invalid float';}"
+                        }, 
+                        {
+                            "validator_type": "int",
+                            "example_code" : "$int = '123';\nif (filter_var($int, FILTER_VALIDATE_INT)) {\necho 'Valid integer';} \nelse {\necho 'Invalid integer';}"
+                        }
+                    ]   
+
+                }
+            ]
         }
     ]
 }

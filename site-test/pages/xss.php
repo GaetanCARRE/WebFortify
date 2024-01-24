@@ -37,7 +37,7 @@ if( isset( $_GET[ 'title' ])  && isset( $_GET[ 'content' ] ) ) {
     <h1 style="font-size: xxx-large;">XSS Page</h1> 
     <form method="get" action="xss.php">
         <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required><br><br>
+        <input type="email" id="title" name="title" required><br><br>
         
         <label for="content">Content:</label><br>
         <textarea id="content" name="content" rows="5" cols="40" required></textarea><br><br>

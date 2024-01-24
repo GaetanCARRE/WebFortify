@@ -90,8 +90,12 @@ def get_all_corrections(file, vulnerability):
             # add the first correction
             correction = add_first_correction(list_lines, list_vulnerability, file)
             if correction:
-                list_vulnerability['corrections'].append(correction)
-                print(correction)
+                list_vulnerability['corrections'] = {"explanation_xss" : correction['explanation_xss'], 'line_vuln' :  correction['line_vuln'], 'list_corrections' : [{'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']}]}
+            correction = add_second_correction(list_lines, list_vulnerability, file)
+            if correction and list_vulnerability['corrections'] == {}:
+                list_vulnerability['corrections'].append({"explanation_xss" : correction['explanation_xss'], 'line_vuln' :  correction['line_vuln'], 'list_corrections' : [{'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']}]})
+            elif correction:
+                list_vulnerability['corrections']['list_corrections'].append({'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']})
     return vulnerability
 
 def add_first_correction(list_lines, list_vulnerability, file):
@@ -105,19 +109,45 @@ def add_first_correction(list_lines, list_vulnerability, file):
                     template_correction = json.load(json_file)
                     # get the correction with the type = "escape"
                     correction_before_extension = next((correction for correction in template_correction['corrections'] if correction['type'] == 'escape'), None)
-                    if correction_before_extension is not None : 
-                        # get the example of correct according to the extension
-                        for code in correction_before_extension['code']:
-                            if extension in code['extension'] : 
-                                return {
-                                    'explanation': template_correction['description_xss'] + " " + correction_before_extension['description_vuln'],
-                                    'line_vuln' : "file : "+file['file_path']+" line : "+str(list_lines['number'])+" \n"+list_lines['line_content'],
-                                    'line_correction' : code['example_code'],             
-                                }
-                        
-                      
+                    # get the example of correct according to the extension
+                    for code in correction_before_extension['code']:
+                        if extension in code['extension'] : 
+                            return {
+                                'explanation_xss': template_correction['description_xss'],
+                                'correction_explanation' : correction_before_extension['description_vuln'],
+                                'line_vuln' : "file : "+file['file_path']+" line : "+str(list_lines['number'])+" \n"+list_lines['line_content'],
+                                'line_correction' : code['example_code'],             
+                            }               
     return None        
 
+def add_second_correction(list_lines, list_vulnerability, file):
+    # first we check if the name or the type of the input is in the validator type of the template
+    # get the name of the input and the type of the input if it exists, the variable list_lines['line_content'] contain the html line
+    name_input, type_input = get_name_and_type_input(list_lines)
+    if name_input is not None and type_input is not None :
+        with open('./corrections/template_correction/template_xss.json', 'r') as json_file:
+            template_correction = json.load(json_file)
+            correction_before_extension = next((correction for correction in template_correction['corrections'] if correction['type'] == 'input_validation'), None)
+            extension = os.path.splitext(file['file_path'])[1]
+            for code in correction_before_extension['code']:
+                if extension in code['extension'] :
+                    for validator in code['list_validators']:
+                        if validator['validator_type'] == name_input or validator['validator_type'] == type_input :
+                            return {
+                                'explanation_xss': template_correction['description_xss'],
+                                'correction_explanation' : correction_before_extension['description_vuln'],
+                                'line_vuln' : "file : "+file['file_path']+" line : "+str(list_lines['number'])+" \n"+list_lines['line_content'],
+                                'line_correction' : validator['example_code']             
+                            } 
+    
+    
+def get_name_and_type_input(list_lines):   
+    name_input_match = re.search(r'name="(.*?)"', list_lines['line_content'], re.IGNORECASE)
+    type_input_match = re.search(r'type="(.*?)"', list_lines['line_content'], re.IGNORECASE)
+    name_input = name_input_match.group(1) if name_input_match else None
+    type_input = type_input_match.group(1) if type_input_match else None
+    return name_input, type_input
+    
 # Main function
 def main_correction(project_path) : 
     vulnerabilities = []
