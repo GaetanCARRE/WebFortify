@@ -90,12 +90,12 @@ def get_all_corrections(file, vulnerability):
             # add the first correction
             correction = add_first_correction(list_lines, list_vulnerability, file)
             if correction:
-                list_vulnerability['corrections'] = {"explanation_xss" : correction['explanation_xss'], 'line_vuln' :  correction['line_vuln'], 'list_corrections' : [{'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']}]}
+                list_vulnerability['corrections'] = {"explanation_xss" : correction['explanation_xss'], 'line_vuln' :  correction['line_vuln'], 'list_corrections' : [{'title' : "Correction Escape the Output", 'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']}]}
             correction = add_second_correction(list_lines, list_vulnerability, file)
             if correction and list_vulnerability['corrections'] == {}:
-                list_vulnerability['corrections'].append({"explanation_xss" : correction['explanation_xss'], 'line_vuln' :  correction['line_vuln'], 'list_corrections' : [{'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']}]})
+                list_vulnerability['corrections'].append({"explanation_xss" : correction['explanation_xss'], 'line_vuln' :  correction['line_vuln'], 'list_corrections' : [{'title' : "Correction Input Validation",'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']}]})
             elif correction:
-                list_vulnerability['corrections']['list_corrections'].append({'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']})
+                list_vulnerability['corrections']['list_corrections'].append({'title' : "Correction Input Validation", 'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']})
     return vulnerability
 
 def add_first_correction(list_lines, list_vulnerability, file):
