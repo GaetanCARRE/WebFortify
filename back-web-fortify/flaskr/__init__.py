@@ -13,6 +13,8 @@ import forms.parseCookie as parseCookie
 from lib.forcebrute.bruteforce import Bruteforce
 from icecream import ic
 from corrections.find_sql_query import find_sql_queries, finditem
+from corrections.correction_xsstrike import main_correction
+
 version = "0.0.1"
 
 
@@ -86,7 +88,8 @@ def create_app(test_config=None):
             # Extract parameters from the JSON request
             for link_web_page in link_web_pages:
                 data = request.get_json()
-                cookies = parseCookie.parse_cookie_string(data.get('cookie')) 
+                cookies = parseCookie.parse_cookie_string(data.get('cookie'))
+                project_path = data.get('project_path')
                 # Call the testBeautifulSoup function to get the parameters
                 list_forms = forms.main(link_web_page, cookies=cookies)
                 if(len(list_forms) != 0):
@@ -115,7 +118,7 @@ def create_app(test_config=None):
                                 
                     # Call the run_xss_strike function
                     run_xss_strike(link_web_page, dataPOST, "Cookie: "+ data.get('cookie'))
-
+            main_correction(project_path)
             if os.path.exists(file_path):
                 with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
                     result_json = json.load(json_file)
@@ -211,7 +214,6 @@ def create_app(test_config=None):
 
                 result = brute.run()
                 results.append(result)
-
         return jsonify(results)
 
         
