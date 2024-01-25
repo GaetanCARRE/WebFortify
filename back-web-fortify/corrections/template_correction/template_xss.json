@@ -113,6 +113,11 @@
 
                 }
             ]
+        }, 
+        {
+            "type": "CSP_configuration",
+            "description_vuln": "Implementing a Content Security Policy (CSP) is crucial for enhancing user security by guarding against Cross-Site Scripting (XSS) attacks. By defining a CSP, developers rigorously specify authorized sources for scripts, significantly reducing the risks of malicious injections. The recommended line dictates that only resources from the same site ('self') are allowed by default, confining scripts to local sources and preventing the execution of unauthorized code. This fosters a safer web environment, shielding users from XSS threats.",
+            "code": "<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n<meta charset='UTF-8'>\n<meta http-equiv='Content-Security-Policy' content=\"default-src 'self'; script-src 'self';\">"
         }
     ]
 }

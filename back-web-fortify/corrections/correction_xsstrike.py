@@ -88,17 +88,26 @@ def get_all_corrections(file, vulnerability):
         if list_lines: 
             list_lines = list_lines[0]
             # add the first correction
-            correction = add_first_correction(list_lines, list_vulnerability, file)
+            correction = add_escape_correction(list_lines, list_vulnerability, file)
             if correction:
                 list_vulnerability['corrections'] = {"explanation_xss" : correction['explanation_xss'], 'line_vuln' :  correction['line_vuln'], 'list_corrections' : [{'title' : "Correction Escape the Output", 'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']}]}
-            correction = add_second_correction(list_lines, list_vulnerability, file)
-            if correction and list_vulnerability['corrections'] == {}:
-                list_vulnerability['corrections'].append({"explanation_xss" : correction['explanation_xss'], 'line_vuln' :  correction['line_vuln'], 'list_corrections' : [{'title' : "Correction Input Validation",'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']}]})
-            elif correction:
-                list_vulnerability['corrections']['list_corrections'].append({'title' : "Correction Input Validation", 'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']})
+            correction = add_input_validation_correction(list_lines, file)
+            list_vulnerability = add_correction_in_json("Correction Input Validation", list_vulnerability, correction)
+            # get the CSP header
+            correction = get_CSP_correction(file)
+            list_vulnerability = add_correction_in_json("Correction CSP Configuration", list_vulnerability, correction)
     return vulnerability
 
-def add_first_correction(list_lines, list_vulnerability, file):
+# add the correction in the json variable list_vulnerability that will be stored in the json file
+def add_correction_in_json(title, list_vulnerability, correction) : 
+    if correction and list_vulnerability['corrections'] == {}:
+        list_vulnerability['corrections'].append({"explanation_xss" : correction['explanation_xss'], 'line_vuln' :  correction['line_vuln'], 'list_corrections' : [{'title' : title,'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']}]})
+    elif correction:
+        list_vulnerability['corrections']['list_corrections'].append({'title' : title, 'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']})
+    return list_vulnerability
+
+# add the correction for the escape of the output
+def add_escape_correction(list_lines, list_vulnerability, file):
     # first check if the variable  list_lines['line_content'] contain html tags or not
     for payload in list_vulnerability['payloads']:
         if re.search(r'<.*?>', payload['payload'], re.IGNORECASE):
@@ -120,7 +129,7 @@ def add_first_correction(list_lines, list_vulnerability, file):
                             }               
     return None        
 
-def add_second_correction(list_lines, list_vulnerability, file):
+def add_input_validation_correction(list_lines, file):
     # first we check if the name or the type of the input is in the validator type of the template
     # get the name of the input and the type of the input if it exists, the variable list_lines['line_content'] contain the html line
     name_input, type_input = get_name_and_type_input(list_lines)
@@ -140,13 +149,40 @@ def add_second_correction(list_lines, list_vulnerability, file):
                                 'line_correction' : validator['example_code']             
                             } 
     
-    
+# get the name of the input and the type of the input if it exists, the variable list_lines['line_content'] contain the html line    
 def get_name_and_type_input(list_lines):   
     name_input_match = re.search(r'name="(.*?)"', list_lines['line_content'], re.IGNORECASE)
     type_input_match = re.search(r'type="(.*?)"', list_lines['line_content'], re.IGNORECASE)
     name_input = name_input_match.group(1) if name_input_match else None
     type_input = type_input_match.group(1) if type_input_match else None
     return name_input, type_input
+
+# get the CSP header
+def get_CSP_correction(file):
+    with open(file['file_path'], 'r') as f:
+        content = f.readlines()
+    # Initialiser une liste pour stocker les lignes du CSP
+    CSP_lines = []
+    for i, line in enumerate(content, start=1):
+        # Utiliser une expression régulière pour rechercher l'en-tête CSP
+        if re.search(r'Content-Security-Policy', line, re.IGNORECASE):
+            # Ajouter la ligne entière à la liste CSP_lines
+            CSP_lines.append((i, line.strip()))
+    if CSP_lines:
+        # verifier que la ligne contient script-src 'self'
+        for line in CSP_lines:
+            if re.search(r"script-src 'self'", line[1], re.IGNORECASE) and not re.search(r"script-src 'unsafe-inline'", line[1], re.IGNORECASE) and not re.search(r"<!--", line[1], re.IGNORECASE):
+                return None
+    with open('./corrections/template_correction/template_xss.json', 'r') as json_file:
+        template_correction = json.load(json_file)
+        correction = next((correction for correction in template_correction['corrections'] if correction['type'] == 'CSP_configuration'), None)
+        return {
+            'explanation_xss': template_correction['description_xss'],
+            'correction_explanation' : correction['description_vuln'],
+            'line_vuln' : "No CSP found in file "+file['file_path'],
+            'line_correction' : correction['code']             
+        }
+               
     
 # Main function
 def main_correction(project_path) : 
