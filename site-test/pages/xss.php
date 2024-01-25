@@ -24,7 +24,13 @@ if( isset( $_GET[ 'title' ])  && isset( $_GET[ 'content' ] ) ) {
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>XSS Page </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
+    
+
 </head>
 <body>
     <div style="display: flex;justify-content: center;align-items: center; flex-direction: column;">
@@ -37,7 +43,7 @@ if( isset( $_GET[ 'title' ])  && isset( $_GET[ 'content' ] ) ) {
     <h1 style="font-size: xxx-large;">XSS Page</h1> 
     <form method="get" action="xss.php">
         <label for="title">Title:</label>
-        <input type="email" id="title" name="title" required><br><br>
+        <input type="text" id="title" name="title" required><br><br>
         
         <label for="content">Content:</label><br>
         <textarea id="content" name="content" rows="5" cols="40" required></textarea><br><br>
