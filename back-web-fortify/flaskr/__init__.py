@@ -13,7 +13,6 @@ from lib.forcebrute.bruteforce import Bruteforce
 from corrections.find_sql_query import find_sql_queries, finditem
 from corrections.correction_xsstrike import main_correction
 from Dirsearch.DirsearchScanner import DirsearchScanner
-
 version = "0.0.1"
 
 
@@ -160,7 +159,6 @@ def create_app(test_config=None):
             print(parameter)
             # try:
             print(f"results data : {results[-1]['data']}")
-            ic(find_sql_queries(path, parameter[0]))
             results[-1]['corrections'] = find_sql_queries(path, parameter[0])
             # except:
         
@@ -200,7 +198,6 @@ def create_app(test_config=None):
                     elif i['type'] == "password":
                         password_name = i['name']
                         is_login_form = True
-                        ic("Login form found")
     
             if is_login_form:
                 payload_info = {
