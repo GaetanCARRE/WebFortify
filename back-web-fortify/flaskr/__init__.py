@@ -12,7 +12,7 @@ import forms.parseCookie as parseCookie
 from lib.forcebrute.bruteforce import Bruteforce
 from corrections.find_sql_query import find_sql_queries, finditem
 from corrections.correction_xsstrike import main_correction
-from Dirsearch.DirsearchScanner import DirsearchScanner
+from dirsearch.DirsearchScanner import DirsearchScanner
 version = "0.0.1"
 
 
