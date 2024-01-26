@@ -22,6 +22,8 @@ jobs:
         python -m pip install --upgrade pip
         cd back-web-fortify
         pip install -r requirements.txt
+    - name: Set PYTHONPATH
+      run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
     - name: Run Tests
       run: |
         cd back-web-fortify
