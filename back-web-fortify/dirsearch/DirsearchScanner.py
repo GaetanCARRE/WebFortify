@@ -28,7 +28,7 @@ class DirsearchScanner:
     def get_dirsearch_path(self):
         try:
             # Exécuter la commande pip show dirsearch
-            result = subprocess.run(['pip', 'show', 'dirsearch'], capture_output=True, text=True)
+            result = subprocess.run(['py','-m','pip', 'show', 'dirsearch'], capture_output=True, text=True)
 
             # Rechercher le chemin d'installation dans la sortie de la commande
             match = re.search(r'Location: (.+)', result.stdout)
@@ -68,19 +68,30 @@ class DirsearchScanner:
         except subprocess.CalledProcessError as e:
             print(f"Error to parse the file output_file_dirsearch: {e}")
             
-    def lire_liste_txt_et_convertir_en_json(self):
+    def convert_txt_to_json(self):
         try:
+            liste_urls = []
             nom_fichier_entree = "./Dirsearch/output_file_dirsearch.txt"
             nom_fichier_sortie = "./Dirsearch/output_file_dirsearch.json"
+            nom_fichier_urls_privees = "./Dirsearch/list_private_url.txt"
+            
+            # Lecture du fichier texte des URL privées
+            with open(nom_fichier_urls_privees, 'r') as fichier_urls_privees:
+                urls_privees = [url.strip() for url in fichier_urls_privees]
+            
             # Lire la liste depuis le fichier texte
             with open(nom_fichier_entree, 'r', encoding='utf-8') as f:
-                liste_mots = [mot.strip() for mot in f.readlines()]
-
-            # Convertir la liste en format JSON
-            liste_json = json.dumps(liste_mots, ensure_ascii=False, indent=2)
+                for ligne in f:
+                    url = ligne.strip()  # Supprimer les espaces et sauts de ligne éventuels
+                    # Vérifier si la fin de l'URL est dans la liste des URL privées
+                    correction = "the web page found does not appear to be public" if any(url.endswith(private_url) for private_url in urls_privees) else ""
+                    # Création du dictionnaire pour chaque URL
+                    url_dict = {"url": url, "correction": correction}
+                    liste_urls.append(url_dict)
 
             # Écrire la liste au format JSON dans un fichier de sortie
             with open(nom_fichier_sortie, 'w', encoding='utf-8') as f_out:
-                f_out.write(liste_json)
+                 json.dump(liste_urls, f_out, indent=2)
         except subprocess.CalledProcessError as e:
             print(f"Error to create the json file: {e}")
+

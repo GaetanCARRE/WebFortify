@@ -1,4 +1,10 @@
 [
-  "http://localhost/WebFortify/site-test/pages/xss.php", 
-  "http://localhost/WebFortify/site-test/pages/sql-injection.php"
+  {
+    "url": "https://juice-shop.herokuapp.com/video",
+    "correction": ""
+  },
+  {
+    "url": "https://juice-shop.herokuapp.com/phpinfo",
+    "correction": "the web page found does not appear to be public"
+  }
 ]

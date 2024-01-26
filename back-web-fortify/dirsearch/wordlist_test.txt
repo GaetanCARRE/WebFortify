@@ -1,3 +1,8 @@
+home.php
+xss.php
+phpinfo.php
+brute-force.php
+connected.php
 support.php
 blog_report
 oracle

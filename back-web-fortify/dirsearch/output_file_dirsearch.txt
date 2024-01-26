@@ -1,4 +1,2 @@
-# Dirsearch started Tue Jan 16 12:08:56 2024 as: /Users/gaetancarre/WebFortify/back-web-fortify/venv/lib/python3.11/site-packages/dirsearch/dirsearch.py -u https://juice-shop.herokuapp.com/#/ -o ./Dirsearch/output_file_dirsearch.txt -w ./Dirsearch/wordlist_test.txt -t 500 -r --recursion-status=200 --deep-recursive --random-agent --crawl
-
-200    10MB  https://juice-shop.herokuapp.com/video
-500     3KB  https://juice-shop.herokuapp.com/rest
+https://juice-shop.herokuapp.com/video
+https://juice-shop.herokuapp.com/phpinfo
