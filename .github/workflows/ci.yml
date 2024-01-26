@@ -24,5 +24,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        cd back-web-fortify/flaskr/tests
-        python -m unittest discover -s .
+        python -m unittest discover -s flaskr/tests
