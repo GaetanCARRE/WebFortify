@@ -3,7 +3,7 @@ import os
 from datetime import date
 from flask import Flask, jsonify, request
 import threading
-from Dirsearch.DirsearchScanner import DirsearchScanner
+from dirsearch.DirsearchScanner import DirsearchScanner
 from lib.XSStrike.run_xss_strike import run_xss_strike
 from lib.XSStrike.filter_web_pages import filter_web_pages
 import json
