@@ -49,6 +49,7 @@ if (isset($_REQUEST['Submit'])) {
                 <button onclick="window.location.href = 'home.php';">Home</button>
                 <button onclick="window.location.href = 'brute-force.php';">Brute Force</button>
                 <button onclick="window.location.href = 'xss.php';">XSS</button>
+                <button onclick="window.location.href = 'file_upload.php';">File Upload</button>
             </header>
             <h1 style="font-size: xxx-large;">Injection SQL Page</h1>
             <form method="get" action="sql-injection.php">

@@ -39,6 +39,7 @@ if (isset($_GET['Login'])) {
                 <button onclick="window.location.href = 'home.php';">Home</button>
                 <button onclick="window.location.href = 'sql-injection.php';">SQL Injection</button>
                 <button onclick="window.location.href = 'xss.php';">XSS</button>
+                <button onclick="window.location.href = 'file_upload.php';">File Upload</button>
             </header>
             <h1 style="font-size: xxx-large;">Brute Force Page</h1>
             <form method="get" action="brute-force.php">
