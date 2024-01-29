@@ -168,11 +168,11 @@ def create_app(test_config=None):
                 print(f"results data : {results[-1]['data']}")
                 ic(find_sql_queries(path, parameter[0]))
                 results[-1]['corrections'] = find_sql_queries(path, parameter[0])
-                return jsonify(results)
+                
 
             except:
-                print("No data")
-                return jsonify(results)
+                results[-1]['corrections'] = []
+        return jsonify(results)
 
         
     
