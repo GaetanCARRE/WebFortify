@@ -6,7 +6,7 @@ import difflib
 # Find the file containing the parameters found by XSStrike
 def find_xss_strike(path, form_parameters):
     xss_vuln = []
-    file_extensions = ['.php', '.js', '.jsx', '.html', '.tsx']  # Ajoutez d'autres extensions de fichier si nécessaire
+    file_extensions = ['.js', '.jsx', '.html', '.tsx']  # Ajoutez d'autres extensions de fichier si nécessaire
     
     for root, dirs, files in os.walk(path):
         for file in files:
@@ -50,11 +50,6 @@ def add_file_content(file_path, line_number, line_content, param, xss_vuln):
     })
     return xss_vuln
 
-def condition_multiple_links(result, url) :
-    if(len(result) > 0) :
-        for item in result:
-            if(item['file_path'] == url) :
-                return True
 
 # Compare the similarity between the url targeted and the url found in the file 
 def similarity_ratio(a, b):

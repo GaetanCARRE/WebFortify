@@ -11,6 +11,7 @@
         <li><a href="xss.php">XSS</a></li>
         <li><a href="sql-injection.php">SQL Injection</a></li>
         <li><a href="brute-force.php">Brute Force</a></li>
+        <li><a href="file_upload.php">File Upload</a></li>
     </ul>
     </div>
 </body>

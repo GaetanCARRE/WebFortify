@@ -1,0 +1,14 @@
+{
+    "title" : "Correction Uploading File", 
+    "explanation" : "Filtering allowed file extensions in an <strong>input type='file'</strong> is a pivotal security measure for web applications. By restricting the types of files users can upload, developers can mitigate potential security risks and safeguard against malicious activities. This practice prevents the inadvertent upload of harmful scripts, malware, or exploits, enhancing the overall integrity of the system. Furthermore, it contributes to a seamless user experience by providing clear guidelines on acceptable file formats, reducing the likelihood of errors and ensuring a standardized data structure. Implementing such controls not only fortifies the application against vulnerabilities but also aligns with industry standards and regulatory requirements for data protection. In essence, filtering allowed file extensions is a fundamental aspect of web development, striking a balance between security and user-friendly functionality.",
+    "correction" : [
+        {
+            "langage" : ".php, .phtml, .php3, .php4, .php5, .php7, .php8", 
+            "example_code" : "$allowed_extensions = array('jpg', 'jpeg', 'png', 'pdf'); // Liste des extensions autorisées \n  function get_file_extension($filename) \n{\nreturn pathinfo($filename, PATHINFO_EXTENSION);\n}\nfunction is_valid_extension($filename, $allowed_extensions)\n{\n$file_extension = get_file_extension($filename);\nreturn in_array($file_extension, $allowed_extensions);\n}"
+        }, 
+        {
+            "langage" : ".js, .ts, .jsx, .tsx", 
+            "example_code" : "const allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf']; // Liste des extensions autorisées \nconst fileExtension = selectedFile.name.split('.').pop(); \nif (allowedExtensions.includes(fileExtension)) { // Le fichier a une extension autorisée, vous pouvez le télécharger ici \nconsole.log('Le fichier est autorisé.'); \n} else { // Le fichier a une extension non autorisée \nconsole.log('Le fichier n est pas autorisé.'); \n}"
+        }
+    ]
+}

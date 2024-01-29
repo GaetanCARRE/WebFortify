@@ -14,6 +14,7 @@ from lib.forcebrute.bruteforce import Bruteforce
 from icecream import ic
 from corrections.find_sql_query import find_sql_queries, finditem
 from corrections.correction_xsstrike import main_correction
+from lib.fuploader.run_fuxploider import FileUpload
 
 version = "0.0.1"
 
@@ -132,6 +133,7 @@ def create_app(test_config=None):
                 Message=f"An error occurred: {str(e)}"
             )
     
+    
     @app.route('/sqlmap', methods=['POST'])
     def sqlmap():
         urls = request.json.get('urls')
@@ -191,7 +193,6 @@ def create_app(test_config=None):
                 formatted_cookies = None
             print(formatted_cookies)
             forms_info = forms.main(url, cookies=formatted_cookies)
-            print(forms_info)
             
             for form in forms_info:
                 get_or_post = form['method']
@@ -216,6 +217,51 @@ def create_app(test_config=None):
                 results[url] = brute.run()
 
         return jsonify(results)
+    
+    @app.route('/file_upload', methods=['POST'])
+    def file_upload():
+        try:
+            # remove file if exist
+            if os.path.exists('./lib/fuploader/result_upload_file.json'):
+                os.remove('./lib/fuploader/result_upload_file.json')
+                
+            link_web_pages = filter_web_pages()
+            cookie = request.json.get('cookie')            
+            results = {}
+            for web_page in link_web_pages:
+                is_login_form = False
+                cookies = request.json.get('cookie')
+                if cookies:
+                    cookies_list = cookies.split("; ")
+                    formatted_cookies = {}
+                    for cookie in cookies_list:
+                        name, value = cookie.split("=")
+                        formatted_cookies[name] = value
+                else:
+                    formatted_cookies = None
+                forms_info = forms.main(web_page, cookies=formatted_cookies)
+                is_uploaded_input= False
+                input_form = []
+                
+                for form in forms_info:
+                    for i in form['inputs']:
+                        if i['type'] == "file":
+                            is_uploaded_input = True
+                            input_form = form['inputs']
+                            break
+                            
+                if is_uploaded_input: # if there is a file input in the web page     
+                    FU_attack = FileUpload(web_page,"post",input_form,  formatted_cookies)
+                    FU_attack.run_fuxploider()
+                    FU_attack.write_result_in_json(request.json.get('project_path') )
 
+            with open('./lib/fuploader/result_upload_file.json', 'r') as json_file:
+                result_json = json.load(json_file)
+                return jsonify(result_json)
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred fuploader: {str(e)}"
+            )
         
     return app

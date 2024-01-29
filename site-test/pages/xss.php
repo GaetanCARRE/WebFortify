@@ -26,10 +26,6 @@ if( isset( $_GET[ 'title' ])  && isset( $_GET[ 'content' ] ) ) {
 <head>
 
     <title>XSS Page </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
-    
 
 </head>
 <body>
@@ -39,6 +35,7 @@ if( isset( $_GET[ 'title' ])  && isset( $_GET[ 'content' ] ) ) {
                 <button onclick="window.location.href = 'home.php';">Home</button>
                 <button onclick="window.location.href = 'brute-force.php';">Brute Force</button>
                 <button onclick="window.location.href = 'sql-injection.php';">SQL Injection</button>
+                <button onclick="window.location.href = 'file_upload.php';">File Upload</button>
             </header>
     <h1 style="font-size: xxx-large;">XSS Page</h1> 
     <form method="get" action="xss.php">
