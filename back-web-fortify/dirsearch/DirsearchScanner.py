@@ -28,7 +28,7 @@ class DirsearchScanner:
     def get_dirsearch_path(self):
         try:
             # Exécuter la commande pip show dirsearch
-            result = subprocess.run(['pip', 'show', 'dirsearch'], capture_output=True, text=True)
+            result = subprocess.run(['py','-m','pip', 'show', 'dirsearch'], capture_output=True, text=True)
 
             # Rechercher le chemin d'installation dans la sortie de la commande
             match = re.search(r'Location: (.+)', result.stdout)
@@ -84,9 +84,17 @@ class DirsearchScanner:
                 for ligne in f:
                     url = ligne.strip()  # Supprimer les espaces et sauts de ligne éventuels
                     # Vérifier si la fin de l'URL est dans la liste des URL privées
-                    correction = "the web page found does not appear to be public" if any(url.endswith(private_url) for private_url in urls_privees) else ""
+                    explanation_key = "explanation"
+                    correction_key = "correction"
+                    if any(url.endswith(private_url) for private_url in urls_privees):
+                        explanation_value = "the web page found does not appear to be public"
+                        correction_value = "// page_protect.php \n<?php\n// You can define a specific condition here to determine whether the page should be accessible.\n$autoriser_access = false;\nif (!$autoriser_access) {\n\t// If access is not authorized, redirect the user to another page, such as the home page.\n\theader('Location: /index.php');\n\texit(); // Be sure to terminate the script after the redirection\n}\n//The rest of your page's code will go here. Next, in each page where you want to restrict access, you include the file page_protect.php at the beginning of the script :\n\n<?php\ninclude('page_protect.php');\n?>"
+                    else:
+                        explanation_value = "the web page found appear to be public"
+                        correction_value = ""
+                    
                     # Création du dictionnaire pour chaque URL
-                    url_dict = {"url": url, "correction": correction}
+                    url_dict = {"url": url, "corrections": {explanation_key: explanation_value,correction_key: correction_value}}
                     liste_urls.append(url_dict)
 
             # Écrire la liste au format JSON dans un fichier de sortie
@@ -95,3 +103,6 @@ class DirsearchScanner:
         except subprocess.CalledProcessError as e:
             print(f"Error to create the json file: {e}")
 
+
+dirsearch_instance = DirsearchScanner()
+dirsearch_instance.convert_txt_to_json()
