@@ -177,7 +177,6 @@ def create_app(test_config=None):
         if not urls:
             with open('./Dirsearch/output_file_dirsearch.json', 'r') as json_file:
                 result_json = json.load(json_file)
-            print(f"result_json: {result_json}")
             urls = result_json
         results = {}
         for url in urls:
@@ -191,15 +190,15 @@ def create_app(test_config=None):
                     formatted_cookies[name] = value
             else:
                 formatted_cookies = None
-            print(formatted_cookies)
             forms_info = forms.main(url, cookies=formatted_cookies)
             
             for form in forms_info:
-                get_or_post = form['method']
+                
                 for i in form['inputs']:
                     if i['type'] == "text":
                         login_name = i['name']
                     elif i['type'] == "password":
+                        get_or_post = form['method']
                         password_name = i['name']
                         is_login_form = True
                         ic("Login form found")
@@ -211,8 +210,11 @@ def create_app(test_config=None):
                     "submit_name" : forms_info[0]["submit"]["name"],
                     "submit_value" : forms_info[0]["submit"]["value"]
                 }
-
-                brute = Bruteforce(url,get_or_post, {'Content-Type': 'application/x-www-form-urlencoded'}, payload_info , 0, formatted_cookies)
+                headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Cookie': 'wordpress_test_cookie=WP%20Cookie%20check'
+                }
+                brute = Bruteforce(url,get_or_post, headers, payload_info , 0, formatted_cookies)
 
                 results[url] = brute.run()
 

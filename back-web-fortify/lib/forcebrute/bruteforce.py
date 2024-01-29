@@ -20,25 +20,25 @@ class Bruteforce:
         elif scan_level == 2:
             self.wordlist_passwd = "./lib/forcebrute/wordlists/password_big.txt"
             self.wordlist_user = "./lib/forcebrute/wordlists/user_big.txt"
-    
+        
+
     def get_request(self, user_from_list, password_from_list):
+        print("sending get request")
         formatted_url = f"{self.url}?{self.payload_info['login_name']}={user_from_list}&{self.payload_info['password_name']}={password_from_list}&{self.payload_info['submit_name']}={self.payload_info['submit_value']}"
         return requests.get(formatted_url, headers=self.headers, allow_redirects=False, cookies=self.cookies)
         
     def post_request(self, user_from_list, password_from_list):
+        print("sending post request")
         payload = {
             self.payload_info["login_name"] : user_from_list,
             self.payload_info["password_name"] : password_from_list,
-            self.payload_info["submit_name"] : self.payload_info["submit_value"]
+            self.payload_info["submit_name"] : self.payload_info["submit_value"],
         }
-        print(payload)
+        print(f"payload: {payload}")
         return requests.post(self.url, headers=self.headers, data=payload, allow_redirects=False, cookies=self.cookies)
     
     def run(self):
-        print("failed message")
-        print(self.find_failed_message())
-        failed_message = self.find_failed_message()[0]
-        print(f"Failed message: {failed_message}")
+        failed_message = self.find_failed_message()[0].replace("wrong_login", "")
         cred_list = []
         if not failed_message:
             raise Exception("Failed message not found")
@@ -52,12 +52,19 @@ class Bruteforce:
                 password = password.strip()
                 if self.method.lower() == "get":
                     response = self.get_request(user, password)
-                    if failed_message.replace(" ", "") not in response.text.replace(" ", ""):
+                    response_text = str(BeautifulSoup(response.text, 'html.parser'))
+                    if failed_message.replace(" ", "") not in response_text.replace(" ", "").replace(user, ""):
                         print(f"Found user: {user} and password: {password}")
                         cred_list.append({"user": user, "password": password})
                 elif self.method.lower() == "post":
                     response = self.post_request(user, password)
-                    if failed_message.replace(" ", "") not in response.text.replace(" ", ""):
+                    response_text = str(BeautifulSoup(response.text, 'html.parser'))
+                    
+                    if failed_message.replace(" ", "") not in response_text.replace(" ", "").replace(user, ""):
+                        print("-----failed message-----")
+                        print(failed_message.replace(" ", ""))
+                        print("-----response text-----")
+                        print(response_text.replace(" ", "").replace(user, ""))
                         print(f"Found user: {user} and password: {password}")
                         cred_list.append({"user": user, "password": password})
         if cred_list:
@@ -69,9 +76,6 @@ class Bruteforce:
         # Parse the HTML content
         soup_old = BeautifulSoup(old_html, 'html.parser')
         soup_new = BeautifulSoup(new_html, 'html.parser')
-        print(f"Old html: {soup_old}")
-        print(f"New html: {soup_new}")
-
 
         # Get the string representations of the parsed HTML
         str_old = str(soup_old)
@@ -83,7 +87,6 @@ class Bruteforce:
         added_lines = [line[1:] for line in diff if line.startswith('+') and not line.startswith('+++')]
 
         # Return the added content as a string
-        print(f"Added lines: {added_lines}")
         return added_lines
 
     
@@ -91,7 +94,6 @@ class Bruteforce:
         # make a get request on login page
         response = requests.get(self.url, cookies=self.cookies, allow_redirects=False)
         # make a request with a wrong password
-        print(self.method)
         if self.method.lower() == "get":
             response_failed = self.get_request("wrong_login", "wrong_password")
         elif self.method.lower() == "post":
