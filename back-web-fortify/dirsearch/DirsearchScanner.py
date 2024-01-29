@@ -28,7 +28,7 @@ class DirsearchScanner:
     def get_dirsearch_path(self):
         try:
             # Exécuter la commande pip show dirsearch
-            result = subprocess.run(['py','-m','pip', 'show', 'dirsearch'], capture_output=True, text=True)
+            result = subprocess.run(['pip', 'show', 'dirsearch'], capture_output=True, text=True)
 
             # Rechercher le chemin d'installation dans la sortie de la commande
             match = re.search(r'Location: (.+)', result.stdout)
