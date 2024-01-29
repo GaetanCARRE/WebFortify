@@ -102,7 +102,3 @@ class DirsearchScanner:
                  json.dump(liste_urls, f_out, indent=2)
         except subprocess.CalledProcessError as e:
             print(f"Error to create the json file: {e}")
-
-
-dirsearch_instance = DirsearchScanner()
-dirsearch_instance.convert_txt_to_json()
