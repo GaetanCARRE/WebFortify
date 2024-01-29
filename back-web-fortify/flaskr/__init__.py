@@ -57,7 +57,7 @@ def create_app(test_config=None):
     def dirsearch():
         try:
             # Extract parameters from the JSON request
-            target_url = request.args.get('url')
+            target_url = request.json.get('url')
             dirsearch_instance = DirsearchScanner()
             thread = threading.Thread(target=dirsearch_instance.run_dirsearch(target_url))
             thread.start()
@@ -228,6 +228,7 @@ def create_app(test_config=None):
             link_web_pages = filter_web_pages()
             cookie = request.json.get('cookie')            
             results = {}
+            print(f"link_web_pages: {link_web_pages}")
             for web_page in link_web_pages:
                 is_login_form = False
                 cookies = request.json.get('cookie')
@@ -254,10 +255,12 @@ def create_app(test_config=None):
                     FU_attack = FileUpload(web_page,"post",input_form,  formatted_cookies)
                     FU_attack.run_fuxploider()
                     FU_attack.write_result_in_json(request.json.get('project_path') )
-
-            with open('./lib/fuploader/result_upload_file.json', 'r') as json_file:
-                result_json = json.load(json_file)
-                return jsonify(result_json)
+            if os.path.exists('./lib/fuploader/result_upload_file.json'):
+                with open('./lib/fuploader/result_upload_file.json', 'r') as json_file:
+                    result_json = json.load(json_file)
+                    return jsonify(result_json)
+            else : # I want to return a empty json like []
+                return jsonify({})
         except Exception as e:
             return jsonify(
                 Status="Error",

@@ -1,28 +1,37 @@
 import json
 import subprocess
 import re
+from lib.dirsearch.launch_venv import run_venv
 
 
 class DirsearchScanner:
     def __init__(self):
         self.get_dirsearch_path()
+        
 
     def run_dirsearch(self, target_url):
-        dirsearch_command = ["python", self.dirsearch_path, "-u", target_url]
+                # Chemin vers l'environnement virtuel
+        venv_path = ".\\venv\\Scripts\\activate"
+
+        # Commande pour activer l'environnement virtuel et exécuter le script python
+        dirsearch_command = [venv_path, "&&", "python", "./lib/dirsearch/dirsearch.py"]
+        dirsearch_command += ["-u", target_url]
         output_file = "./Dirsearch/output_file_dirsearch.txt"
         dirsearch_command += ["-o", output_file]
         wordlist = "./Dirsearch/wordlist_test.txt"
         dirsearch_command += ["-w", wordlist]
-        dirsearch_command += ["-t","500"]
-        dirsearch_command += ["-r","--recursion-status=200","--deep-recursive"]
+        dirsearch_command += ["-t", "500"]
+        dirsearch_command += ["-r", "--recursion-status=200", "--deep-recursive"]
         dirsearch_command += ["--random-agent"]
         dirsearch_command += ["--crawl"]
-        
+
+        # Afficher la commande exécutée
+        print(f"Running Dirsearch with command: {' '.join(dirsearch_command)}")
         try:
-            subprocess.run(dirsearch_command, check=True)
+            subprocess.run(' '.join(dirsearch_command), check=True, shell=True)
             print(f"Dirsearch completed successfully")
-        except subprocess.CalledProcessError as e:
-            print(f"Error running Dirsearch: {e}")
+        except :
+            print(f"Error running Dirsearch: ")
         
             
     def get_dirsearch_path(self):
@@ -46,6 +55,7 @@ class DirsearchScanner:
     def parse_output_file_dirsearch(self):
         try:
             fichier_nom = "./Dirsearch/output_file_dirsearch.txt"
+            
 
             # Ouvrir le fichier en mode lecture
             with open(fichier_nom, 'r') as fichier:
