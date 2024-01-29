@@ -20,7 +20,6 @@ def find_file_vulnerability(webpage, input_form, path) :
     parameters = [{'param': key} for key in input_form]
     file_extensions = ['.php', '.js', '.jsx', '.html', '.tsx']  # Ajoutez d'autres extensions de fichier si nécessaire
     match_file = []
-    file_name = ""
     for root, dirs, files in os.walk(path):
         for file in files:        
             if file.endswith(tuple(file_extensions)):

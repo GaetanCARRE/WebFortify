@@ -4,7 +4,7 @@ from datetime import date
 from flask import Flask, jsonify, request
 import threading
 from Dirsearch.DirsearchScanner import DirsearchScanner
-from lib.XSStrike.run_xss_strike import run_xss_strike
+from lib.XSStrike.run_xss_strike import run_xss_strikeq
 from lib.XSStrike.filter_web_pages import filter_web_pages
 import json
 from connector.sqlmapconnector import SQLMapConnector
@@ -84,8 +84,11 @@ def create_app(test_config=None):
                 os.remove(file_path)
             else :
                 print("The file does not exist")
-        
-            link_web_pages = filter_web_pages()
+            link_web_pages= []
+            if(request.json.get('url') != ""):
+                link_web_pages.append(request.json.get('url'))
+            else :
+                link_web_pages = filter_web_pages()
             # Extract parameters from the JSON request
             for link_web_page in link_web_pages:
                 data = request.get_json()
@@ -242,7 +245,10 @@ def create_app(test_config=None):
                         formatted_cookies[name] = value
                 else:
                     formatted_cookies = None
+                print("hello")
+                print(web_page)
                 forms_info = forms.main(web_page, cookies=formatted_cookies)
+                print("hello2")
                 is_uploaded_input= False
                 input_form = []
                 
@@ -252,7 +258,8 @@ def create_app(test_config=None):
                             is_uploaded_input = True
                             input_form = form['inputs']
                             break
-                            
+                print("hello4")   
+                       
                 if is_uploaded_input: # if there is a file input in the web page     
                     FU_attack = FileUpload(web_page,"post",input_form,  formatted_cookies)
                     FU_attack.run_fuxploider()
