@@ -58,11 +58,8 @@ def similarity_ratio(a, b):
 def condition_multiple_links(result, url):
     best_match = None
     best_ratio = 0.0
-    print("helooocondition")
     for item in result:
-        print("enter")
         file_path = item['file_path']
-        print("then")
         ratio = similarity_ratio(file_path, url)
         
         # Choisissez le meilleur match avec la plus grande similarité
@@ -78,22 +75,15 @@ def condition_multiple_links(result, url):
 # add function to advice the user for corrections
 def get_all_corrections(file, vulnerability):
     correction = []
-    print
     for list_vulnerability in vulnerability['list_vulnerability']:
-        print("enter")
          # get the lines of the file containing the parameter
         list_lines = [line for line in file['lines'] if list_vulnerability['parameter'] in line['line_content']]
-        print("clamerde")
         if list_lines: 
             list_lines = list_lines[0]
-            print("clamerde2")
             # add the first correction
             correction = add_escape_correction(list_lines, list_vulnerability, file)
-            print("clamerde3")
             if correction:
                 list_vulnerability['corrections'] = {"explanation_xss" : correction['explanation_xss'], 'line_vuln' :  correction['line_vuln'], 'list_corrections' : [{'title' : "Correction Escape the Output", 'line_correction' : correction['line_correction'], 'correction_explanation' : correction['correction_explanation']}]}
-                print("clamerde4")
-            print("clamerde5")
             correction = add_input_validation_correction(list_lines, file)
             list_vulnerability = add_correction_in_json("Correction Input Validation", list_vulnerability, correction)
             # get the CSP header
@@ -190,30 +180,25 @@ def get_CSP_correction(file):
 # Main function
 def main_correction(project_path) : 
     vulnerabilities = []
-    with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
-        vulnerabilities = json.load(json_file)
-    index = 0
-    print("helloooomain")
-    for vulnerability in vulnerabilities:
-        url = vulnerability['url']
-        list_parameters = []
-        for list_vulnerability in vulnerability['list_vulnerability']:
-            list_parameters.append({'param' : 'name="'+list_vulnerability['parameter']+ '"'})
-        print("hellooooapres")
-        result = find_xss_strike(project_path, list_parameters)
-        print("helloooofind")
-        file = ""
-        if len(result) > 1:
-            is_match, file = condition_multiple_links(result, url)
-            if not is_match:
-                print("No match found for " + url)   
-        elif len(result) == 1:
-            file = result[0]
-            print("fileok")
-        print(file)
-        vulnerability = get_all_corrections(file, vulnerability)
-        print("hellooooall")
-        index += 1
-    with open('./lib/XSStrike/result-XSS-Strike.json', 'w') as json_file:
-        json_file.write(json.dumps(vulnerabilities, indent=2))
+    if(os.path.exists('./lib/XSStrike/result-XSS-Strike.json')):
+        with open('./lib/XSStrike/result-XSS-Strike.json', 'r') as json_file:
+            vulnerabilities = json.load(json_file)
+        index = 0
+        for vulnerability in vulnerabilities:
+            url = vulnerability['url']
+            list_parameters = []
+            for list_vulnerability in vulnerability['list_vulnerability']:
+                list_parameters.append({'param' : 'name="'+list_vulnerability['parameter']+ '"'})
+            result = find_xss_strike(project_path, list_parameters)
+            file = ""
+            if len(result) > 1:
+                is_match, file = condition_multiple_links(result, url)
+                if not is_match:
+                    print("No match found for " + url)   
+            elif len(result) == 1:
+                file = result[0]
+            vulnerability = get_all_corrections(file, vulnerability)
+            index += 1
+        with open('./lib/XSStrike/result-XSS-Strike.json', 'w') as json_file:
+            json_file.write(json.dumps(vulnerabilities, indent=2))
     

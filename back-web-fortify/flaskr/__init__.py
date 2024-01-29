@@ -4,7 +4,7 @@ from datetime import date
 from flask import Flask, jsonify, request
 import threading
 from Dirsearch.DirsearchScanner import DirsearchScanner
-from lib.XSStrike.run_xss_strike import run_xss_strikeq
+from lib.XSStrike.run_xss_strike import run_xss_strike
 from lib.XSStrike.filter_web_pages import filter_web_pages
 import json
 from connector.sqlmapconnector import SQLMapConnector
@@ -163,10 +163,7 @@ def create_app(test_config=None):
 
             data = connector.get_scan_data(scanid)
             results.append(data)
-            # print(f"results -1 : {results[-1]}")
             parameter = finditem(results[-1], 'parameter')
-            print("parameter")
-            print(parameter)
             try:
                 print(f"results data : {results[-1]['data']}")
                 ic(find_sql_queries(path, parameter[0]))
@@ -238,11 +235,12 @@ def create_app(test_config=None):
             # remove file if exist
             if os.path.exists('./lib/fuploader/result_upload_file.json'):
                 os.remove('./lib/fuploader/result_upload_file.json')
-                
-            link_web_pages = filter_web_pages()
+            link_web_pages= []
+            if(request.json.get('url') != ""):
+                link_web_pages.append(request.json.get('url'))
+            else :
+                link_web_pages = filter_web_pages()    
             cookie = request.json.get('cookie')            
-            results = {}
-            print(f"link_web_pages: {link_web_pages}")
             for web_page in link_web_pages:
                 is_login_form = False
                 cookies = request.json.get('cookie')
@@ -254,10 +252,7 @@ def create_app(test_config=None):
                         formatted_cookies[name] = value
                 else:
                     formatted_cookies = None
-                print("hello")
-                print(web_page)
                 forms_info = forms.main(web_page, cookies=formatted_cookies)
-                print("hello2")
                 is_uploaded_input= False
                 input_form = []
                 
@@ -267,7 +262,6 @@ def create_app(test_config=None):
                             is_uploaded_input = True
                             input_form = form['inputs']
                             break
-                print("hello4")   
                        
                 if is_uploaded_input: # if there is a file input in the web page     
                     FU_attack = FileUpload(web_page,"post",input_form,  formatted_cookies)
