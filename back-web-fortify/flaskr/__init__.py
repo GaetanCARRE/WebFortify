@@ -15,7 +15,7 @@ from icecream import ic
 from corrections.find_sql_query import find_sql_queries, finditem
 from corrections.correction_xsstrike import main_correction
 from lib.fuploader.run_fuxploider import FileUpload
-
+from time import sleep
 version = "0.0.1"
 
 
@@ -145,10 +145,12 @@ def create_app(test_config=None):
         path = request.json.get('path')
         
         if not urls:
+            urls = []
             with open('./Dirsearch/output_file_dirsearch.json', 'r') as json_file:
                 result_json = json.load(json_file)
             print(f"result_json: {result_json}")
-            urls = result_json
+            for url_dict in result_json:
+                urls.append(url_dict['url'])
         results = []
         for url in urls:
             connector = SQLMapConnector(cookie, url, options)
@@ -163,14 +165,19 @@ def create_app(test_config=None):
             results.append(data)
             # print(f"results -1 : {results[-1]}")
             parameter = finditem(results[-1], 'parameter')
+            print("parameter")
             print(parameter)
-            # try:
-            print(f"results data : {results[-1]['data']}")
-            ic(find_sql_queries(path, parameter[0]))
-            results[-1]['corrections'] = find_sql_queries(path, parameter[0])
-            # except:
+            try:
+                print(f"results data : {results[-1]['data']}")
+                ic(find_sql_queries(path, parameter[0]))
+                results[-1]['corrections'] = find_sql_queries(path, parameter[0])
+                return jsonify(results)
+
+            except:
+                print("No data")
+                return jsonify(results)
+
         
-        return jsonify(results)
     
     @app.route('/bruteforce', methods=['POST'])
     def bruteforce():
@@ -178,9 +185,11 @@ def create_app(test_config=None):
         urls = request.json.get('urls')
             
         if not urls:
+            urls = []
             with open('./Dirsearch/output_file_dirsearch.json', 'r') as json_file:
                 result_json = json.load(json_file)
-            urls = result_json
+            for url_dict in result_json:
+                urls.append(url_dict['url'])
         results = {}
         for url in urls:
             is_login_form = False

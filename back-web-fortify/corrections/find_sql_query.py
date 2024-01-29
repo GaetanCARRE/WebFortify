@@ -2,7 +2,7 @@ import os
 import re
 import json
 
-def find_sql_queries(path, query_parameters, titles):
+def find_sql_queries(path, query_parameters):
     sql_queries = []
     file_extensions = ['.py', '.sql', '.php']  # Add more file extensions if needed
     
@@ -12,15 +12,15 @@ def find_sql_queries(path, query_parameters, titles):
                 file_path = os.path.join(root, file)
                 with open(file_path, 'r') as f:
                     content = f.readlines()
-                    pattern = r'((?:SELECT|INSERT|DELETE)(?![^<>]*[<>]).*?' + re.escape(query_parameters) + r'.*?;)'
+                    pattern = r'((?:SELECT|INSERT|DELETE)(?![^<>]*[<>]).*?;)'
                     for i, line in enumerate(content):
                         for match in re.finditer(pattern, line, re.IGNORECASE):
                             sql_queries.append((file_path, i+1, match.group(0)))
-    return sql_correction(sql_queries, titles)
+    return sql_correction(sql_queries)
     # return sql_queries
 
 
-def sql_correction(sql_queries, titles):
+def sql_correction(sql_queries):
     extension = {
         "python" : [
             "py",
@@ -72,7 +72,6 @@ def sql_correction(sql_queries, titles):
     correction_dict = {
         "description_sqli" : description_sqli,
         "description_vuln" : description_vuln,
-        "titles" : titles,
         "line_vuln" : line_vuln,
         "list_corrections" : [
             {
