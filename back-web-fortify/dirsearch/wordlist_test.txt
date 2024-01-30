@@ -12,9 +12,11 @@ fake
 cabinet
 level
 logfiles
+sql-injection.php
 Applications
 develop
 macromedia
+file_upload.php
 swfs
 new
 cgi-local
@@ -1433,7 +1435,6 @@ recovery
 New Folder With Items
 app.php
 kr
-phpinfo.php
 body
 roller
 prot

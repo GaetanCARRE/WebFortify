@@ -27,7 +27,7 @@ if (isset($_POST['Upload'])) {
             $html .= "<pre>{$target_path} succesfully uploaded!</pre>";
         }
     } else {
-        $html .= '<pre>Hello</pre>';
+        $html .= '<pre>Your image was not uploaded.</pre>';
     }
 }
 ?>

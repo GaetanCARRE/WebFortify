@@ -136,6 +136,7 @@ robot.txt
 .npm/anonymous-cli-metrics.json
 phpinfo
 phpinfo.php
+password.txt
 php_info
 php_info.php
 .pwd.lock

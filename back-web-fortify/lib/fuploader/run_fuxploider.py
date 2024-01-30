@@ -30,7 +30,14 @@ class FileUpload:
         return requests.post(self.url, allow_redirects=False, cookies=self.cookies)
     
     def get_failed_request(self):
-        return requests.post(self.url, data=self.input_form, cookies=self.cookies)
+        try:
+            response = requests.post(self.url, data=self.input_form, allow_redirects=False)
+            response.raise_for_status()  # Lèvera une exception si la requête a échoué (code HTTP différent de 2xx)
+            return response
+        except requests.exceptions.RequestException as e:
+            print(f"Erreur lors de la requête : {e}")
+            return None  # Ou renvoyez ce que vous voulez en cas d'erreur
+
     
 
     def get_error_message(self):
@@ -66,7 +73,6 @@ class FileUpload:
             os.remove('./lib/fuploader/valid_extension.txt')
         
         error_message = self.get_error_message()
-            
         command = [
         "python",
         "./lib/fuploader/fuxploider.py",  # Name of the Python file to execute
@@ -79,6 +85,7 @@ class FileUpload:
         try:
             # Execute the command
             subprocess.run(command, check=True, text=True, input='n\n')
+            print("Command executed successfully")
         except subprocess.CalledProcessError as e:
             print(f"Error executing fuxploider.py: {e}")
         
@@ -91,7 +98,6 @@ class FileUpload:
         if os.path.exists('./lib/fuploader/result_upload_file.json'):
             with open('./lib/fuploader/result_upload_file.json', 'r') as f:
                 content_file = json.load(f)   
-        
         # get the correction
         correction = main_correction_upload_file(self.url,self.input_form, path)   
         
