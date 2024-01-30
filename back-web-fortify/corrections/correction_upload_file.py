@@ -7,7 +7,6 @@ import difflib
 # get the correction of the vulnerability upload file
 def main_correction_upload_file(webpage, input_form, path) :
     line_vuln = find_file_vulnerability(webpage, input_form, path)
-    print(line_vuln)
     extension = os.path.splitext(webpage)[1]
     with open('./corrections/template_correction/template_upload_file.json', 'r') as f:
         content = json.load(f)
@@ -22,10 +21,10 @@ def find_file_vulnerability(webpage, input_form, path) :
     match_file = []
     for root, dirs, files in os.walk(path):
         for file in files:        
-            if file.endswith(tuple(file_extensions)):
-                with open(os.path.join(root, file), 'r') as f:
+            if file.endswith(tuple(file_extensions)) and "node_modules" not in os.path.join(root, file):
+                with open(os.path.join(root, file), 'r') as f:  # Ajoutez l'encodage approprié (ici, utf-8) et gestion des erreurs)
                     content = f.read()
-                    if all_parameters_found(content, parameters):
+                    if all_parameters_found(content, parameters):     
                         matches_with_line_numbers = []
                         for line_number, line_content in enumerate(content.splitlines(), start=1):
                             # Check if the pattern is found in the line

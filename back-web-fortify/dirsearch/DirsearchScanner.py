@@ -2,7 +2,9 @@ import json
 import subprocess
 import re
 from lib.dirsearch.launch_venv import run_venv
-
+from urllib.parse import urlparse
+import os 
+import difflib
 
 class DirsearchScanner:
     def __init__(self):
@@ -18,10 +20,10 @@ class DirsearchScanner:
         dirsearch_command += ["-u", target_url]
         output_file = "./Dirsearch/output_file_dirsearch.txt"
         dirsearch_command += ["-o", output_file]
-        wordlist = "./Dirsearch/wordlist_test.txt"
+        wordlist = "./Dirsearch/wordlist_oral.txt"
         dirsearch_command += ["-w", wordlist]
         dirsearch_command += ["-t", "500"]
-        dirsearch_command += ["-r", "--recursion-status=200", "--deep-recursive"]
+        dirsearch_command += ["-r", "--recursion-status=200"]
         dirsearch_command += ["--random-agent"]
         dirsearch_command += ["--crawl"]
 
@@ -70,7 +72,7 @@ class DirsearchScanner:
                     testresult = ligne.split(' ')
                     ##print(testresult)
                     resultats.append(testresult[-1])
-
+            resultats = filter_result(resultats)
             # Ouvrir le fichier en mode écriture pour réécrire les résultats
             with open(fichier_nom, 'w') as fichier:
                 # Écrire les résultats dans le fichier
@@ -112,3 +114,51 @@ class DirsearchScanner:
                  json.dump(liste_urls, f_out, indent=2)
         except subprocess.CalledProcessError as e:
             print(f"Error to create the json file: {e}")
+            
+def filter_result(resultats):
+    extensions = [".html", ".htm", ".php", ".jsp", ".aspx", ".css", ".js", ".json", ".xml", ".cgi", ".pl", ".py", ".rb", ".aspx", ".cfm", ".jsp", ".cf", ".jspx", ".rss", ".atom", ".svg"]
+    filter_result = []
+    add_to_filter = True
+    for i, result in enumerate(resultats):
+        add_to_filter = True
+        for j, searchequal in enumerate(resultats):
+            if i != j and url_difference(result, searchequal) in extensions:
+                if(len(searchequal) > len(result)):
+                    add_to_filter = False
+        if(add_to_filter == True):
+            filter_result.append(result)
+
+    return filter_result
+
+def url_difference(url1, url2):
+    # Calculate the difference between the two URLs using difflib
+    diff = ""
+    if(len(url2) > len(url1)):
+        diff = difflib.ndiff(url2, url1)
+    else:
+        diff = difflib.ndiff(url1, url2)
+    # Extract the differences
+    differences = [d[2:] for d in diff if d.startswith('- ')]
+    
+    # Join the differences to get the absolute difference
+    absolute_difference = ''.join(differences).strip("/")
+    
+    return absolute_difference
+
+# def url_difference(url1, url2):
+#     # Parse the URLs to extract their paths
+#     path1 = urlparse(url1).path
+#     path2 = urlparse(url2).path
+    
+#     # Find the common prefix of the paths
+#     common_prefix = os.path.commonprefix([path1, path2])
+#     difference1 = path1[len(common_prefix):].strip("/")
+#     difference2 = path2[len(common_prefix):].strip("/")
+#     # Calculate the difference by removing the common prefix
+#     # enlever les espaces dans les différences
+#     difference1 = difference1.replace(" ", "")
+#     difference2 = difference2.replace(" ", "")
+#     print("the length is "+str(len(difference1))+" and "+str(len(difference2)) +"for "+difference1+"and"+difference2+"top")
+#     # if difference1 == ".php" or difference1 == ".php":
+        
+#     return difference1, difference2
