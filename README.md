@@ -1,6 +1,6 @@
-# Project Name: Web Vulnerability Scanner
+# WebFortify: Web Vulnerability Scanner
 
-A comprehensive tool designed for automated scanning of the most known web vulnerabilities, including XSS, SQL injections, and command injections.
+A comprehensive tool designed for automated scanning of the most known web vulnerabilities, including XSS, SQL injections, web fuzzing and XSRF 
 
 ## Table of Contents
 
@@ -15,7 +15,7 @@ A comprehensive tool designed for automated scanning of the most known web vulne
 
 ## Introduction
 
-This project introduces an advanced Web Vulnerability Scanner, a powerful tool designed to detect and report potential vulnerabilities in web applications. Utilizing a Flask backend and a React frontend, our scanner automates the process of identifying common security threats, such as Cross-Site Scripting (XSS), SQL Injection, and Command Injection vulnerabilities, thereby aiding in the reinforcement of web application security.
+This project introduces an advanced Web Vulnerability Scanner, a powerful tool designed to detect and report potential vulnerabilities in web applications. Utilizing a Flask backend and a React frontend, our scanner automates the process of identifying common security threats thereby aiding in the reinforcement of web application security by providing corrections suggestions.
 
 ## Features
 
@@ -23,57 +23,44 @@ This project introduces an advanced Web Vulnerability Scanner, a powerful tool d
 - **User-Friendly Interface:** React-based frontend for easy interaction and clear presentation of results.
 - **Detailed Reporting:** Generates comprehensive reports detailing detected vulnerabilities and their potential impacts.
 - **Customizable Scans:** Offers flexibility to tailor scans to specific needs or focus areas.
+- **Corrections Suggestions:** Provides suggestions for correcting detected vulnerabilities.
 
 ## Technologies
 
-- **Frontend:** React.js for a responsive and intuitive user interface.
+- **Frontend:** NextJS for a responsive and intuitive user interface.
 - **Backend:** Flask for handling backend operations and API requests.
 - **Security Scanning:** Custom algorithms and techniques for detecting a wide range of web vulnerabilities.
 
 ## Installation
-### If you use docker
-You can simply run the following command:
-```
-  docker-compose up -d
-```
-### React Frontend
 
-1. Install dependencies:
-   ```
-   npm install
-   ```
-2. Start the application:
-   ```
-   npm start
-   ```
+### Prerequisites
 
-### Flask Backend
+- [Python 3.10](https://www.python.org/downloads/release/python-3100/)
+- [Node.js](https://nodejs.org/en/download/)
+- [npm](https://www.npmjs.com/get-npm)
+
+### Clone the Repository
+
+```
+git clone https://github.com/GaetanCARRE/WebFortify.git
+```
+
+
+### Installation Steps
 
 1. Create a virtual environment:
    ```
-   python -m venv venv
+   python -m venv back-web-fortify/venv
    ```
-2. Activate the virtual environment:
-   - For Linux/macOS:
-     ```
-     . venv/bin/activate
-     ```
-   - For Windows:
-     ```
-     venv\Scripts\activate
-     ```
-3. Install required packages:
+2. Then run the start script:
    ```
-   pip install -r requirements.txt
+   python webfortify.py
    ```
-4. Run the Flask application in debug mode:
-   ```
-   flask --app flaskr run --debug
-   ```
+
 
 ## Usage
 
-To start using the Web Vulnerability Scanner, launch both the React frontend and the Flask backend. Navigate through the React application to set up and start your scans. The interface will guide you through configuring the scan parameters and initiating the scanning process.
+To start using the Web Vulnerability Scanner, launch webfortify.py script. Navigate through the React application to set up and start your scans. The interface will guide you through configuring the scan parameters and initiating the scanning process.
 
 ## API Documentation
 
