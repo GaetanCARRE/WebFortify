@@ -1,17 +1,44 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 [
   {
-    "url": "http://localhost/WebFortify/site-test/pages/file_upload.php",
+    "url": "http://localhost/site-test/pages/home.php",
+    "corrections": {
+      "explanation": "the web page found appear to be public",
+      "correction": ""
+    }
+  },
+  {
+    "url": "http://localhost/site-test/pages/xss.php",
+    "corrections": {
+      "explanation": "the web page found does not appear to be public",
+      "correction": "// page_protect.php \n<?php\n// You can define a specific condition here to determine whether the page should be accessible.\n$autoriser_access = false;\nif (!$autoriser_access) {\n\t// If access is not authorized, redirect the user to another page, such as the home page.\n\theader('Location: /index.php');\n\texit(); // Be sure to terminate the script after the redirection\n}\n//The rest of your page's code will go here. Next, in each page where you want to restrict access, you include the file page_protect.php at the beginning of the script :\n\n<?php\ninclude('page_protect.php');\n?>"
+    }
+  },
+  {
+    "url": "http://localhost/site-test/pages/connected.php",
+    "corrections": {
+      "explanation": "the web page found appear to be public",
+      "correction": ""
+    }
+  },
+  {
+    "url": "http://localhost/site-test/pages/home",
+    "corrections": {
+      "explanation": "the web page found appear to be public",
+      "correction": ""
+    }
+  },
+  {
+    "url": "http://localhost/site-test/pages/sql-injection.php",
+    "corrections": {
+      "explanation": "the web page found appear to be public",
+      "correction": ""
+    }
+  },
+  {
+    "url": "http://localhost/site-test/pages/brute-force.php",
     "corrections": {
       "explanation": "the web page found appear to be public",
       "correction": ""
     }
   }
 ]
-=======
-[]
->>>>>>> f449b72e (feat: integration de sql au front)
-=======
-[]
->>>>>>> f449b72e (feat: integration de sql au front)

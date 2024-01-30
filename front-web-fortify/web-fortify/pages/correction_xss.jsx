@@ -26,6 +26,12 @@ export default function Correction( { projects } ) {
   const [ attack , setAttack ] = useState("");
   const [ isOpen , setIsOpen ] = useState([]);
 
+
+  useEffect(() => {
+    console.log("isOpen");
+    console.log(isOpen);
+  }, [isOpen]);
+
   useEffect(() => {
 
     
@@ -67,9 +73,9 @@ export default function Correction( { projects } ) {
                   projects[i].logs[j].corrections.codeExtract = codeExtract;
 
                   // Output the results
-                  console.log("Path: " + path);
+                  /*console.log("Path: " + path);
                   console.log("Line Number: " + lineNumber);
-                  console.log("Code Extract: " + codeExtract);
+                  console.log("Code Extract: " + codeExtract);*/
               } else {
                   // If no match is found
                   console.log("No match found.");
@@ -78,16 +84,14 @@ export default function Correction( { projects } ) {
             
               
 
-            try{
-
-              for(var k = 0; k < projects[i].logs[j].corrections.list_corrections.length; k++){
-                //projects[i].logs[j].corrections.list_corrections[k].isOpen = false;
-                setIsOpen( [...isOpen, false] );
-              }
+            let tab = [];
+            for(var k = 0; k < projects[i].logs[j].corrections.list_corrections.length; k++){
+              
+              tab.push(false);
+              
             }
-            catch(e){
-              //console.log(e);
-            }
+            setIsOpen(tab)
+          
             
             setAttack(projects[i].logs[j]);
           }
@@ -286,13 +290,14 @@ export default function Correction( { projects } ) {
                                   <hr className="my-2 h-[2px] bg-black px-5" />
                                   <div className="text-[12px] p-4   w-full">
     
-                                  <CopyBlock text={
+                                 <CopyBlock text={
                                     correction.line_correction
                                   } language="js" theme="dracula"
                                   showLineNumbers={true}
                                   wrapLines={true}
                                   codeBlock
                                   />
+                               
                                     
                                   </div>
                                 </div>

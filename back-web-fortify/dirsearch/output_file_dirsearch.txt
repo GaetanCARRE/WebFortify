@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 http://localhost/WebFortify/site-test/pages/xss.php
 http://localhost/WebFortify/site-test/pages/home.php
 http://localhost/WebFortify/site-test/pages/connected.php
@@ -1378,3 +1379,11 @@ https://juice-shop.herokuapp.com/phpinfo
 >>>>>>> f449b72e (feat: integration de sql au front)
 >>>>>>> c8575a7f (feat: integration de sql au front)
 >>>>>>> 497dfe83 (feat: integration de sql au front)
+=======
+http://localhost/site-test/pages/home.php
+http://localhost/site-test/pages/xss.php
+http://localhost/site-test/pages/connected.php
+http://localhost/site-test/pages/home
+http://localhost/site-test/pages/sql-injection.php
+http://localhost/site-test/pages/brute-force.php
+>>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))

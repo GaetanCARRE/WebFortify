@@ -9,6 +9,7 @@ export default function handler(req, res) {
   
       // get param from url ?target_url
       const target_url = req.query.target_url;
+      const project_path = req.query.project_path;
   
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -20,16 +21,14 @@ export default function handler(req, res) {
       if (target_url == "null") {
   
         raw = JSON.stringify({
-          "url" : [
-          ],
-        
+          "url" : "",
+            "project_path": project_path
         });
 
       } else {
         raw = JSON.stringify({
-          "url" : [
-              target_url
-          ],
+          "url" : target_url,
+            "project_path": project_path
         
         });
       }
@@ -41,50 +40,46 @@ export default function handler(req, res) {
         redirect: 'follow'
       };
       
-      function FilterBrutForce(result){
+      function FilterFileUpload(result){
 
-        var BFLogs = []
+        var FileUpload = []
 
         var current_time = new Date().getTime()
+ 
         
         try{
 
+        for (let i=0; i<result.length; i++) {
+
             
-            for (var i = 0; i < result.length; i++) {
+            var log = {}
+            
+            log.AttackType = "fileupload"
+            log.Success = true
+            log.target_url = result[i].url
+            log.time = current_time  
+            log.corrections = result[i].correction
+            log.title = result[i].title
+            log.extensions = result[i].extensions
 
-               
 
-                var log = {}
-        
-                log.AttackType = "bruteforce"
-                log.Success = true
-                log.target_url = result[i].url
-                log.credentials = result[i].credentials
-                log.time = current_time
-
-                
-                BFLogs.push(log)
-
-              
-                
-            }
-
+            
+            FileUpload.push(log)
+        }
 
         }
         catch(err){
             console.log(err)
         }
 
-       
-        console.log(BFLogs)
-
-        return BFLogs
+        return FileUpload
       }
   
   
-      fetch("http://127.0.0.1:5000/bruteforce", requestOptions)
+  
+      fetch("http://127.0.0.1:5000/file_upload", requestOptions)
         .then(response => response.json())
-        .then(result => res.status(200).json(FilterBrutForce(result)))
+        .then(result => res.status(200).json(FilterFileUpload(result)))
         .catch(error => console.log('error', error));
       
   

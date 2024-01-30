@@ -8,16 +8,32 @@ export default function handler(req, res) {
 
 
     // get param from url ?target_url
-    //const target_url = req.query.target_url;
+    const target_url = req.query.target_url;
     const project_path = req.query.project_path;
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
-      "cookie": "",
-      "project_path": project_path,
-    });
+    var raw;
+
+    if (target_url == "null"){
+      raw = JSON.stringify({
+        "cookie": "",
+        "project_path": project_path,
+        "url": ""
+      });
+
+    }else{
+
+      raw = JSON.stringify({
+        "cookie": "",
+        "project_path": project_path,
+        "url": target_url
+      });
+
+    }
+
+    
 
     var requestOptions = {
       method: 'POST',
@@ -43,7 +59,7 @@ export default function handler(req, res) {
             for (var k = 0; k < result[i].list_vulnerability[j].payloads.length; k++) {
   
               XSSLogs.push({
-                "target_url": result[i].url + "?" + result[i].list_vulnerability[j].parameter + "=" + result[i].list_vulnerability[j].payloads[k].payload,
+                "target_url": result[i].url + "?" + result[i].list_vulnerability[j].parameter + "=",
                 "AttackType": "xss",
                 "payload": result[i].list_vulnerability[j].payloads[k].payload,
                 "Success": true,
@@ -56,6 +72,14 @@ export default function handler(req, res) {
           }
   
         }
+
+        // delete all duplicate logs for the same target_url
+
+        XSSLogs = XSSLogs.filter((thing, index, self) =>
+        index === self.findIndex((t) => (
+          t.target_url === thing.target_url
+        ))
+      )
       
 
     }

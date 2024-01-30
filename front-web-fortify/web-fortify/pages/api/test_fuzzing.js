@@ -7,22 +7,48 @@ export default function handler(req, res) {
     var current_time = new Date().getTime();
 
     const response = 
-        [
-            {
-                "AttackType": "fuzzing",
-                "Success": true,
-                "target_url": "https://juice-shop.herokuapp.com/Video",
-                "time" : current_time
-            },
-            
-            {
-                "AttackType": "fuzzing",
-                "Success": true,
-                "target_url": "https://juice-shop.herokuapp.com/ftp/quarantine/juicy_malware_windows_64.exe.url",
-                "time" : current_time
-            }
-        ]  
+    [
+        {
+          "url": "http://localhost/WebFortify/site-test/pages/file_upload.php",
+          "corrections": {
+            "explanation": "the web page found appear to be public",
+            "correction": ""
+          }
+        }
+      ]
       
+      function FilterDirSearch(result){
+
+        var DirSearchLogs = []
+
+        var current_time = new Date().getTime()
+ 
+        
+        try{
+        for (let i=1; i<result.length; i++) {
+
+            
+            var log = {}
+            
+            
+            log.AttackType = "fuzzing"
+            log.Success = true
+            log.target_url = result[i].url 
+            log.time = current_time  
+            log.corrections = result[i].corrections
+
+
+            
+            DirSearchLogs.push(log)
+        }
+
+        }
+        catch(err){
+            console.log(err)
+        }
+
+        return DirSearchLogs
+      }
   
     
   

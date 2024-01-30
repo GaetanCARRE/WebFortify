@@ -16,6 +16,8 @@ import { CopyBlock } from 'react-code-blocks';
 
 
 
+
+
 export default function Correction( { projects } ) {
 
   
@@ -23,6 +25,12 @@ export default function Correction( { projects } ) {
   const [ attackid , setAttackid ] = useState("");
   const [ attack , setAttack ] = useState("");
   const [ isOpen , setIsOpen ] = useState([]);
+
+
+  useEffect(() => {
+    console.log("isOpen");
+    console.log(isOpen);
+  }, [isOpen]);
 
   useEffect(() => {
 
@@ -42,11 +50,13 @@ export default function Correction( { projects } ) {
           if(projects[i].logs[j].index == window.location.search.split("=")[1].split("&")[0]){
 
             console.log(projects[i].logs[j]);
-            // "file : C://wamp64/www/site-test\\pages\\sql-injection.php, line : 13, query : SELECT first_name, last_name FROM user WHERE id = '$id';"
+            // file : C:\\wamp64\\www\\site-test\\pages\\file_upload.php, line : 59 < input name=\"uploaded\" type=\"file\"><br>
+            
+           
 
-            var line = projects[i].logs[j].corrections.line_vuln[0];
+            var line = projects[i].logs[j].corrections.line_vuln;
             // Define the regular expression pattern
-              var pattern = /file : (.*), line : (.*), query : (.*)/;
+              var pattern = /file : (.*) line : (.*) <(.*)/;
 
               // Perform the regular expression match
               var matches = line.match(pattern);
@@ -56,37 +66,32 @@ export default function Correction( { projects } ) {
                   // Extracted information
                   var path = matches[1].trim();
                   var lineNumber = matches[2].trim();
-                  var codeExtract = matches[3].trim();
+                  var codeExtract = "<" +  matches[3].trim();
 
                   projects[i].logs[j].corrections.path = path;
                   projects[i].logs[j].corrections.lineNumber = lineNumber;
                   projects[i].logs[j].corrections.codeExtract = codeExtract;
 
                   // Output the results
-                  console.log("Path: " + path);
+                  /*console.log("Path: " + path);
                   console.log("Line Number: " + lineNumber);
-                  console.log("Code Extract: " + codeExtract);
+                  console.log("Code Extract: " + codeExtract);*/
               } else {
                   // If no match is found
                   console.log("No match found.");
               }
-            
-            
-            //  projects[i].logs[j].corrections.where = projects[i].logs[j].corrections.line_vuln.split(" ")[3];
          
+            
+              
 
-       
-
-            try{
-
-              for(var k = 0; k < projects[i].logs[j].corrections.list_corrections.length; k++){
-                //projects[i].logs[j].corrections.list_corrections[k].isOpen = false;
-                setIsOpen( [...isOpen, false] );
-              }
+            let tab = [];
+            for(var k = 0; k < 1; k++){
+              
+              tab.push(false);
+              
             }
-            catch(e){
-              //console.log(e);
-            }
+            setIsOpen(tab)
+          
             
             setAttack(projects[i].logs[j]);
           }
@@ -148,15 +153,23 @@ export default function Correction( { projects } ) {
                       
                       {
                         attack && attack.AttackType ?
-                        <div className="font-bold mx-2">
-                          { // uppercase the word
-                            " " + attack.AttackType.toUpperCase()
-                          }
+                        <div className="flex">
+                          <div className="font-bold mx-2">
+                            { // uppercase the word
+                              " " + attack.AttackType.toUpperCase()
+                            }
+                          </div>
+                          avec le payload
+                          <div className="font-bold mx-2">
+                            { attack.payload }
+                          </div>
                         </div>
                         : <></>
-                      }                    
-                      
+                      }
 
+                          
+
+                   
 
 
                     </div>
@@ -175,17 +188,10 @@ export default function Correction( { projects } ) {
 
                     <div className="text-[12px] p-4 rounded-md shadow-md border-2 h-auto w-full">
 
-                        {
+                        {      
+                          attack && attack.corrections
+                          && attack.corrections.explanation
                           
-                          attack && attack.corrections
-                          && attack.corrections.description_sqli
-         
-                        }
-                        <br />
-                        <br />
-                        {
-                          attack && attack.corrections
-                          && attack.corrections.description_vuln
                         }
                         
                     </div>
@@ -198,10 +204,7 @@ export default function Correction( { projects } ) {
 
 
                       {
-                       
-
-                        
-                          <>
+                        <>
                             Path :
                           <span className="font-bold">
                             {
@@ -224,7 +227,7 @@ export default function Correction( { projects } ) {
                             <CopyBlock text={
                               attack && attack.corrections &&
                               attack.corrections.codeExtract
-                            } language="sql" theme="dracula"
+                            } language="html" theme="dracula"
                             showLineNumbers={true}
                             wrapLines={true}
                             codeBlock
@@ -244,27 +247,25 @@ export default function Correction( { projects } ) {
                         Corrections vulnérabilité
                     </div>
 
+                    
                     {
-                      
-                        <>
-                        {
                         
-                          attack && attack.corrections && attack.corrections.list_corrections &&
-                          attack.corrections.list_corrections.map((correction, index) => (
-                            <div key={index} className="text-[12px]  rounded-md my-3 shadow-md  h-auto w-full border-2 border-black">
+                          attack && attack.corrections ?
+
+                            <div className="text-[12px]  rounded-md my-3 shadow-md  h-auto w-full border-2 border-black">
     
                               <button className="w-full p-4"
-                              onClick={ () => { toggleAccordeon(index); } }
+                              onClick={ () => { toggleAccordeon(0); } }
                               >
                                 <div className="flex w-full">
                                   <div className="text-md w-4/5 justify-start flex font-bold ">
                                     
-                                    SQL Injection correction { index + 1 }
+                                    { attack.corrections.title }
                                     
                                   </div>                        
                                   <div className="w-1/5 text-right flex justify-end items-center justify-items-end">
                                     {
-                                      isOpen[index] ? <img src="/assets/icons/up.svg" className="ml-2 w-3 h-3" /> : <img src="/assets/icons/bottom.svg" className="ml-2 w-3 h-3" />
+                                      isOpen[0] ? <img src="/assets/icons/up.svg" className="ml-2 w-3 h-3" /> : <img src="/assets/icons/bottom.svg" className="ml-2 w-3 h-3" />
                                     }
                                     
                                   </div>
@@ -276,38 +277,36 @@ export default function Correction( { projects } ) {
                               {
                                 // if isOpen[index] == true else: <></>
     
-                                isOpen[index] ?
+                                isOpen[0] ?
                                 <div className="bg-grisfonce">
     
                                   <hr className="h-[4px] bg-black " />
     
                                   <div className="text-[12px] p-4  w-full">
-                                    { correction.correction_explanation }
+                                    Use the following code to correct the file upload vulnerability
                                   </div>
                                   <hr className="my-2 h-[2px] bg-black px-5" />
                                   <div className="text-[12px] p-4   w-full">
     
-                                  <CopyBlock text={
-                                    correction.line_correction
-                                  } language={correction.language} theme="dracula"
+                                 <CopyBlock text={
+                                    attack.corrections.example_code
+                                  } language="php" theme="dracula"
                                   showLineNumbers={true}
                                   wrapLines={true}
                                   codeBlock
                                   />
+                               
                                     
                                   </div>
                                 </div>
-                                :
-                                <></>
-                              
+                                : <></>
+                                }
+                                                            
     
-                                
-                              }
-                              
                             </div>
-                          ))
-                        }
-                        </>
+                            : <></>
+                          
+                       
 
                     }
 

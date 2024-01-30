@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+jpg
+bmp
+jpe
+png
+>>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))
 jpeg
 jpg
 jpe
@@ -5,13 +12,21 @@ bmp
 png
 tiff
 tif
+<<<<<<< HEAD
 svg
 svgz
 mvg
+=======
+tiff
+svg
+>>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))
 gif
+svgz
+mvg
 ico
 asc
 txt
+<<<<<<< HEAD
 text
 pot
 brf
@@ -29,19 +44,51 @@ docx
 dot
 mpe
 mpeg
+=======
+pot
+srt
+pdf
+brf
+ppt
+pps
+odt
+pptx
+xls
+xlb
+xlt
+xlsx
+dot
+doc
+docx
+>>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))
 mpg
+mpeg
 mpga
+<<<<<<< HEAD
+=======
+mpe
+>>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))
 mpega
 mp2
-m4a
 avi
+<<<<<<< HEAD
 wav
 psd
 flv
 mp4
+=======
+m3u
+m4a
+wav
+mp3
+flv
+mp4
+psd
+>>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))
 tar
 gz
 zip
+<<<<<<< HEAD
 m3u
 rar
 7z
@@ -59,22 +106,55 @@ ttf
 com
 bat
 dll
+=======
+rar
+gz
+iso
+7z
+jar
+rss
+css
+torrent
+htm
+shtml
+csv
+html
+otf
+ttf
+com
+dll
+exe
+bat
+>>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))
 mov
 exe
 cbr
+<<<<<<< HEAD
 ~
+=======
+>>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))
 vcd
 %
 bak
 old
+~
 sik
 bin
+<<<<<<< HEAD
 msu
 msp
 mid
+=======
+deploy
+msu
+msp
+>>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))
 midi
+mid
+cer
 kar
 sdf
+<<<<<<< HEAD
 cer
 sd
 vcf
@@ -95,3 +175,23 @@ udeb
 js
 kmz
 deploy
+=======
+sdf
+sd
+vcf
+vcard
+c++
+cpp
+cc
+h
+kmz
+swf
+swfl
+cxx
+deb
+ddeb
+udeb
+deb
+js
+udeb
+>>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))

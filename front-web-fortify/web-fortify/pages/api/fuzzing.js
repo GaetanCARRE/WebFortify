@@ -10,6 +10,14 @@ export default function handler(req, res) {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
+      
+
+      console.log(target_url)
+
+      var raw = JSON.stringify({
+        "url": target_url
+      });
+
 
       function FilterDirSearch(result){
 
@@ -27,8 +35,10 @@ export default function handler(req, res) {
             
             log.AttackType = "fuzzing"
             log.Success = true
-            log.target_url = result[i]   
-            log.time = current_time         
+            log.target_url = result[i].url 
+            log.time = current_time  
+            log.corrections = result[i].corrections
+
 
             
             DirSearchLogs.push(log)
@@ -39,6 +49,8 @@ export default function handler(req, res) {
             console.log(err)
         }
 
+        console.log(DirSearchLogs)
+
         return DirSearchLogs
       }
   
@@ -47,10 +59,11 @@ export default function handler(req, res) {
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
-        redirect: 'follow'
+        redirect: 'follow',
+        body : raw
       };
   
-      fetch(("http://127.0.0.1:5000/dirsearch?url=" + target_url), requestOptions)
+      fetch(("http://127.0.0.1:5000/dirsearch"), requestOptions)
         .then(response => response.json())
         .then(result => res.status(200).json(FilterDirSearch(result)))
         .catch(error => console.log('error', error));

@@ -32,6 +32,8 @@ export default function Dashboard({ projects }) {
 
   const [attacksLogs, setAttacksLogs] = useState([]) 
 
+  const [isUsingDirSearch, setIsUsingDirSearch] = useState(false)
+
 
   /* END LOGS */
 
@@ -67,6 +69,12 @@ export default function Dashboard({ projects }) {
       id: 4,
       name: "bruteforce",
       color : 'rgba(147, 225, 224, 0.5)'
+    },
+    {
+      id: 5,
+      name: "fileupload",
+      color : 'rgba(222, 225, 224, 0.5)'
+      
     }
   ]
 
@@ -196,16 +204,14 @@ export default function Dashboard({ projects }) {
 
        var response = null
 
-       if(type == "xss"){
+       if(isUsingDirSearch){
           console.log(projectFolder)
-          response = await fetch(("http://localhost:3000/api/" + type + "?project_path=" + projectFolder), requestOptions);
+          response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + "null" + "&project_path=" + projectFolder), requestOptions);
 
-       }else if(type == "sql"){
-          response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + url + "&project_path=" + projectFolder), requestOptions);
-      }
-       else{
-          response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + url), requestOptions);
        }
+       else{
+         response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + url + "&project_path=" + projectFolder), requestOptions);
+      }
        const result = await response.text();
 
        
@@ -226,24 +232,9 @@ export default function Dashboard({ projects }) {
     }
  }
  
+ async function Run(newSelectedAttacks){
 
-
-
-  async function StartRunningProcess() {
-
-    try{
-
-      
-      if(url == ''){
-        alert("Please specify an URL")
-      }else if( selectedAttacks.length == 0){
-        alert("Please select at least one attack")
-      }
-      
-      else{
-
-
-        let locale_logs = []
+  let locale_logs = []
 
 
         if(attacksLogs.length > 0){
@@ -255,11 +246,10 @@ export default function Dashboard({ projects }) {
         setScanningStatus(true)
         
         
-        for (let i = 0; i < selectedAttacks.length; i++) {
-          if(selectedAttacks[i] == "xss"){
-            //await LocalRequest("dirsearch", locale_logs)
-          }
-          await LocalRequest(selectedAttacks[i], locale_logs)
+        for (let i = 0; i < newSelectedAttacks.length; i++) {
+          console.log(newSelectedAttacks[i])
+          
+          await LocalRequest(newSelectedAttacks[i], locale_logs)
         }
 
         /*
@@ -273,6 +263,71 @@ export default function Dashboard({ projects }) {
         await AddLogsToDatabase(locale_logs)
 
         console.log("XSS Done")
+
+ }
+
+ async function CheckFuzzingOutput(){
+  
+    try {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+  
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+  
+      const response = await fetch(("http://localhost:3000/api/check_fuzzing_output"), requestOptions);
+      const result = await response.text();
+
+      const json_result = JSON.parse(result)
+
+      console.log(json_result)
+  
+      return json_result.is_empty
+  
+    } catch (error) {
+      console.error('Error:', error);
+      // Throw the error to propagate it to the caller if needed
+      throw error;
+    }
+ }
+
+
+  async function StartRunningProcess() {
+
+    try{
+
+      
+      if(url == '' && !isUsingDirSearch){
+        alert("Please specify an URL")
+      }else if( selectedAttacks.length == 0){
+        alert("Please select at least one attack")
+      }
+      
+      else{
+
+          let newSelectedAttacks = selectedAttacks
+
+          const isFuzzingOutputEmpty = await CheckFuzzingOutput()
+          
+          if(isUsingDirSearch){
+            if(isFuzzingOutputEmpty){
+                alert("Fuzzing output is empty, we will run fuzzing first")
+               newSelectedAttacks = ["fuzzing", ...newSelectedAttacks, ]
+            }else{
+              alert("Fuzzing output is not empty, we will use existing output")
+            }
+          
+
+          }else{
+
+          }
+
+          await Run(newSelectedAttacks)
+
+
         
 
       }
@@ -313,6 +368,11 @@ export default function Dashboard({ projects }) {
 
     }    
     
+  }
+
+
+  function ToggleDirSearchState(){
+    setIsUsingDirSearch(!isUsingDirSearch)
   }
 
   /* END FUNCTION */
@@ -447,6 +507,31 @@ export default function Dashboard({ projects }) {
                       </div>
                       <input id="projectfolder" className="shadow-md mt-1 w-full p-1 rounded-md  bg-grisclair" type="text" placeholder={projectFolder}
                         onChange={(e) => setProjectFolder(e.target.value)} />
+
+
+                      <div className="flex w-full">
+
+                      <div className="mt-3 text-[12px] text-violet font-bold w-1/2">
+                        Use URL only
+                        < input type="checkbox" className="ml-2" onChange={ToggleDirSearchState} 
+                        checked={!isUsingDirSearch} />
+                      </div>
+
+                      <div className="mt-3 text-[12px] text-violet font-bold w-1/2">
+                        Use Fuzzing output
+                        < input type="checkbox" className="ml-2" onChange={ToggleDirSearchState}
+                        checked={isUsingDirSearch} />
+                      </div>
+
+                      </div>
+                      
+                            
+
+
+
+
+
+
 
                     </div>
                     

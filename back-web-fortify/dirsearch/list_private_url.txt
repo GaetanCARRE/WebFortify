@@ -1,3 +1,4 @@
+xss.php
 .bash_history
 .bashrc
 .cache

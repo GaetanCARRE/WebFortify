@@ -6,27 +6,15 @@ export default function handler(req, res) {
         
     const response = 
     [
-        [
-            {
-                "password": "admin",
-                "url": "http://localhost/site-test/pages/brute-force.php",
-                "user": "admin"
-            }
-        ],
-        [
-            {
-                "password": "admin",
-                "url": "http://localhost/site-test/pages/brute-force.php",
-                "user": "admin"
-            }
-        ],
-        [
-            {
-                "password": "admin",
-                "url": "http://localhost/site-test/pages/brute-force.php",
-                "user": "admin"
-            }
-        ]
+        {
+            "credentials": [
+                {
+                    "password": "admin",
+                    "user": "admin"
+                }
+            ],
+            "url": "http://localhost/site-test/pages/brute-force.php"
+        }
     ]
 
     function FilterBrutForce(result){
@@ -40,21 +28,20 @@ export default function handler(req, res) {
             
             for (var i = 0; i < result.length; i++) {
 
-                for ( var j = 0 ; j < result[i].length; i ++){
+               
 
-                    var log = {}
-            
-                    log.AttackType = "bruteforce"
-                    log.Success = true
-                    log.target_url = result[i][j].url
-                    log.username = result[i][j].user
-                    log.password = result[i][j].password
-                    log.time = current_time
+                var log = {}
+        
+                log.AttackType = "bruteforce"
+                log.Success = true
+                log.target_url = result[i].url
+                log.username = result[i].credentials
+                log.time = current_time
 
-                    
-                    BFLogs.push(log)
+                
+                BFLogs.push(log)
 
-                }
+              
                 
             }
 
@@ -69,21 +56,13 @@ export default function handler(req, res) {
 
         return BFLogs
       }
-            
 
-
-
-      
   
     
   
       res.status(200).json(FilterBrutForce(response))
       
-  
-  
-  
-        
-  
+
     }
   
   }

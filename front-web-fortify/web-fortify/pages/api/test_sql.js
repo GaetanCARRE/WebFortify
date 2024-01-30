@@ -1,187 +1,209 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 export default function handler(req, res) {
-  
+
     if (req.method === 'GET') {
-        
-    const response = 
-    [
-        {
-            "data": [
+
+        const response =
+            [
                 {
-                    "status": 1,
-                    "type": 0,
-                    "value": {
-                        "data": null,
-                        "query": "id=7074&Submit=Submit",
-                        "url": "http://localhost:8080/vulnerabilities/sqli/"
-                    }
+                    "data": [],
+                    "error": [],
+                    "success": true
                 },
                 {
-                    "status": 1,
-                    "type": 1,
-                    "value": [
+                    "data": [],
+                    "error": [],
+                    "success": true
+                },
+                {
+                    "data": [],
+                    "error": [],
+                    "success": true
+                },
+                {
+                    "data": [],
+                    "error": [],
+                    "success": true
+                },
+                {
+                    "corrections": {
+                        "description_sqli": "SQL injection is a security vulnerability that occurs when an attacker can manipulate an application's SQL query by injecting malicious SQL code. This can lead to unauthorized access, data manipulation, and potential data breaches.",
+                        "description_vuln": "Your code is vulnerable to SQL injection as it directly includes user input in the SQL query.",
+                        "line_vuln": [
+                            "file : C://wamp64/www/site-test\\pages\\sql-injection.php, line : 13, query : SELECT first_name, last_name FROM user WHERE id = '$id';"
+                        ],
+                        "list_corrections": [
+                            {
+                                "correction_explanation": "To mitigate this risk, it's recommended to use parameterized queries.",
+                                "language": "php",
+                                "line_correction": "$stmt = $conn->prepare('SELECT * FROM users WHERE username = ?');\n$stmt->bind_param('s', $userInput);\n$stmt->execute();\n$result = $stmt->get_result();"
+                            }
+                        ]
+                    },
+                    "data": [
                         {
-                            "clause": [
-                                1
-                            ],
-                            "conf": {
-                                "code": null,
-                                "notString": "Me",
-                                "optimize": null,
-                                "regexp": null,
-                                "string": null,
-                                "textOnly": null,
-                                "titles": null
-                            },
-                            "data": {
-                                "1": {
-                                    "comment": "#",
-                                    "falseCode": 200,
-                                    "matchRatio": 0.969,
-                                    "payload": "id=7074' OR NOT 8360=8360#&Submit=Submit",
-                                    "templatePayload": null,
-                                    "title": "OR boolean-based blind - WHERE or HAVING clause (NOT - MySQL comment)",
-                                    "trueCode": 200,
-                                    "vector": "OR NOT [INFERENCE]",
-                                    "where": 1
-                                },
-                                "2": {
-                                    "comment": "",
-                                    "falseCode": null,
-                                    "matchRatio": 0.969,
-                                    "payload": "id=7074' OR (SELECT 2479 FROM(SELECT COUNT(*),CONCAT(0x7171787a71,(SELECT (ELT(2479=2479,1))),0x7170716b71,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- bQWx&Submit=Submit",
-                                    "templatePayload": null,
-                                    "title": "MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)",
-                                    "trueCode": null,
-                                    "vector": "OR (SELECT [RANDNUM] FROM(SELECT COUNT(*),CONCAT('[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)",
-                                    "where": 1
-                                },
-                                "5": {
-                                    "comment": "",
-                                    "falseCode": null,
-                                    "matchRatio": 0.969,
-                                    "payload": "id=7074' AND (SELECT 2455 FROM (SELECT(SLEEP([SLEEPTIME])))MOpi)-- pupp&Submit=Submit",
-                                    "templatePayload": null,
-                                    "title": "MySQL >= 5.0.12 AND time-based blind (query SLEEP)",
-                                    "trueCode": 200,
-                                    "vector": "AND (SELECT [RANDNUM] FROM (SELECT(SLEEP([SLEEPTIME]-(IF([INFERENCE],0,[SLEEPTIME])))))[RANDSTR])",
-                                    "where": 1
-                                },
-                                "6": {
-                                    "comment": "#",
-                                    "falseCode": null,
-                                    "matchRatio": 0.969,
-                                    "payload": "id=7074' UNION ALL SELECT CONCAT(0x7171787a71,0x4c7356657165574642434a517658746b756d53464e7862584278697a5375765641754e5978577663,0x7170716b71),NULL#&Submit=Submit",
-                                    "templatePayload": null,
-                                    "title": "MySQL UNION query (NULL) - 1 to 20 columns",
-                                    "trueCode": null,
-                                    "vector": [
-                                        0,
-                                        2,
-                                        "#",
-                                        "'",
-                                        "[GENERIC_SQL_COMMENT]",
-                                        "NULL",
+                            "status": 1,
+                            "type": 0,
+                            "value": {
+                                "data": null,
+                                "query": "user_id=tbnN&Submit=Submit",
+                                "url": "http://localhost/site-test/pages/sql-injection.php"
+                            }
+                        },
+                        {
+                            "status": 1,
+                            "type": 1,
+                            "value": [
+                                {
+                                    "clause": [
                                         1,
-                                        false,
-                                        null,
-                                        null,
-                                        null
+                                        2,
+                                        3,
+                                        8,
+                                        9
                                     ],
-                                    "where": 1
+                                    "conf": {
+                                        "code": null,
+                                        "notString": null,
+                                        "optimize": null,
+                                        "regexp": null,
+                                        "string": null,
+                                        "textOnly": null,
+                                        "titles": null
+                                    },
+                                    "data": {
+                                        "2": {
+                                            "comment": "",
+                                            "falseCode": null,
+                                            "matchRatio": 0.471,
+                                            "payload": "user_id=bvWH' AND EXTRACTVALUE(7674,CONCAT(0x5c,0x716a6b6a71,(SELECT (ELT(7674=7674,1))),0x717a6a7a71)) AND 'xqYO'='xqYO&Submit=Submit",
+                                            "templatePayload": null,
+                                            "title": "MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)",
+                                            "trueCode": null,
+                                            "vector": "AND EXTRACTVALUE([RANDNUM],CONCAT('\\','[DELIMITER_START]',([QUERY]),'[DELIMITER_STOP]'))",
+                                            "where": 1
+                                        },
+                                        "6": {
+                                            "comment": "[GENERIC_SQL_COMMENT]",
+                                            "falseCode": null,
+                                            "matchRatio": 0.471,
+                                            "payload": "user_id=bvWH' UNION ALL SELECT CONCAT(0x716a6b6a71,0x6e58504772656d41764f6f43454751726c75514f774a6955447853534f465644485174646c595461,0x717a6a7a71),NULL-- -&Submit=Submit",
+                                            "templatePayload": null,
+                                            "title": "Generic UNION query (NULL) - 1 to 20 columns",
+                                            "trueCode": null,
+                                            "vector": [
+                                                0,
+                                                2,
+                                                "[GENERIC_SQL_COMMENT]",
+                                                "'",
+                                                " AND '[RANDSTR]'='[RANDSTR]",
+                                                "NULL",
+                                                1,
+                                                false,
+                                                null,
+                                                null,
+                                                null
+                                            ],
+                                            "where": 1
+                                        }
+                                    },
+                                    "dbms": "MySQL",
+                                    "dbms_version": [
+                                        ">= 5.1"
+                                    ],
+                                    "notes": [],
+                                    "os": null,
+                                    "parameter": "user_id",
+                                    "place": "GET",
+                                    "prefix": "'",
+                                    "ptype": 2,
+                                    "suffix": " AND '[RANDSTR]'='[RANDSTR]"
                                 }
-                            },
-                            "dbms": "MySQL",
-                            "dbms_version": [
-                                ">= 5.0"
-                            ],
-                            "notes": [],
-                            "os": null,
-                            "parameter": "id",
-                            "place": "GET",
-                            "prefix": "'",
-                            "ptype": 2,
-                            "suffix": "[GENERIC_SQL_COMMENT]"
+                            ]
                         }
-                    ]
+                    ],
+                    "error": [],
+                    "success": true
                 },
                 {
-                    "status": 1,
-                    "type": 2,
-                    "value": "back-end DBMS: MySQL >= 5.0 (MariaDB fork)"
+                    "data": [],
+                    "error": [],
+                    "success": true
                 }
-            ],
-            "error": [],
-            "success": true
-        }
-    ]
+            ]
 
-    function FilterSQL(result){
+        function FilterSQL(result) {
 
-        var SQLLogs = []
+            var SQLLogs = []
 
-        var current_time = new Date().getTime()
- 
-        
-        try{
-
-            let URL = result[0].data[0].value.url
-
-            let data = result[0].data[1].value[0].data
+            var current_time = new Date().getTime()
 
 
-            for( const key in  data){
+            try {
+
+                for (let i = 0; i < result.length; i++) {
+                    if (result[i].data.length == 0) {
+                        continue
+                    } else {
+
+                        let URL = result[i].data[0].value.url
+
+                        let data = result[i].data[1].value[0].data
+
+                        let correction = result[i].corrections
 
 
-                if (data.hasOwnProperty(key)) {
-                    const item = data[key];
-                    var log = {}
-                    
-                    log.AttackType = "sql"
-                    log.Success = true
-                    log.target_url = URL + "?" + item.payload
-                    log.time = current_time
-                    SQLLogs.push(log)
+                        for (const key in data) {
 
+
+                            if (data.hasOwnProperty(key)) {
+                                const item = data[key];
+                                var log = {}
+
+                                log.AttackType = "sql"
+                                log.Success = true
+                                log.target_url = URL + "?" + item.payload
+                                log.time = current_time
+                                log.corrections = correction
+                                SQLLogs.push(log)
+
+
+                            }
+
+
+
+
+
+
+
+                        }
+
+                    }
 
                 }
-                
-                
-                
 
-                
-                
 
             }
+            catch (err) {
+                console.log(err)
+            }
 
-                    
+            console.log(SQLLogs)
 
-                
-                
-            
-
-        }
-        catch(err){
-            console.log(err)
+            return SQLLogs
         }
 
-        console.log(SQLLogs)
 
-        return SQLLogs
-      }
-            
-  
-    
-  
-      res.status(200).json(FilterSQL(response))
-      
-  
-  
-  
-        
-  
+
+
+        res.status(200).json(FilterSQL(response))
+
+
+
+
+
+
     }
-  
-  }
-  
+
+}
