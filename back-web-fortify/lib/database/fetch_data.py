@@ -14,14 +14,16 @@ def InsertLogInDataBase(projectName, logs):
     # read projects.json
     with open('./lib/database/projects.json', 'r') as json_file:
         result_json = json.load(json_file)
-
+    
+    
     # append project object to projects.json
     for project in result_json:
         if(project['projectName'] == projectName):
-            project['logs'] = logs          
-            """for log in logs:
-                project['logs'].append(log)
-            """
+            id = getMaxIDScan(project) + 1
+            # add the id for the log
+            for log in logs:
+                log['id'] = id
+                project['logs'].append(log)             
             break
 
     # write to projects.json
@@ -29,6 +31,15 @@ def InsertLogInDataBase(projectName, logs):
         json.dump(result_json, json_file)
 
 
+def getMaxIDScan(result_json) :
+    if len(result_json['logs']) == 0:
+        return 0
+    else:
+        maxID = 0
+        for project in result_json['logs']:
+            if maxID < int(project['id']):
+                maxID = int(project['id'])
+        return maxID
 
 def createProject(projectName, folderPath):
     try:

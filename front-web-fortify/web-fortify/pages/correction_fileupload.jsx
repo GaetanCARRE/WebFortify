@@ -38,16 +38,16 @@ export default function Correction( { projects } ) {
     //http://localhost:3000/correction?attackID=0&project_name=gate
     setAttackid(window.location.search.split("=")[1].split("&")[0]);
     
-    setProjectName(window.location.search.split("=")[2]);
+    setProjectName(window.location.search.split("=")[2].split("&")[0]);
 
     for (var i = 0; i < projects.length; i++) {
 
-      if (projects[i].projectName == window.location.search.split("=")[2]) {
+      if (projects[i].projectName == window.location.search.split("=")[2].split("&")[0]) {
         console.log(projects[i].projectName);
 
         for(var j = 0; j < projects[i].logs.length; j++){
 
-          if(projects[i].logs[j].index == window.location.search.split("=")[1].split("&")[0]){
+          if(projects[i].logs[j].index == window.location.search.split("=")[1].split("&")[0] &&  projects[i].logs[j].id == window.location.search.split("=")[3]){
 
             console.log(projects[i].logs[j]);
             // file : C:\\wamp64\\www\\site-test\\pages\\file_upload.php, line : 59 < input name=\"uploaded\" type=\"file\"><br>
@@ -127,7 +127,7 @@ export default function Correction( { projects } ) {
 
         
         <div className="flex h-full w-full">
-            <SideBar></SideBar>
+            <SideBar projectName={projectName}></SideBar>
             <div id="main" className="h-full w-full">
 
               <Navbar></Navbar>

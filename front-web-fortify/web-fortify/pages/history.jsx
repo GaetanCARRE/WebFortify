@@ -187,7 +187,7 @@ export default function History({ projects }) {
                           logs ? logs.map((log) => (  
                             
                             <button key={log.index} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2'}}
-                              onClick={ () => {  window.location.href = ("/correction?attackID=" + log.index + "&projectName=" + project); } } >
+                              onClick={ () => {  window.location.href = ("/correction_" + log.AttackType + "?attackID=" + log.index + "&projectName=" + project+"&id="+log.id); } } >
                               
                               <div className="flex w-1/4 justify-start items-start justify-items-start">
                                   {log.AttackType}
