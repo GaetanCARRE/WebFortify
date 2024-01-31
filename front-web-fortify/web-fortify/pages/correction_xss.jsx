@@ -35,25 +35,20 @@ export default function Correction( { projects } ) {
   useEffect(() => {
 
     
-    //http://localhost:3000/correction?attackID=0&project_name=gate
+    //http://localhost:3000/correction?attackID=0&project_name=gate&id=0
     setAttackid(window.location.search.split("=")[1].split("&")[0]);
-    
-    setProjectName(window.location.search.split("=")[2]);
+    setProjectName(window.location.search.split("=")[2].split("&")[0]);
 
     for (var i = 0; i < projects.length; i++) {
-
-      if (projects[i].projectName == window.location.search.split("=")[2]) {
-        console.log(projects[i].projectName);
-
+      if (projects[i].projectName == window.location.search.split("=")[2].split("&")[0]) {
         for(var j = 0; j < projects[i].logs.length; j++){
+          
+          console.log(projects[i].logs[j])
+          if(projects[i].logs[j].index == window.location.search.split("=")[1].split("&")[0] &&  projects[i].logs[j].id == window.location.search.split("=")[3]){
 
-          if(projects[i].logs[j].index == window.location.search.split("=")[1].split("&")[0]){
-
-            console.log(projects[i].logs[j]);
+            //console.log(projects[i].logs[j]);
             // file : C:\wamp64\www\site-test\pages\xss.php line : 40 <input type="text" id="title" name="title" required><br><br>
-            
-           
-
+     
             var line = projects[i].logs[j].corrections.line_vuln;
             // Define the regular expression pattern
               var pattern = /file : (.*) line : (.*) ([\s\S]*)/;
@@ -80,10 +75,6 @@ export default function Correction( { projects } ) {
                   // If no match is found
                   console.log("No match found.");
               }
-         
-            
-              
-
             let tab = [];
             for(var k = 0; k < projects[i].logs[j].corrections.list_corrections.length; k++){
               
@@ -127,7 +118,7 @@ export default function Correction( { projects } ) {
 
         
         <div className="flex h-full w-full">
-            <SideBar></SideBar>
+            <SideBar projectName={projectName}></SideBar>
             <div id="main" className="h-full w-full">
 
               <Navbar></Navbar>

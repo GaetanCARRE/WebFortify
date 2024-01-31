@@ -144,6 +144,7 @@ def create_app(test_config=None):
 
             with open('./lib/database/projects.json', 'r') as json_file:
                 result_json = json.load(json_file)
+            print(result_json)
             return jsonify(result_json)
         
         except Exception as e:
