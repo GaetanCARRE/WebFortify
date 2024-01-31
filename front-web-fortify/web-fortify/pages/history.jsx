@@ -24,17 +24,28 @@ export default function History({ projects }) {
 
   const [logs, setLogs] = useState([])
 
+  const [projectName, setProjectName] = useState("")
+
   const [userprojects, setUserProjects] = useState([])
 
+  
   useEffect(() => {
-    console.log( {projects} )
 
+    // url ?projectName=ClementTest2
+
+    if (window.location.href.split("=")[1] == undefined) {
+      // redirect to /index
+      window.location.href = '/'
+    } else {
+
+      setProjectName(window.location.href.split("=")[1])
+
+      console.log({ projects })
+
+    }
     setUserProjects(projects)
   }
-  , []);
-
-  
-  
+    , []);
 
 
 
@@ -72,7 +83,7 @@ export default function History({ projects }) {
 
         
         <div className="flex h-full w-full">
-            <SideBar></SideBar>
+            <SideBar projectName={projectName}></SideBar>
             <div id="main" className="h-full w-full">
 
               <Navbar></Navbar>

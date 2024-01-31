@@ -182,7 +182,6 @@ def create_app(test_config=None):
             if os.path.exists(file_path):
                 os.remove(file_path)
             else :
-                open(file_path, 'w').close()
                 print("The file does not exist")
             link_web_pages= []
             if(request.json.get('url') != ""):
@@ -196,6 +195,8 @@ def create_app(test_config=None):
                 project_path = data.get('project_path')
                 # Call the testBeautifulSoup function to get the parameters
                 list_forms = forms.main(link_web_page, cookies=cookies)
+                print("webpage : "+link_web_page)
+                print(list_forms)
                 if(len(list_forms) != 0):
                     dataPOST = ""
                     # get the first form of the list

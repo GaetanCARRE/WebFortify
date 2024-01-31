@@ -102,7 +102,7 @@ export default function Correction({ projects }) {
                 <div id="header" className="flex">
 
                   <button className="flex justify-start items-center justify-items-start "
-                    onClick={() => { window.location.href = "/dashboard"; }} >
+                    onClick={() => { window.location.href = ("/dashboard?projectName="+projectName); }} >
 
                     <img src="/assets/icons/back.svg" className="w-5 h-5" />
 
@@ -202,11 +202,11 @@ export default function Correction({ projects }) {
     
                                   <div className="text-[12px] p-4  w-full flex">
 
-                                    <div className="w-1/2 flex justify-center items-center justify-items-center">
+                                    <div className="w-full flex justify-center items-center justify-items-center">
 
-                                        username : 
+                                    We have found a password for the username : 
                                         <span className="font-bold ml-2">
-
+                                            
                                             {
                                                 credential && credential.user 
                                             }
@@ -216,19 +216,7 @@ export default function Correction({ projects }) {
 
                                     </div>
 
-                                    <div className="w-1/2 flex justify-center items-center justify-items-center">
-
-                                        password : 
-                                        <span className="font-bold ml-2">
-
-                                            {
-                                                credential && credential.password 
-                                            }
-
-                                        </span>
-                                        
-
-                                    </div>
+                                    
 
                                                                      
                                   </div>

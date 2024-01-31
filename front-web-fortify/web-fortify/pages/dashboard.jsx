@@ -202,16 +202,22 @@ export default function Dashboard({ projects }) {
           redirect: 'follow'
        };
 
-       var response = null
+      var response = null
+      if (type == "fuzzing") {
+        response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + url + "&project_path=" + projectFolder), requestOptions);
+      }
+      else {
+        if (isUsingDirSearch) {
 
-       if(isUsingDirSearch){
           console.log(projectFolder)
           response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + "null" + "&project_path=" + projectFolder), requestOptions);
 
-       }
-       else{
-         response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + url + "&project_path=" + projectFolder), requestOptions);
+        }
+        else {
+          response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + url + "&project_path=" + projectFolder), requestOptions);
+        }
       }
+
        const result = await response.text();
 
        
@@ -302,7 +308,8 @@ export default function Dashboard({ projects }) {
       
       if(url == '' && !isUsingDirSearch){
         alert("Please specify an URL")
-      }else if( selectedAttacks.length == 0){
+      }
+      else if( selectedAttacks.length == 0){
         alert("Please select at least one attack")
       }
       
@@ -314,22 +321,21 @@ export default function Dashboard({ projects }) {
           
           if(isUsingDirSearch){
             if(isFuzzingOutputEmpty){
+              if (url == '') {
+                alert("Please specify an URL")          
+              }
+              else {
                 alert("Fuzzing output is empty, we will run fuzzing first")
-               newSelectedAttacks = ["fuzzing", ...newSelectedAttacks, ]
+                newSelectedAttacks = ["fuzzing", ...newSelectedAttacks, ]
+                await Run(newSelectedAttacks)
+              }
+              
             }else{
               alert("Fuzzing output is not empty, we will use existing output")
+              await Run(newSelectedAttacks)
             }
-          
-
-          }else{
 
           }
-
-          await Run(newSelectedAttacks)
-
-
-        
-
       }
 
     }catch(e){
@@ -387,7 +393,7 @@ export default function Dashboard({ projects }) {
 
         
         <div className="flex h-full w-full">
-            <SideBar></SideBar>
+            <SideBar projectName = {projectName}></SideBar>
             <div id="main" className="h-full w-full">
 
               <Navbar></Navbar>
