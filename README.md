@@ -53,10 +53,15 @@ git clone https://github.com/GaetanCARRE/WebFortify.git
    python -m venv back-web-fortify/venv
    ```
 2. Then run the start script:
+
+   On windows:
+   ```
+   webfortify_start.ps1
+   ```
+   On Unix:
    ```
    python webfortify.py
    ```
-
 
 ## Usage
 
