@@ -7,11 +7,11 @@
             "code": [
                 {
                     "extension": ".js, .ts, .jsx, .tsx",
-                    "example_code": " import escape from 'lodash.escape';\nconst escapedString = escape('<script>alert('Hello')</script>'); \nconsole.log(escapedString);"
+                    "example_code": " import escape from 'lodash.escape';\nconst escapedString = escape($VariableYouWantToDisplay); \nconsole.log(escapedString);"
                 },
                 {
                     "extension": ".php, .phtml, .php3, .php4, .php5, .php7, .php8",
-                    "example_code": "import html \nescaped_string = html.escape('<script>alert('Hello')</script>')\nprint(escaped_string)"
+                    "example_code": "import html \nescaped_string = html.escape($VariableYouWantToDisplay)\nprint(escaped_string)"
                 }
             ]
         },
@@ -25,55 +25,55 @@
                     [
                         {
                             "validator_type": "email",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isEmail('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isEmail($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         },
                         {
                             "validator_type": "date",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDate('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDate($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "ascii",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isAscii('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isAscii($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "base32",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isBase32('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isBase32($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "base64",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isBase64('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isBase64($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "boolean",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isBoolean('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isBoolean($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "creditCard",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isCreditCard('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isCreditCard($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "currency",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isCurrency('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isCurrency($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "dataURI",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDataURI('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDataURI($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "decimal",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDecimal('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDecimal($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "divisibleBy",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDivisibleBy('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isDivisibleBy($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "FQDN",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isFQDN('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isFQDN($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }, 
                         {
                             "name": "float",
-                            "example_code": "import validator from 'validator';\nconst isValid = validator.isFloat('<script>alert('Hello')</script>');\nconsole.log(isValid);"
+                            "example_code": "import validator from 'validator';\nconst isValid = validator.isFloat($VariableYouWantToDisplay);\nconsole.log(isValid);"
                         }
                     ]
                 },

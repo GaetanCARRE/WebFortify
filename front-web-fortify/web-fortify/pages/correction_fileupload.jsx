@@ -142,7 +142,7 @@ export default function Correction( { projects } ) {
                   <div id="header" className="flex">
 
                     <button className="flex justify-start items-center justify-items-start "
-                    onClick={ () => {  window.location.href = "/dashboard"; } } >
+                   onClick={() => { window.location.href = ("/dashboard?projectName="+projectName); }} >
 
                       <img src="/assets/icons/back.svg" className="w-5 h-5" />
 
@@ -158,10 +158,6 @@ export default function Correction( { projects } ) {
                             { // uppercase the word
                               " " + attack.AttackType.toUpperCase()
                             }
-                          </div>
-                          avec le payload
-                          <div className="font-bold mx-2">
-                            { attack.payload }
                           </div>
                         </div>
                         : <></>

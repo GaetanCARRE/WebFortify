@@ -9,7 +9,8 @@ def find_xss_strike(path, form_parameters):
     file_extensions = ['.js', '.jsx', '.html', '.tsx', '.php']  # Ajoutez d'autres extensions de fichier si nécessaire
     for root, dirs, files in os.walk(path):
         for file in files:
-            if file.endswith(tuple(file_extensions)):
+            if file.endswith(tuple(file_extensions)) and "node_modules" not in os.path.join(root, file):
+                print(os.path.join(root, file))
                 file_path = os.path.join(root, file)
                 with open(file_path, 'r') as f:
                     content = f.read()

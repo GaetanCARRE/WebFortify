@@ -1,7 +1,7 @@
 import Head from "next/head";
 
-export default function Navbar() {
-
+export default function Navbar({projectName}) {
+console.log(projectName)
     return (         
         
             
@@ -27,7 +27,7 @@ export default function Navbar() {
                 <div className="justify-center items-center justify-items-center  text-[#5A6ACF] text-[12px]">
                     
                     <button className=" shadow-md hover:shadow-xl  transition ease-in-out  duration-500 rounded bg-[#b8bde4] py-2 px-4 my-3 w-full flex justify-start items-center justify-items-start "
-                     onClick={ () => {  window.location.href = "/dashboard"; } } >                        
+                     onClick={ () => {  window.location.href = ("/dashboard?projectName="+projectName); } } >                        
                         <div className="">
                             <img src="/assets/icons/dash.svg" className="w-4 h-4 mr-1" />
                         </div>
@@ -37,7 +37,7 @@ export default function Navbar() {
                 <div className="justify-center items-center justify-items-center  text-[#5A6ACF] text-[12px]">
                     
                     <button className="shadow-md hover:shadow-xl  transition ease-in-out  duration-500  rounded bg-[#b8bde4] py-2 px-4 my-3 w-full flex justify-start items-center justify-items-start "
-                    onClick={ () => {  window.location.href = "/history"; } } > 
+                    onClick={ () => {  window.location.href = "/history?projectName="+projectName; } } > 
                         <div className="">
                             <img src="/assets/icons/hist.svg" className="w-4 h-4 mr-1" />
                         </div>
