@@ -6,6 +6,8 @@ import threading
 from Dirsearch.DirsearchScanner import DirsearchScanner
 from lib.XSStrike.run_xss_strike import run_xss_strike
 from lib.XSStrike.filter_web_pages import filter_web_pages
+from lib.database.fetch_data import createProject
+from lib.database.fetch_data import InsertLogInDataBase
 import json
 from connector.sqlmapconnector import SQLMapConnector
 import forms.forms as forms
@@ -44,6 +46,8 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+    
+
 
     @app.route('/')
     def index():
@@ -52,7 +56,102 @@ def create_app(test_config=None):
             Version=version,
             date=date.today(),
         )
+    
+    @app.route('/createProject', methods=['POST'])
+    def addProject():
+        try:
+            # get url param projectName
+            data = request.get_json()
+            projectName = data.get('projectName')
+            folderPath = data.get('folderPath')
+
+            print(projectName)
+            print(folderPath)
+
+            alreadyExist = createProject(projectName, folderPath)
+            
+            if alreadyExist:
+                return jsonify(
+                    Status="Error",
+                    Message="Project already exists"
+                )
+            else:
+                return jsonify(
+                    Status="Success",
+                    Message="Project created successfully"
+                )
+           
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
         
+    @app.route('/checkFuzzingOutput', methods=['GET'])
+    def getcheckFuzzingOutput():
+        try:
+            
+            with open('./Dirsearch/output_file_dirsearch.json', 'r') as json_file:
+                result_json = json.load(json_file)
+                # check if the file is []
+                if(len(result_json) == 0):
+                    return jsonify({
+                        "is_empty" : True
+                    })
+                else :
+                    return jsonify({
+                        "is_empty" : False
+                    })
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
+            
+
+        
+    @app.route('/addLogs', methods=['POST'])
+    def addLogs():        
+        try:
+            # get url param projectName
+            data = request.get_json()
+            projectName = data.get('projectName')
+            logs = data.get('logs')
+
+            
+
+            InsertLogInDataBase(projectName, logs)
+
+            return jsonify(
+                Status="Success",
+                Message="Logs added successfully"
+            )
+
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
+            
+        
+
+    @app.route('/getProjects', methods=['GET'])
+    def getProjects():
+        try:
+            if(os.path.exists('./lib/database/projects.json') == False):
+                with open('./lib/fortify/projects.json', 'w') as json_file:
+                    json.dump([], json_file)
+
+            with open('./lib/database/projects.json', 'r') as json_file:
+                result_json = json.load(json_file)
+            return jsonify(result_json)
+        
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
+
     @app.route('/dirsearch', methods=['POST'])
     def dirsearch():
         try:
@@ -83,6 +182,7 @@ def create_app(test_config=None):
             if os.path.exists(file_path):
                 os.remove(file_path)
             else :
+                open(file_path, 'w').close()
                 print("The file does not exist")
             link_web_pages= []
             if(request.json.get('url') != ""):
@@ -148,11 +248,12 @@ def create_app(test_config=None):
             urls = []
             with open('./Dirsearch/output_file_dirsearch.json', 'r') as json_file:
                 result_json = json.load(json_file)
-            print(f"result_json: {result_json}")
+            #print(f"result_json: {result_json}")
             for url_dict in result_json:
                 urls.append(url_dict['url'])
         results = []
         for url in urls:
+            print(f"URLScouby: {url}")
             connector = SQLMapConnector(cookie, url, options)
             scanid = connector.start_scan()
             while True:
@@ -168,11 +269,11 @@ def create_app(test_config=None):
                 print(f"results data : {results[-1]['data']}")
                 ic(find_sql_queries(path, parameter[0]))
                 results[-1]['corrections'] = find_sql_queries(path, parameter[0])
-                return jsonify(results)
-
+                
             except:
                 print("No data")
-                return jsonify(results)
+                results[-1]['corrections'] = []
+        return jsonify(results)
 
         
     
@@ -187,7 +288,7 @@ def create_app(test_config=None):
                 result_json = json.load(json_file)
             for url_dict in result_json:
                 urls.append(url_dict['url'])
-        results = {}
+        results = []
         for url in urls:
             is_login_form = False
             cookies = request.json.get('cookie')
@@ -223,10 +324,10 @@ def create_app(test_config=None):
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Cookie': 'wordpress_test_cookie=WP%20Cookie%20check'
                 }
+
                 brute = Bruteforce(url,get_or_post, headers, payload_info , 0, formatted_cookies)
-
-                results[url] = brute.run()
-
+                result_page = brute.run()
+                results.append({"url" : url, "credentials" : result_page})
         return jsonify(results)
     
     @app.route('/file_upload', methods=['POST'])

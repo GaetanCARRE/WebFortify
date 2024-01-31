@@ -18,17 +18,21 @@ import { useState } from 'react'
 import { Chart, ArcElement} from 'chart.js'
 Chart.register(ArcElement);
 
-import { Doughnut, Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 
 
 
-export default function DashBoard() {
+export default function Dashboard({ projects }) {
 
   /* LOGS */
+
+  const [projectName , setProjectName] = useState("")
 
   const [scanningStatus, setScanningStatus] = useState(false)
 
   const [attacksLogs, setAttacksLogs] = useState([]) 
+
+  const [isUsingDirSearch, setIsUsingDirSearch] = useState(false)
 
 
   /* END LOGS */
@@ -43,7 +47,37 @@ export default function DashBoard() {
   
   const [selectedAttacks, setSelectedAttacks] = useState([]);
 
-  const AvailableAttack = ['XSS', 'SQL Injection', 'Dir Search']
+  //const AvailableAttack = ['xss', 'sql', 'dirsearch']
+
+  const AvailableAttack = [
+    {
+      id: 1,
+      name: 'xss',
+      color : 'rgba(90, 106, 207, 0.5)'
+    },
+    {
+      id: 2,
+      name: 'sql',
+      color : 'rgba(133, 147, 237, 0.5)'
+    },
+    {
+      id: 3,
+      name: 'fuzzing',
+      color : 'rgba(199, 206, 255, 0.75)'
+    },
+    {
+      id: 4,
+      name: "bruteforce",
+      color : 'rgba(147, 225, 224, 0.5)'
+    },
+    {
+      id: 5,
+      name: "fileupload",
+      color : 'rgba(222, 225, 224, 0.5)'
+      
+    }
+  ]
+
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -68,6 +102,31 @@ export default function DashBoard() {
   }
   , [selectedAttacks])
 
+  useEffect(() => {
+
+    // url ?projectName=ClementTest2
+
+    if(window.location.href.split("=")[1] == undefined){
+      // redirect to /index
+      window.location.href = '/'
+    }else{
+
+      setProjectName(window.location.href.split("=")[1])
+
+      console.log( {projects} )
+
+      for (let i = 0; i < projects.length; i++) {
+        if (projects[i].projectName == window.location.href.split("=")[1]) {
+          setProjectFolder(projects[i].folderPath)
+          //console.log(projects[i].folderPath)
+          setAttacksLogs(projects[i].logs)
+        }
+      }
+    }
+  }
+  , []);
+
+
 
  
 
@@ -85,12 +144,47 @@ export default function DashBoard() {
 
   /* FUNCTION */
 
+  async function AddLogsToDatabase(logs) {
+
+    
+
+    try {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+  
+        var raw = JSON.stringify({"projectName":projectName,"logs":logs});
+
+        console.log(projectName)
+        console.log(logs)
+
+  
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+  
+        const response = await fetch("http://localhost:3000/api/addLogs", requestOptions);
+        const result = await response.text();
+  
+        console.log(result);
+  
+      }
+      catch (error) {
+        console.error('Error:', error);
+        // Throw the error to propagate it to the caller if needed
+        throw error;
+      }
+
+  }
+
   async function ReOrderLogs(logs , offset) {
 
     const updatedLogs = logs.map((log, index) => ({
        ...log,
        index: index + offset,
-       color: index % 2 === 0 ? 0 : 1,
+       color: (index + offset) % 2 === 0 ? 0 : 1,
     }));
     
     return updatedLogs;  
@@ -107,8 +201,17 @@ export default function DashBoard() {
           headers: myHeaders,
           redirect: 'follow'
        };
- 
-       const response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + url), requestOptions);
+
+       var response = null
+
+       if(isUsingDirSearch){
+          console.log(projectFolder)
+          response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + "null" + "&project_path=" + projectFolder), requestOptions);
+
+       }
+       else{
+         response = await fetch(("http://localhost:3000/api/" + type + "?target_url=" + url + "&project_path=" + projectFolder), requestOptions);
+      }
        const result = await response.text();
 
        
@@ -129,7 +232,67 @@ export default function DashBoard() {
     }
  }
  
+ async function Run(newSelectedAttacks){
 
+  let locale_logs = []
+
+
+        if(attacksLogs.length > 0){
+          locale_logs = attacksLogs
+          console.log("Logs already exist")
+        }
+
+        console.log("Start Running Process")
+        setScanningStatus(true)
+        
+        
+        for (let i = 0; i < newSelectedAttacks.length; i++) {
+          console.log(newSelectedAttacks[i])
+          
+          await LocalRequest(newSelectedAttacks[i], locale_logs)
+        }
+
+        /*
+        await LocalRequest("test_xss", locale_logs)
+
+        await LocalRequest("test_dirsearch", locale_logs)
+        */
+        
+        setScanningStatus(false)
+
+        await AddLogsToDatabase(locale_logs)
+
+        console.log("XSS Done")
+
+ }
+
+ async function CheckFuzzingOutput(){
+  
+    try {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+  
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+  
+      const response = await fetch(("http://localhost:3000/api/check_fuzzing_output"), requestOptions);
+      const result = await response.text();
+
+      const json_result = JSON.parse(result)
+
+      console.log(json_result)
+  
+      return json_result.is_empty
+  
+    } catch (error) {
+      console.error('Error:', error);
+      // Throw the error to propagate it to the caller if needed
+      throw error;
+    }
+ }
 
 
   async function StartRunningProcess() {
@@ -137,7 +300,7 @@ export default function DashBoard() {
     try{
 
       
-      if(url == ''){
+      if(url == '' && !isUsingDirSearch){
         alert("Please specify an URL")
       }else if( selectedAttacks.length == 0){
         alert("Please select at least one attack")
@@ -145,20 +308,26 @@ export default function DashBoard() {
       
       else{
 
-        let locale_logs = []
+          let newSelectedAttacks = selectedAttacks
 
-        console.log("Start Running Process")
-        setScanningStatus(true)
-        
-        //await LocalRequest("xss")
+          const isFuzzingOutputEmpty = await CheckFuzzingOutput()
+          
+          if(isUsingDirSearch){
+            if(isFuzzingOutputEmpty){
+                alert("Fuzzing output is empty, we will run fuzzing first")
+               newSelectedAttacks = ["fuzzing", ...newSelectedAttacks, ]
+            }else{
+              alert("Fuzzing output is not empty, we will use existing output")
+            }
+          
 
-        //await LocalRequest("dirsearch")
-        await LocalRequest("xss", locale_logs)
+          }else{
 
-        await LocalRequest("dirsearch", locale_logs)
-        
-        setScanningStatus(false)
-        console.log("XSS Done")
+          }
+
+          await Run(newSelectedAttacks)
+
+
         
 
       }
@@ -170,6 +339,40 @@ export default function DashBoard() {
 
 
     
+  }
+
+  function sortAttackByTime(){
+
+    // check if the logs are already sorted by ascending time
+    var OrderAscending = false
+
+    for (let i = 0; i < attacksLogs.length - 1; i++) {
+      if(attacksLogs[i].time < attacksLogs[i+1].time){
+        OrderAscending = true
+        break
+      }
+    }
+
+    console.log(OrderAscending)
+
+    if (OrderAscending){
+      // sort by descending time
+      const sortedLogs = [...attacksLogs].sort((a, b) => (a.time < b.time) ? 1 : -1)
+      setAttacksLogs(sortedLogs)
+      console.log(sortedLogs)
+    }else{
+      // sort by ascending time
+      const sortedLogs = [...attacksLogs].sort((a, b) => (a.time > b.time) ? 1 : -1)
+      console.log(sortedLogs)
+      setAttacksLogs(sortedLogs)
+
+    }    
+    
+  }
+
+
+  function ToggleDirSearchState(){
+    setIsUsingDirSearch(!isUsingDirSearch)
   }
 
   /* END FUNCTION */
@@ -248,7 +451,10 @@ export default function DashBoard() {
                         >
                           <div className="flex w-full">
                             <div className="w-4/5 flex justify-start">
-                              Select Attack(s)
+                              {
+                                selectedAttacks.length == 0 ? "Select Attack(s)" : selectedAttacks.map((item) => (item + ", "))
+                              }
+                              
                             </div>
                             <div className="w-1/5 text-right flex justify-end items-center justify-items-end">
                               {
@@ -265,14 +471,14 @@ export default function DashBoard() {
                             <div className="py-1">
                               {
                                 AvailableAttack.map((item) => (
-                                  <label key={item} id={item} className="block px-4 py-2 text-sm text-gray-700">
+                                  <label key={item.id} id={item.id} className="block px-4 py-2 text-sm text-gray-700">
                                     <input
                                       type="checkbox"
-                                      checked={selectedAttacks.includes(item)}
-                                      onChange={() => handleItemClick(item)}
+                                      checked={selectedAttacks.includes(item.name)}
+                                      onChange={() => handleItemClick(item.name)}
                                       className="mr-2"
                                     />
-                                    {item}
+                                    {item.name}
                                   </label>
                                 ))
 
@@ -299,8 +505,33 @@ export default function DashBoard() {
                       <div className="mt-3 text-[12px] text-violet font-bold">
                         Project's folder path
                       </div>
-                      <input id="projectfolder" className="shadow-md mt-1 w-full p-1 rounded-md  bg-grisclair" type="text" placeholder=""
+                      <input id="projectfolder" className="shadow-md mt-1 w-full p-1 rounded-md  bg-grisclair" type="text" placeholder={projectFolder}
                         onChange={(e) => setProjectFolder(e.target.value)} />
+
+
+                      <div className="flex w-full">
+
+                      <div className="mt-3 text-[12px] text-violet font-bold w-1/2">
+                        Use URL only
+                        < input type="checkbox" className="ml-2" onChange={ToggleDirSearchState} 
+                        checked={!isUsingDirSearch} />
+                      </div>
+
+                      <div className="mt-3 text-[12px] text-violet font-bold w-1/2">
+                        Use Fuzzing output
+                        < input type="checkbox" className="ml-2" onChange={ToggleDirSearchState}
+                        checked={isUsingDirSearch} />
+                      </div>
+
+                      </div>
+                      
+                            
+
+
+
+
+
+
 
                     </div>
                     
@@ -318,29 +549,71 @@ export default function DashBoard() {
 
                     <div id="PieChart" className="w-full flex items-center justify-items-center justify-center">
                       <div className="h-1/2 w-1/2 flex items-center justify-items-center justify-center">
-                          <Doughnut data={{
-                            labels: ['XSS', 'SQL Injection', 'CSRF', 'LFI', 'RFI', 'RCE'],
-                            datasets: [
-                              {
-                                label: '# of Votes',
-                                data: [12, 19, 3, 5],
-                                backgroundColor: [
+                          {
+                            /*
+                             backgroundColor: [
                                   'rgba(90, 106, 207, 0.5)',
                                   'rgba(133, 147, 237, 0.5)',
                                   'rgba(199, 206, 255, 0.5)',
                                   'rgba(222, 225, 224, 0.5)',
                                   
                                 ],
-                                borderWidth: 0,
-                              },
-                            ],
-                          }}  />
-                      </div>
+                            */
+
+                          }
+                          {
+                          // create a doughnut chart with the data from the AttacksLogs
+                          }
+                          <Doughnut 
+
+                            redraw={false}
+                            data={{
+                              labels: AvailableAttack.map((item) => (item.name)),
+                              datasets: [{
+                                label: 'Number of Attacks',
+                                data: AvailableAttack.map((item) => (attacksLogs.filter(log => log.AttackType === item.name).length)),
+
+                               
+            
+                                
+                                backgroundColor: AvailableAttack.map((item) => (item.color)),                               
+                                
+                                  
+                                borderColor: AvailableAttack.map((item) => (item.color)),
+                                borderWidth: 2
+                              }],
+
+                            }}
+                            
+
+                            />
+                          
+                      </div>                  
                       
 
 
 
                     </div>
+
+                    <div className="w-full h-auto p-2 grid grid-cols-3 gap-3">
+                              {
+                                // for each attack type, display the number of attacks in percentage
+                                  AvailableAttack.map(attack => {
+                                    const filteredLogs = attacksLogs.filter(log => log.AttackType === attack.name);
+                                    
+                                    return filteredLogs.length > 0 ? (
+                                      <div key={attack.id} className="flex items-center justify-items-center justify-center">
+                                        <div className={`h-3 w-3 rounded-full mr-2`} style={{ backgroundColor: attack.color }}></div>
+                                        <div className={`text-sm`} style={{ color: attack.color }}>{Math.round((filteredLogs.length / attacksLogs.length) * 100)}% {attack.name.toUpperCase()}</div>
+                                      </div>
+                                    ) : null;
+                                  })                              
+                                
+              
+
+                              }
+                              
+                        </div>
                     
 
                   </div>
@@ -361,17 +634,18 @@ export default function DashBoard() {
                       <hr className="mt-2 mb-2 h-[3px] bg-grisclair" />
                       <div id="columnname" className="flex w-full ">
 
-                        <div className="flex w-1/4 justify-start items-start justify-items-start">
+                        <div className="flex w-1/4 justify-start items-start justify-items-start"
+                        >          
                             Type of Attack
                         </div>
-                        <div className="flex w-1/4 justify-start items-start justify-items-start">
-                            Success
-                        </div>
-                        <div className="flex w-1/4 justify-start items-start justify-items-start">
+                        <div className="flex w-2/4 justify-start items-start justify-items-start">
                             URL
                         </div>
                         <div className="flex w-1/4 justify-start items-start justify-items-start">
                             Time
+                            <button className="ml-2 flex justify-center items-center justify-item-center" onClick={sortAttackByTime}>
+                              <img src="/assets/icons/sort_time.svg" className="w-6 h-6" />
+                            </button>
                         </div>                   
 
 
@@ -384,26 +658,24 @@ export default function DashBoard() {
                           attacksLogs ? attacksLogs.map((log) => (  
                             
                             <button key={log.index} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2'}}
-                              onClick={ () => {  window.location.href = ("/correction?attackID=" + log.index); } } >
+                              onClick={ () => {  window.location.href = ("/correction_" + log.AttackType  + "?attackID=" + log.index + "&project_name=" + projectName); } } >
                               
                               <div className="flex w-1/4 justify-start items-start justify-items-start">
                                   {log.AttackType}
                               </div>
-                              <div className="flex w-1/4 justify-start items-center justify-items-center">
-                                  {
-                                    // if log.Succes is true display a green dot else display a red dot
-                                    log.Success ? <div className="h-3 w-3 rounded-full bg-green-500"></div> : <div className="h-3 w-3 rounded-full bg-red-500"></div>
-
-                                  }
-                              </div>
-                              <div className="flex w-1/4 justify-start items-start justify-items-start">
+                              
+                              <a className="flex w-2/4 justify-start items-start justify-items-start"
+                                href={log.target_url} target="_blank" rel="noreferrer">
                                   {
                                     // if target_url is too long display only the 13 first characters and add "..." at the end
-                                    log.target_url.length > 16 ? log.target_url.substring(0, 16) + "..." : log.target_url
+                                    log.target_url.length > 40 ? log.target_url.substring(0, 40) + "..." : log.target_url
                                   }
-                              </div>
+                              </a>
                               <div className="flex w-1/4 justify-start items-start justify-items-start">
-                                  {log.index}
+                                  {
+                                    // convert log.time to a date format
+                                    new Date(log.time).toLocaleString()
+                                  }
                               </div>
 
                              
@@ -411,7 +683,7 @@ export default function DashBoard() {
                             </button>
 
                           ))
-                          : <div></div>
+                          :  <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-violet"></div>
 
                         }
                                                   
@@ -447,4 +719,14 @@ export default function DashBoard() {
            
     </>
   )
+}
+
+export async function getStaticProps() {
+  const res = await fetch('http://localhost:3000/api/getProjects')
+  const projects = await res.json()
+  console.log(projects)
+
+  return {
+    props: { projects },
+  }
 }
