@@ -1,6 +1,6 @@
 # WebFortify: Web Vulnerability Scanner
 
-A comprehensive tool designed for automated scanning of the most known web vulnerabilities, including XSS, SQL injections, web fuzzing and XSRF 
+WebFortify is an open-source web vulnerability scanner that combines existing open-source tools with custom-developed features. It offers a comprehensive suite of vulnerability scanning capabilities, including SQL injections, XSS injections, web brute-forcing, fuzzing with eResearch tools, and XSRF vulnerability detection.
 
 ## Table of Contents
 
@@ -15,21 +15,21 @@ A comprehensive tool designed for automated scanning of the most known web vulne
 
 ## Introduction
 
-This project introduces an advanced Web Vulnerability Scanner, a powerful tool designed to detect and report potential vulnerabilities in web applications. Utilizing a Flask backend and a React frontend, our scanner automates the process of identifying common security threats thereby aiding in the reinforcement of web application security by providing corrections suggestions.
+WebFortify is a powerful tool designed for developers to scan and fortify web applications against potential vulnerabilities. Built with a NextJS frontend and Flask backend, this application is ideal for local testing of web projects during development.
 
 ## Features
 
-- **Automated Vulnerability Scanning:** Quickly and efficiently scans web applications for XSS, SQL injections, and command injections.
-- **User-Friendly Interface:** React-based frontend for easy interaction and clear presentation of results.
-- **Detailed Reporting:** Generates comprehensive reports detailing detected vulnerabilities and their potential impacts.
-- **Customizable Scans:** Offers flexibility to tailor scans to specific needs or focus areas.
-- **Corrections Suggestions:** Provides suggestions for correcting detected vulnerabilities.
+- **SQL Injections:** Detect and report SQL injection vulnerabilities.
+- **XSS Injections:** Identify and address cross-site scripting vulnerabilities.
+- **Web Brute-Force:** Conduct web brute-force attacks to assess security resilience.
+- **Fuzzing with eResearch:** Utilize eResearch tools for effective fuzzing and vulnerability detection.
+- **XSRF Vulnerability Detection:** Identify and mitigate Cross-Site Request Forgery vulnerabilities.
 
 ## Technologies
 
 - **Frontend:** NextJS for a responsive and intuitive user interface.
 - **Backend:** Flask for handling backend operations and API requests.
-- **Security Scanning:** Custom algorithms and techniques for detecting a wide range of web vulnerabilities.
+- **Security Scanning:** Integration of open-source tools and custom algorithms.
 
 ## Installation
 
@@ -45,43 +45,47 @@ This project introduces an advanced Web Vulnerability Scanner, a powerful tool d
 git clone https://github.com/GaetanCARRE/WebFortify.git
 ```
 
-
 ### Installation Steps
 
 1. Create a virtual environment:
+
    ```
    python -m venv back-web-fortify/venv
    ```
-2. Then run the start script:
 
-   On windows:
+2. Run the start script:
+
+   On Windows:
+
    ```
    webfortify_start.ps1
    ```
+
    On Unix:
+
    ```
    python webfortify.py
    ```
 
 ## Usage
 
-To start using the Web Vulnerability Scanner, launch webfortify.py script. Navigate through the React application to set up and start your scans. The interface will guide you through configuring the scan parameters and initiating the scanning process.
+To initiate the Web Vulnerability Scanner, run the `webfortify.py` script. Navigate through the React application to configure and start scans. The user-friendly interface guides you through setting scan parameters and initiating the scanning process.
 
 ## API Documentation
 
-The Flask backend provides a set of RESTful API endpoints for initiating scans, retrieving scan results, and managing scan configurations. Full documentation on these endpoints is available within the application.
+The Flask backend provides RESTful API endpoints for initiating scans, retrieving results, and managing configurations. Full documentation on these endpoints is available within the application.
 
 ## Contributing
 
-We welcome contributions to the Web Vulnerability Scanner! Current contributors to the project include Gaetan, Yara, Julie, Martin, Clément, and Ludo. If you're interested in contributing, please follow these steps:
+We welcome contributions from developers interested in enhancing the Web Vulnerability Scanner. Current contributors include Gaetan, Yara, Julie, Martin, Clément, and Ludo. To contribute:
 
 1. Fork the repository.
 2. Create a new branch for your feature or fix.
-3. Commit your changes and open a pull request.
-4. Your pull request will be reviewed by one of the project maintainers.
+3. Commit changes and open a pull request.
+4. Your pull request will be reviewed by project maintainers.
 
-For any contributions, please adhere to the coding standards and guidelines provided in the repository.
+Adhere to coding standards and guidelines provided in the repository.
 
 ## License
 
-This project is released under a standard open-source license. For more information, please see the LICENSE file in the repository.
+This project is released under a standard open-source license. For details, refer to the LICENSE file in the repository.
