@@ -77,7 +77,7 @@ The Flask backend provides RESTful API endpoints for initiating scans, retrievin
 
 ## Contributing
 
-We welcome contributions from developers interested in enhancing the Web Vulnerability Scanner. Current contributors include Gaetan, Yara, Julie, Martin, Clément, and Ludo. To contribute:
+We welcome contributions from developers interested in enhancing the Web Vulnerability Scanner. Current contributors include Gaetan CARRE, Yara AYOUB, Julie THEVENOT, Martin HUCK, Clément DELBARRE, and Ludovic HAVARD. To contribute:
 
 1. Fork the repository.
 2. Create a new branch for your feature or fix.
@@ -88,4 +88,4 @@ Adhere to coding standards and guidelines provided in the repository.
 
 ## License
 
-This project is released under a standard open-source license. For details, refer to the LICENSE file in the repository.
+This project is released under GNU GENERAL PUBLIC LICENSE Version 3. For details, refer to the LICENSE file in the repository.
