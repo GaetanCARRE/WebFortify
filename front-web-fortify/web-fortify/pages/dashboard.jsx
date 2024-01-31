@@ -145,9 +145,6 @@ export default function Dashboard({ projects }) {
   /* FUNCTION */
 
   async function AddLogsToDatabase(logs) {
-
-    
-
     try {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -304,15 +301,13 @@ export default function Dashboard({ projects }) {
   async function StartRunningProcess() {
 
     try{
-
-      
+  
       if(url == '' && !isUsingDirSearch){
         alert("Please specify an URL")
       }
       else if( selectedAttacks.length == 0){
         alert("Please select at least one attack")
-      }
-      
+      }     
       else{
 
           let newSelectedAttacks = selectedAttacks
@@ -322,11 +317,14 @@ export default function Dashboard({ projects }) {
           if(isUsingDirSearch){
             if(isFuzzingOutputEmpty){
               if (url == '') {
-                alert("Please specify an URL")          
+                alert("Please specify an URL, there are no fuzzing output")          
               }
               else {
-                alert("Fuzzing output is empty, we will run fuzzing first")
-                newSelectedAttacks = ["fuzzing", ...newSelectedAttacks, ]
+                if(!newSelectedAttacks.includes("fuzzing"))
+                {
+                  alert("Fuzzing output is empty, we will run fuzzing first")
+                  newSelectedAttacks = ["fuzzing", ...newSelectedAttacks, ]
+                }  
                 await Run(newSelectedAttacks)
               }
               
