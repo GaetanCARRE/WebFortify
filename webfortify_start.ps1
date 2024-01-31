@@ -8,7 +8,7 @@ $backWebFortifyPath = Join-Path $scriptDirectory "back-web-fortify"
 # Exécuter les commandes pour le front-end
 cd $frontWebFortifyPath
 npm install
-npm run dev
+Start-Process -FilePath npm -ArgumentList "run dev" -NoNewWindow -PassThru | Out-Null
 
 # Revenir au répertoire initial
 cd $scriptDirectory
