@@ -20,7 +20,7 @@ pdf
 ppt
 pps
 pptx
-xls
+pps
 xlb
 doc
 xlt
@@ -85,6 +85,7 @@ sdf
 vcf
 vcard
 cpp
+cxx
 cc
 h
 c++
