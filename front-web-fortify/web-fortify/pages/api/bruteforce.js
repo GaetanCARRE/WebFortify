@@ -20,14 +20,14 @@ export default function handler(req, res) {
       if (target_url == "null") {
   
         raw = JSON.stringify({
-          "url" : [
+          "urls" : [
           ],
         
         });
 
       } else {
         raw = JSON.stringify({
-          "url" : [
+          "urls" : [
               target_url
           ],
         
