@@ -40,10 +40,16 @@ export default function History({ projects }) {
 
       setProjectName(window.location.href.split("=")[1])
 
+      for (let i = 0; i < projects.length; i++) {
+        if (projects[i].projectName == window.location.href.split("=")[1]) {
+          setLogs(projects[i].logs)
+        }
+      }
+
       console.log({ projects })
 
     }
-    setUserProjects(projects)
+    // setUserProjects(projects)
   }
     , []);
 
@@ -127,17 +133,22 @@ export default function History({ projects }) {
 
 
 
+                
 
                 <div id="correction" className="h-[calc(100%-18px)]">
 
+                 
+
                   <hr className="mt-1 mb-4 h-[2px] bg-grisclair" />
+
+                   {/*
 
                   <div className="text-md mb-2 text-[#333333]">
                     Projects
                   </div>
 
 
-                  {/* DROPDOWN */}
+                  
 
 
                   <div className="relative inline-block text-left py-2 w-full">
@@ -185,9 +196,12 @@ export default function History({ projects }) {
                   </div>
 
 
-                  {/*END DROPDOWN */}
+
+                
 
                   <hr className="mt-4 mb-2 h-[2px] bg-grisclair" />
+
+                */}
 
                   <div id="columnname" className="flex w-full ">
 
@@ -215,8 +229,8 @@ export default function History({ projects }) {
                       // every time attacksLogs is updated, reload the logs display
                       logs ? logs.map((log, index) => (
 
-                        <button key={index} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2' }}
-                          onClick={() => { window.location.href = ("/correction_" + log.AttackType + "?attackID=" + log.index + "&projectName=" + project + "&id=" + log.id); }} >
+                        <button key={index} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color }}
+                        onClick={() => { window.location.href = ("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id); }} >
 
                           <div className="flex w-1/4 justify-start items-start justify-items-start">
                             {log.AttackType}

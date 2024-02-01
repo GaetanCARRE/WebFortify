@@ -39,6 +39,9 @@ export default function Dashboard({ projects }) {
 
   /*   */
 
+  /* HELP PAGE */
+  const [isHelpPageOpen, setIsHelpPageOpen] = useState(false)
+
 
 
   /* DROPWONW */
@@ -53,27 +56,27 @@ export default function Dashboard({ projects }) {
     {
       id: 1,
       name: 'xss',
-      color: 'rgba(90, 106, 207, 0.5)'
+      color: '#0F1C6080'
     },
     {
       id: 2,
       name: 'sql',
-      color: 'rgba(133, 147, 237, 0.5)'
+      color: '#1A559890'
     },
     {
       id: 3,
       name: 'fuzzing',
-      color: 'rgba(199, 206, 255, 0.75)'
+      color: '#625CCE80'
     },
     {
       id: 4,
       name: "bruteforce",
-      color: 'rgba(147, 225, 224, 0.5)'
+      color: '#648DE580'
     },
     {
       id: 5,
       name: "fileupload",
-      color: 'rgba(222, 225, 224, 0.5)'
+      color: '#89B5E580'
 
     }
   ]
@@ -195,7 +198,7 @@ export default function Dashboard({ projects }) {
     const updatedLogs = logs.map((log, index) => ({
       ...log,
       index: index + offset,
-      color: (index + offset) % 2 === 0 ? 0 : 1,
+      color: AvailableAttack.filter(attack => attack.name == log.AttackType)[0].color
     }));
 
     return updatedLogs;
@@ -204,6 +207,7 @@ export default function Dashboard({ projects }) {
 
   async function LocalRequest(type, local_logs) {
     try {
+      console.log("Start " + type + " Process for " + url)
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
@@ -230,6 +234,9 @@ export default function Dashboard({ projects }) {
       }
 
       const result = await response.text();
+      if(JSON.parse(result).length == 0){
+        alert("No "+type+"  vulnerabilities found for this url: "+url)
+      }
       const updatedLogs = await ReOrderLogs(JSON.parse(result), local_logs.length)
       for (let i = 0; i < updatedLogs.length; i++) {
         local_logs.push(updatedLogs[i])
@@ -322,23 +329,36 @@ export default function Dashboard({ projects }) {
         const isFuzzingOutputEmpty = await CheckFuzzingOutput()
 
         if (isUsingDirSearch) {
+          // utilisateur veut utiliser le fuzzing output
           if (isFuzzingOutputEmpty) {
+            // l'utilisateur n'a pas encore fait de fuzzing
             if (url == '') {
               alert("Please specify an URL, there are no fuzzing output")
             }
             else {
-              if (!newSelectedAttacks.includes("fuzzing")) {
-                alert("Fuzzing output is empty, we will run fuzzing first")
-                newSelectedAttacks = ["fuzzing", ...newSelectedAttacks,]
-              }
+              
+              alert("Fuzzing output is empty, we will run fuzzing first")
+              newSelectedAttacks = ["fuzzing", ...newSelectedAttacks,]
+              
               await Run(newSelectedAttacks)
             }
 
           } else {
-            alert("Fuzzing output is not empty, we will use existing output")
-            await Run(newSelectedAttacks)
+            // utilisateur a deja fait du fuzzing 
+            if (url == '') {
+              // l'utilisateur veut utiliser le fuzzing output mais n'a pas specifie d'url
+              alert("Fuzzing output is not empty, we will use existing output")
+              await Run(newSelectedAttacks)
+            }else{
+              // l'utilisateur veut utiliser le fuzzing output et a specifie une url -> une nouvelle attaque fuzzing sera lancee
+              alert("We will run a new fuzzing attack and use the output")
+              newSelectedAttacks = ["fuzzing", ...newSelectedAttacks,]
+              await Run(newSelectedAttacks)
+            }
           }
 
+        }else{
+          await Run(newSelectedAttacks)
         }
       }
 
@@ -374,9 +394,25 @@ export default function Dashboard({ projects }) {
     }
 
   }
+   useEffect(() => {
+    console.log("isUsingDirSearch")
+    console.log(isUsingDirSearch)
+    if (isUsingDirSearch) {
+      let response = CheckFuzzingOutput()
+      response.then((result) => {
+        if (result.is_empty) {
+          alert("Fuzzing output is empty, we will run fuzzing first")
+        }else{
+          alert("Fuzzing output is not empty, if you want to run fuzzing again, please specify an URL else leave it empty")
+        }
+      })
+    }
+  }
+    , [isUsingDirSearch]);
 
   function ToggleDirSearchState() {
     setIsUsingDirSearch(!isUsingDirSearch)
+
   }
 
   /* END FUNCTION */
@@ -396,7 +432,36 @@ export default function Dashboard({ projects }) {
 
             <hr className="w-full h-[6px] bg-grisclair"></hr>
 
-            <div id="dashboard" className=" bg-white w-full h-[calc(100%-76px)] flex">
+            {
+                isHelpPageOpen ?
+                  <div id="help" className="absolute top-[70px] left-[160px] w-[calc(100%-160px)] h-[calc(100%-70px)] bg-white z-50 text-black opacity-70 ">
+
+                    <div className="flex w-full h-full justify-center justify-items-center items-center">
+
+                      <div className="w-4/5 h-4/5">
+                          <div className="w-full  flex justify-end items-center">
+                          <button onClick={() => setIsHelpPageOpen(false)}
+                            className="p-2 h-10 w-10 bg-violet hover:bg-slate-300 rounded-full shadow-md flex justify-center items-center justify-items-center">
+                            X
+                          </button>
+                          </div>
+                          
+                          <img src="/assets/icons/details.svg" className="w-full h-full" />
+                      </div>
+
+                    </div>
+                    
+                    
+                  </div> : null  
+
+              }
+
+            <div id="dashboard" className=" bg-white w-full h-[calc(100%-76px)] flex"
+            // if isHelpPageOpen is true, display blur effect
+              style={{ filter: isHelpPageOpen ? 'blur(3px)' : 'none' }}
+            >
+
+              
 
 
               <div id="left" className="w-1/3 h-full p-2 pl-4 min-w-[400px]">
@@ -473,15 +538,19 @@ export default function Dashboard({ projects }) {
                           <div className="py-1">
                             {
                               AvailableAttack.map((item) => (
-                                <label key={item.id} id={item.id} className="block px-4 py-2 text-sm text-gray-700">
-                                  <input
-                                    type="checkbox"
-                                    checked={selectedAttacks.includes(item.name)}
-                                    onChange={() => handleItemClick(item.name)}
-                                    className="mr-2"
-                                  />
-                                  {item.name}
-                                </label>
+                                
+                                  item.name == "fuzzing" ? null :
+                                    <label key={item.id} id={item.id} className="block px-4 py-2 text-sm text-gray-700">
+                                      <input
+                                        type="checkbox"
+                                        checked={selectedAttacks.includes(item.name)}
+                                        onChange={() => handleItemClick(item.name)}
+                                        className="mr-2"
+                                      />
+                                      {item.name}
+                                    </label>
+                                
+                                
                               ))
 
                             }
@@ -491,31 +560,46 @@ export default function Dashboard({ projects }) {
                       )}
                     </div>
                     {/*END DROPDOWN */}
+                    <div className="flex w-full items-center mt-3">
 
-                    <div className="mt-3 text-[12px] text-violet font-bold">
-                      URL to attack
+                      <div className="w-1/2 flex justify-start items-center justify-items-center text-[12px] text-violet font-bold">
+                        URL to attack
+                      </div>
+                      <div className="w-1/2 flex justify-end items-center justify-items-center">
+
+                        <button className="" onClick={() => setIsHelpPageOpen(true)}>
+                              <img src="/assets/icons/question.svg" className="w-5 h-5 mr-1" />
+                        </button>
+
+                      </div>
+
                     </div>
+                    
                     <input id="url" className="shadow-md mt-1 w-full p-1  rounded-md bg-grisclair" type="text" placeholder=""
                       onChange={(e) => setUrl(e.target.value)} />
-                    <div className="mt-3 text-[12px] text-violet font-bold">
+
+                    <div className="flex w-full">
+
+                    <div className="mt-3 text-[12px] text-violet font-bold w-1/2 flex justify-start items-center justify-items-center">
+                      Use URL only
+                      < input type="checkbox" className="ml-2" onChange={ToggleDirSearchState}
+                        checked={!isUsingDirSearch} />
+                    </div>
+
+                    <div className="mt-3 text-[12px] text-violet font-bold w-1/2 flex justify-end items-center justify-items-center">
+                      Use Fuzzing output
+                      < input type="checkbox" className="ml-2" onChange={ToggleDirSearchState}
+                        checked={isUsingDirSearch} />
+                    </div>
+                    </div>
+
+
+                    <div className="mt-5 text-[12px] text-violet font-bold">
                       Project's folder path
                     </div>
                     <input id="projectfolder" className="shadow-md mt-1 w-full p-1 rounded-md  bg-grisclair" type="text" placeholder={projectFolder}
                       onChange={(e) => setProjectFolder(e.target.value)} />
-                    <div className="flex w-full">
-
-                      <div className="mt-3 text-[12px] text-violet font-bold w-1/2">
-                        Use URL only
-                        < input type="checkbox" className="ml-2" onChange={ToggleDirSearchState}
-                          checked={!isUsingDirSearch} />
-                      </div>
-
-                      <div className="mt-3 text-[12px] text-violet font-bold w-1/2">
-                        Use Fuzzing output
-                        < input type="checkbox" className="ml-2" onChange={ToggleDirSearchState}
-                          checked={isUsingDirSearch} />
-                      </div>
-                    </div>
+                    
                   </div>
                 </div>
 
@@ -625,9 +709,9 @@ export default function Dashboard({ projects }) {
 
                     {
                       // every time attacksLogs is updated, reload the logs display
-                      attacksLogs ? attacksLogs.map((log) => (
+                      attacksLogs ? attacksLogs.map((log, index) => (
 
-                        <button key={log.index} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color == 0 ? '#C8CBD9' : '#D6D2D2' }}
+                        <button key={log.index} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color }}
                           onClick={() => { window.location.href = ("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id); }} >
 
                           <div className="flex w-1/4 justify-start items-start justify-items-start">
