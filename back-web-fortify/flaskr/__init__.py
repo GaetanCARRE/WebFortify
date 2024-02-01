@@ -87,6 +87,41 @@ def create_app(test_config=None):
                 Message=f"An error occurred: {str(e)}"
             )
         
+    @app.route('/updateFolderPath', methods=['POST'])
+    def updateFolderPath():
+        try:
+            # get url param projectName
+            data = request.get_json()
+            projectName = data.get('projectName')
+            folderPath = data.get('folderPath')
+
+            print(projectName)
+            print(folderPath)
+            
+            with open('./lib/database/projects.json', 'r') as json_file:
+                project = json.load(json_file)
+            
+        
+
+
+            for p in project:
+                if p['projectName'] == projectName:
+                    print("project found")
+                    p['folderPath'] = folderPath
+                    with open('./lib/database/projects.json', 'w') as json_file:
+                        json.dump(project, json_file)
+                    return jsonify(
+                        Status="Success",
+                        Message="Project updated successfully"
+                    )
+
+           
+        except Exception as e:
+            return jsonify(
+                Status="Error",
+                Message=f"An error occurred: {str(e)}"
+            )
+        
     @app.route('/checkFuzzingOutput', methods=['GET'])
     def getcheckFuzzingOutput():
         try:
@@ -144,7 +179,7 @@ def create_app(test_config=None):
 
             with open('./lib/database/projects.json', 'r') as json_file:
                 result_json = json.load(json_file)
-            print(result_json)
+            #print(result_json)
             return jsonify(result_json)
         
         except Exception as e:
