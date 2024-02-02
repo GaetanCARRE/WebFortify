@@ -19,10 +19,10 @@ def InsertLogInDataBase(projectName, logs):
     # append project object to projects.json
     for project in result_json:
         if(project['projectName'] == projectName):
-            id = getMaxIDScan(project) + 1
+            # id = getMaxIDScan(project) + 1
             # add the id for the log
             for log in logs:
-                log['id'] = id
+                # log['id'] = id
                 project['logs'].append(log)             
             break
 

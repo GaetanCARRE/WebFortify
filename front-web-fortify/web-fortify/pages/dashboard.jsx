@@ -4,6 +4,7 @@ import styles from '@/styles/Home.module.css'
 
 
 //import "@fontsource/poppins";
+import Swal from 'sweetalert2'
 
 
 import Footer from '../components/Footer'
@@ -33,6 +34,8 @@ export default function Dashboard({ projects }) {
   const [attacksLogs, setAttacksLogs] = useState([])
 
   const [isUsingDirSearch, setIsUsingDirSearch] = useState(false)
+
+  const [scanID, setScanID] = useState(0)
 
 
   /* END LOGS */
@@ -128,6 +131,7 @@ export default function Dashboard({ projects }) {
         }
       }
       let logs = []
+      setScanID(id_max)
       for (let i = 0; i < projects.length; i++) {
         if (projects[i].projectName == window.location.href.split("=")[1]) {
           setProjectFolder(projects[i].folderPath)
@@ -136,9 +140,7 @@ export default function Dashboard({ projects }) {
               logs.push(projects[i].logs[j])
             }
 
-          }
-          console.log("loooooooooooooooog")
-          console.log(logs)
+          }         
 
           setAttacksLogs(logs)
           break
@@ -193,19 +195,20 @@ export default function Dashboard({ projects }) {
 
   }
 
-  async function ReOrderLogs(logs, offset) {
+  async function ReOrderLogs(logs, offset, CurrentScanID) {
 
     const updatedLogs = logs.map((log, index) => ({
       ...log,
       index: index + offset,
-      color: AvailableAttack.filter(attack => attack.name == log.AttackType)[0].color
+      color: AvailableAttack.filter(attack => attack.name == log.AttackType)[0].color,
+      id: CurrentScanID
     }));
 
     return updatedLogs;
 
   }
 
-  async function LocalRequest(type, local_logs) {
+  async function LocalRequest(type, local_logs, CurrentScanID) {
     try {
       console.log("Start " + type + " Process for " + url)
       var myHeaders = new Headers();
@@ -235,9 +238,14 @@ export default function Dashboard({ projects }) {
 
       const result = await response.text();
       if(JSON.parse(result).length == 0){
-        alert("No "+type+"  vulnerabilities found for this url: "+url)
+        // alert("No "+type+"  vulnerabilities found for this url: "+url)
+        Swal.fire({
+          title: 'No '+type+' vulnerabilities found for this url: '+url,
+          icon: 'info',
+          confirmButtonText: 'OK'
+        })
       }
-      const updatedLogs = await ReOrderLogs(JSON.parse(result), local_logs.length)
+      const updatedLogs = await ReOrderLogs(JSON.parse(result), local_logs.length, CurrentScanID)
       for (let i = 0; i < updatedLogs.length; i++) {
         local_logs.push(updatedLogs[i])
       }
@@ -253,6 +261,11 @@ export default function Dashboard({ projects }) {
   async function Run(newSelectedAttacks) {
 
     let locale_logs = []
+    
+    let CurrentScan = scanID + 1
+    console.log("CurrentScan")
+    console.log(CurrentScan)
+
 
 
     // if (attacksLogs.length > 0) {
@@ -265,7 +278,7 @@ export default function Dashboard({ projects }) {
     for (let i = 0; i < newSelectedAttacks.length; i++) {
       // console.log(newSelectedAttacks[i])
 
-      await LocalRequest(newSelectedAttacks[i], locale_logs)
+      await LocalRequest(newSelectedAttacks[i], locale_logs, CurrentScan)
     }
     console.log("attack_logs")
     console.log(locale_logs)
@@ -279,7 +292,15 @@ export default function Dashboard({ projects }) {
 
     await AddLogsToDatabase(locale_logs)
 
-    console.log("XSS Done")
+    setScanID(CurrentScan)
+
+    console.log("Scan Completed")
+
+    Swal.fire({
+      title: 'Scan Completed',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    })
 
   }
 
@@ -317,10 +338,20 @@ export default function Dashboard({ projects }) {
     try {
 
       if (url == '' && !isUsingDirSearch) {
-        alert("Please specify an URL")
+        // alert("Please specify an URL")
+        Swal.fire({
+          title: 'Please specify an URL',
+          icon: 'warning',
+          confirmButtonText: 'OK'
+        })
       }
       else if (selectedAttacks.length == 0) {
-        alert("Please select at least one attack")
+        // alert("Please select at least one attack")
+        Swal.fire({
+          title: 'Please select at least one attack',
+          icon: 'warning',
+          confirmButtonText: 'OK'
+        })
       }
       else {
 
@@ -333,11 +364,22 @@ export default function Dashboard({ projects }) {
           if (isFuzzingOutputEmpty) {
             // l'utilisateur n'a pas encore fait de fuzzing
             if (url == '') {
-              alert("Please specify an URL, there are no fuzzing output")
+              // alert("Please specify an URL, there are no fuzzing output")
+              Swal.fire({
+                title: 'Please specify an URL, there are no fuzzing output',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+              })
             }
             else {
               
-              alert("Fuzzing output is empty, we will run fuzzing first")
+              // alert("Fuzzing output is empty, we will run fuzzing first")
+              Swal.fire({
+                title: 'Fuzzing output is empty, we will run fuzzing first',
+                icon: 'info',
+                confirmButtonText: 'OK'
+              })
+
               newSelectedAttacks = ["fuzzing", ...newSelectedAttacks,]
               
               await Run(newSelectedAttacks)
@@ -347,11 +389,25 @@ export default function Dashboard({ projects }) {
             // utilisateur a deja fait du fuzzing 
             if (url == '') {
               // l'utilisateur veut utiliser le fuzzing output mais n'a pas specifie d'url
-              alert("Fuzzing output is not empty, we will use existing output")
+              // alert("Fuzzing output is not empty, we will use existing output")
+
+              Swal.fire({
+                title: 'Fuzzing output is not empty, we will use existing output',
+                icon: 'info',
+                confirmButtonText: 'OK'
+              })
+
               await Run(newSelectedAttacks)
             }else{
               // l'utilisateur veut utiliser le fuzzing output et a specifie une url -> une nouvelle attaque fuzzing sera lancee
-              alert("We will run a new fuzzing attack and use the output")
+              // alert("We will run a new fuzzing attack and use the output")
+
+              Swal.fire({
+                title: 'We will run a new fuzzing attack and use the output',
+                icon: 'info',
+                confirmButtonText: 'OK'
+              })
+
               newSelectedAttacks = ["fuzzing", ...newSelectedAttacks,]
               await Run(newSelectedAttacks)
             }
@@ -401,9 +457,19 @@ export default function Dashboard({ projects }) {
       let response = CheckFuzzingOutput()
       response.then((result) => {
         if (result.is_empty) {
-          alert("Fuzzing output is empty, we will run fuzzing first")
+          // alert("Fuzzing output is empty, we will run fuzzing first")
+          Swal.fire({
+            title: 'Fuzzing output is empty, we will run fuzzing first',
+            icon: 'info',
+            confirmButtonText: 'OK'
+          })
         }else{
-          alert("Fuzzing output is not empty, if you want to run fuzzing again, please specify an URL else leave it empty")
+          // alert("Fuzzing output is not empty, if you want to run fuzzing again, please specify an URL else leave it empty")
+          Swal.fire({
+            title: 'Fuzzing output is not empty, if you want to run fuzzing again, please specify an URL else leave it empty',
+            icon: 'info',
+            confirmButtonText: 'OK'
+          })
         }
       })
     }
@@ -711,7 +777,7 @@ export default function Dashboard({ projects }) {
                       // every time attacksLogs is updated, reload the logs display
                       attacksLogs ? attacksLogs.map((log, index) => (
 
-                        <button key={log.index} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color }}
+                        <button key={log.index} className=" shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color }}
                           onClick={() => { window.location.href = ("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id); }} >
 
                           <div className="flex w-1/4 justify-start items-start justify-items-start">
