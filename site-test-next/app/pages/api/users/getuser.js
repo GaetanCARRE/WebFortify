@@ -8,12 +8,11 @@ export default async function handler(req,res){
         database: 'users',
     });
     try {
-        const query = "SELECT username FROM user WHERE id = ?";
-        //const [values] = ["" + req.body.id]
-        const [values] = ["1"]
-        const results = await dbconnection.query(query,values);
+        var id = req.query["id"].toString();
+        const query = "SELECT username FROM user WHERE id = "+id;
+        const results = await dbconnection.query(query);
         await dbconnection.end();
-        res.status(200).json({ result: results })
+        res.status(200).json({ result: results[0] })
     } catch (error) {
         res.status(500).json({error: error.message})
     }

@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function SQLInjectionForm() {
     const [id, setId] = useState('');
+    const router = useRouter();
 
     async function handleSubmit() {
-        const apiUrlEndpoint = "http://localhost:3000/api/users/getuser";
-        const response = await fetch(apiUrlEndpoint);
-        const res = await response.json();
-        alert(response)
+        if(id != ''){
+            const apiUrlEndpoint = "/api/users/getuser?id="+id;
+            router.push(apiUrlEndpoint)
+        }
     }
+
 
     return (
         <div>
@@ -23,4 +26,3 @@ export default function SQLInjectionForm() {
         </div>
     );
 }
-
