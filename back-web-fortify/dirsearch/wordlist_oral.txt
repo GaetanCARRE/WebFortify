@@ -1,10 +1,15 @@
-<<<<<<< HEAD
 home.php
 xss.php
 phpinfo.php
 brute-force.php
 connected.php
 support.php
+xss
+sql-injection
+brute-force
+connected
+file_upload
+config
 blog_report
 oracle
 getaccess
@@ -19,26 +24,4 @@ develop
 macromedia
 file_upload.php
 password.txt
-=======
-home.php
-xss.php
-phpinfo.php
-brute-force.php
-connected.php
-support.php
-blog_report
-oracle
-getaccess
-boite
-fake
-cabinet
-level
-logfiles
-sql-injection.php
-Applications
-develop
-macromedia
-file_upload.php
-password.txt
->>>>>>> 0f4236af (feat: integration complet des attaques (logs et correctifs))
 home
