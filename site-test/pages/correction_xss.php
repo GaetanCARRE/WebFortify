@@ -6,10 +6,13 @@ $html = "";
 // Is there any input?*
 
 if( isset( $_GET[ 'title' ])  && isset( $_GET[ 'content' ] ) ) {
-    // Get input
+    // Get input    
+    $title = $_GET['title'];
+    $content = $_GET['content'];
 
-    $title = htmlspecialchars($_GET[ 'title' ], ENT_QUOTES, 'UTF-8');
-    $content = htmlspecialchars($_GET[ 'content' ], ENT_QUOTES, 'UTF-8');
+    // Check for HTML tags and remove them
+    $title = strip_tags($title);
+    $content = strip_tags($content);
  
     // Feedback for end user
     $html .= "<pre>Your comment has been posted!</pre>";
