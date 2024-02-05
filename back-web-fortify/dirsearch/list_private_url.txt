@@ -202,3 +202,6 @@ php_info.php
 .well-known/void
 .well-known/webfinger
 .zip
+config
+config.js
+config.yml
