@@ -18,38 +18,67 @@ import { CopyBlock } from 'react-code-blocks';
 
 
 
-export default function Correction({ projects }) {
+export default function Correction() {
+
+  const [loading, setLoading] = useState(true);
 
 
   const [projectName, setProjectName] = useState("");
   const [attackid, setAttackid] = useState("");
   const [attack, setAttack] = useState("");
 
+  const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
   useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const response = await fetch('http://localhost:3000/api/getProjects');
+        const projects = await response.json();
+
+
+        setAttackid(window.location.search.split("=")[1].split("&")[0]);
+
+        setProjectName(window.location.search.split("=")[2].split("&")[0]);
+    
+        for (var i = 0; i < projects.length; i++) {
+    
+          if (projects[i].projectName == window.location.search.split("=")[2].split("&")[0]) {
+            console.log(projects[i].projectName);
+    
+            for (var j = 0; j < projects[i].logs.length; j++) {
+    
+              if(projects[i].logs[j].index == window.location.search.split("=")[1].split("&")[0] &&  projects[i].logs[j].id == window.location.search.split("=")[3]){
+    
+                console.log(projects[i].logs[j]);
+    
+    
+                setAttack(projects[i].logs[j]);
+              }
+            }
+          }
+        }
+
+
+
+        await sleep(2000);
+
+        setLoading(false);
+        
+      } catch (error) {
+          console.error('Error fetching data:', error);
+          setLoading(false);
+        }
+      };
+        fetchData();
 
 
     //http://localhost:3000/correction?attackID=0&project_name=gate
-    setAttackid(window.location.search.split("=")[1].split("&")[0]);
-
-    setProjectName(window.location.search.split("=")[2].split("&")[0]);
-
-    for (var i = 0; i < projects.length; i++) {
-
-      if (projects[i].projectName == window.location.search.split("=")[2].split("&")[0]) {
-        console.log(projects[i].projectName);
-
-        for (var j = 0; j < projects[i].logs.length; j++) {
-
-          if(projects[i].logs[j].index == window.location.search.split("=")[1].split("&")[0] &&  projects[i].logs[j].id == window.location.search.split("=")[3]){
-
-            console.log(projects[i].logs[j]);
-
-
-            setAttack(projects[i].logs[j]);
-          }
-        }
-      }
-    }
+   
 
 
   }, []);
@@ -62,30 +91,32 @@ export default function Correction({ projects }) {
     <>
       <Header></Header>
 
-      <div className="bg-white h-screen w-screen z-0">
+      <div className="bg-white z-0"
+        style={loading ? { width: "100vw", height: "100vh" } : {}}
+        >
 
 
-        <div className="flex h-full w-full">
-          <SideBar projectName={projectName}></SideBar>
+        <div className="flex h-full w-full justify-center items-center justify-items-cente">
+          {/* <SideBar projectName={projectName}></SideBar> */}
           <div id="main" className="h-full w-full">
 
-            <Navbar></Navbar>
+            {/* <Navbar></Navbar> */}
 
-            <hr className="w-full h-[6px] bg-grisclair"></hr>
 
             <div id="dashboard" className=" bg-white w-full h-[calc(100%-76px)] flex">
 
-
+            { 
+              !loading ?
               <div id="main" className="p-2 bg-white  w-full h-full ">
 
                 <div id="header" className="flex">
 
-                  <button className="flex justify-start items-center justify-items-start "
+                  {/* <button className="flex justify-start items-center justify-items-start "
                     onClick={() => { window.location.href = ("/dashboard?projectName="+projectName); }} >
 
                     <img src="/assets/icons/back.svg" className="w-5 h-5" />
 
-                  </button>
+                  </button> */}
 
                   <div className="flex px-6 justify-start items-start justify-items-start text-lg ">
                     Correction d'une attaque
@@ -190,6 +221,9 @@ export default function Correction({ projects }) {
 
 
               </div>
+              :
+              <div className="animate-spin rounded-full h-20 w-20 border-b-2 border-violet"></div>
+            }
 
 
 
@@ -211,12 +245,12 @@ export default function Correction({ projects }) {
   )
 }
 
-export async function getStaticProps() {
-  const res = await fetch('http://localhost:3000/api/getProjects')
-  const projects = await res.json()
-  console.log(projects)
+// export async function getStaticProps() {
+//   const res = await fetch('http://localhost:3000/api/getProjects')
+//   const projects = await res.json()
+//   console.log(projects)
 
-  return {
-    props: { projects },
-  }
-}
+//   return {
+//     props: { projects },
+//   }
+// }

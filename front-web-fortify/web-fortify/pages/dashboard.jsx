@@ -37,6 +37,10 @@ export default function Dashboard({ projects }) {
 
   const [scanID, setScanID] = useState(0)
 
+  const [iframeurl, setIframeurl] = useState(null)
+
+  const [isIframeOpen, setIsIframeOpen] = useState(false)
+
 
   /* END LOGS */
 
@@ -499,6 +503,30 @@ export default function Dashboard({ projects }) {
             <hr className="w-full h-[6px] bg-grisclair"></hr>
 
             {
+              isIframeOpen && iframeurl ?
+
+              <div id="help" className="absolute top-[70px] left-[160px] w-[calc(100%-160px)] pt-5 h-[calc(100%-70px)] bg-white z-50 text-black opacity-[95%] ">
+
+                <div className="flex w-full h-full justify-center">
+                    
+                    <div className="w-4/5 h-4/5">
+                        <div className="w-full  flex justify-end items-center">
+                        <button onClick={() => setIsIframeOpen(false)}
+                          className="p-2 h-10 w-10 bg-violet hover:bg-slate-300 rounded-full shadow-md flex justify-center items-center justify-items-center">
+                          X
+                        </button>
+                        </div>
+                        
+                        <iframe src={iframeurl} className="w-full h-full" />
+                    </div>
+                  
+                </div>
+
+              </div> : null
+              
+            }
+
+            {
                 isHelpPageOpen ?
                   <div id="help" className="absolute top-[70px] left-[160px] w-[calc(100%-160px)] h-[calc(100%-70px)] bg-white z-50 text-black opacity-70 ">
 
@@ -524,7 +552,10 @@ export default function Dashboard({ projects }) {
 
             <div id="dashboard" className=" bg-white w-full h-[calc(100%-76px)] flex"
             // if isHelpPageOpen is true, display blur effect
-              style={{ filter: isHelpPageOpen ? 'blur(3px)' : 'none' }}
+              style={{ filter:               
+                isHelpPageOpen ? 'blur(3px)' : 'none' 
+            
+            }}
             >
 
               
@@ -778,7 +809,11 @@ export default function Dashboard({ projects }) {
                       attacksLogs ? attacksLogs.map((log, index) => (
 
                         <button key={log.index} className=" shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color }}
-                          onClick={() => { window.location.href = ("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id); }} >
+                          onClick={() => { 
+                            //window.location.href = ("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id); 
+                            setIframeurl("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id)
+                            setIsIframeOpen(true)
+                            }} >
 
                           <div className="flex w-1/4 justify-start items-start justify-items-start">
                             {log.AttackType}

@@ -1,0 +1,22 @@
+WebFortify/
+|-- back-web-fortify/            # Code source de l'application
+|   |-- venv/                    # Environnement virtuel Python
+|   
+|   |-- flaskr/                 
+|   |   |-- __init__.py         # Gestions des routes et des vues
+|   |-- lib/                    # Librairies d'attaque (SQLi, XSS, etc.)
+|   |-- corrections/            # Code source des corrections des attaques
+|   |-- webfortify.py            # Script de démarrage
+|   |-- requirements.txt         # Dépendances Python
+|   |-- ...
+|-- frontend/
+|   |   |-- components/          # Composants réutilisables
+|   |   |-- pages/               # Vues principales de l'application (Home, DashBoard, etc.)
+|   |   |-- styles/              # Feuilles de style (CSS, SCSS, etc.)
+|   |   |-- public/              # Fichiers statiques (images, favicon, etc.)
+|   |   |-- ...
+|   |-- package.json             # Configuration des dépendances Node.js
+|   |-- webpack.config.js        # Configuration de Webpack
+|   |-- ...
+|-- README.md                   # Documentation du projet
+|-- .gitignore                  # Ignorer les fichiers/dossiers dans Git
