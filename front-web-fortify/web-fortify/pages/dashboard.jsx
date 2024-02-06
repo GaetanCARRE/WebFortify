@@ -49,6 +49,10 @@ export default function Dashboard({ projects }) {
   /* HELP PAGE */
   const [isHelpPageOpen, setIsHelpPageOpen] = useState(false)
 
+  const [url_lenght, setUrl_lenght] = useState(50)
+
+  
+
 
 
   /* DROPWONW */
@@ -147,12 +151,20 @@ export default function Dashboard({ projects }) {
           }         
 
           setAttacksLogs(logs)
+          setUrl_lenght(Math.floor((window.innerWidth - 400) / 12) - 10)
           break
         }
       }
     }
   }
     , []);
+
+
+    useEffect(() => {
+      console.log("URL LENGTH")
+      console.log(url_lenght)
+    }
+      , [url_lenght]);
 
 
 
@@ -462,18 +474,18 @@ export default function Dashboard({ projects }) {
       response.then((result) => {
         if (result.is_empty) {
           // alert("Fuzzing output is empty, we will run fuzzing first")
-          Swal.fire({
-            title: 'Fuzzing output is empty, we will run fuzzing first',
-            icon: 'info',
-            confirmButtonText: 'OK'
-          })
+          // Swal.fire({
+          //   title: 'Fuzzing output is empty, we will run fuzzing first',
+          //   icon: 'info',
+          //   confirmButtonText: 'OK'
+          // })
         }else{
           // alert("Fuzzing output is not empty, if you want to run fuzzing again, please specify an URL else leave it empty")
-          Swal.fire({
-            title: 'Fuzzing output is not empty, if you want to run fuzzing again, please specify an URL else leave it empty',
-            icon: 'info',
-            confirmButtonText: 'OK'
-          })
+          // Swal.fire({
+          //   title: 'Fuzzing output is not empty, if you want to run fuzzing again, please specify an URL else leave it empty',
+          //   icon: 'info',
+          //   confirmButtonText: 'OK'
+          // })
         }
       })
     }
@@ -484,6 +496,11 @@ export default function Dashboard({ projects }) {
     setIsUsingDirSearch(!isUsingDirSearch)
 
   }
+
+
+  
+
+
 
   /* END FUNCTION */
 
@@ -820,10 +837,11 @@ export default function Dashboard({ projects }) {
                           </div>
 
                           <a className="flex w-2/4 justify-start items-start justify-items-start"
-                            href={log.target_url} target="_blank" rel="noreferrer">
+                            href={log.target_url} target="_blank" rel="noreferrer" id = "url_display">
                             {
-                              // if target_url is too long display only the 13 first characters and add "..." at the end
-                              log.target_url.length > 40 ? log.target_url.substring(0, 40) + "..." : log.target_url
+                              //get the widht of the <a> tag and we know that each character is 12px wide so we can calculate the number of characters that can fit in the <a> tag
+                              log.target_url.length > url_lenght ? log.target_url.substring(0, url_lenght) + "..." : log.target_url                              
+
                             }
                           </a>
                           <div className="flex w-1/4 justify-start items-start justify-items-start">

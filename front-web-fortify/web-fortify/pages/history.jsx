@@ -28,6 +28,12 @@ export default function History({ projects }) {
 
   const [userprojects, setUserProjects] = useState([])
 
+  const [url_lenght, setUrl_lenght] = useState(0)
+
+  const [isIframeOpen, setIsIframeOpen] = useState(false)
+
+  const [iframeurl, setIframeurl] = useState("")
+
 
   useEffect(() => {
 
@@ -47,6 +53,8 @@ export default function History({ projects }) {
       }
 
       console.log({ projects })
+      setUrl_lenght(Math.floor((window.innerWidth - 400) / 12) - 10)
+
 
     }
     // setUserProjects(projects)
@@ -121,6 +129,31 @@ export default function History({ projects }) {
             <Navbar></Navbar>
 
             <hr className="w-full h-[6px] bg-grisclair"></hr>
+
+            {
+              isIframeOpen && iframeurl ?
+
+              <div id="help" className="absolute top-[70px] left-[160px] w-[calc(100%-160px)] pt-5 h-[calc(100%-70px)] bg-white z-50 text-black opacity-[95%] ">
+
+                <div className="flex w-full h-full justify-center">
+                    
+                    <div className="w-4/5 h-4/5">
+                        <div className="w-full  flex justify-end items-center">
+                        <button onClick={() => setIsIframeOpen(false)}
+                          className="p-2 h-10 w-10 bg-violet hover:bg-slate-300 rounded-full shadow-md flex justify-center items-center justify-items-center">
+                          X
+                        </button>
+                        </div>
+                        
+                        <iframe src={iframeurl} className="w-full h-full" />
+                    </div>
+                  
+                </div>
+
+              </div> : null
+              
+            }
+
 
             <div id="dashboard" className=" bg-white w-full h-[calc(100%-76px)] flex">
 
@@ -229,29 +262,32 @@ export default function History({ projects }) {
                       // every time attacksLogs is updated, reload the logs display
                       logs ? logs.map((log, index) => (
 
-                        <button key={index} className="shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color }}
-                        onClick={() => { window.location.href = ("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id); }} >
+                        <button key={log.index} className=" shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color }}
+                        onClick={() => { 
+                          //window.location.href = ("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id); 
+                          setIframeurl("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id)
+                          setIsIframeOpen(true)
+                          }} >
 
-                          <div className="flex w-1/4 justify-start items-start justify-items-start">
-                            {log.AttackType}
-                          </div>
-                          <a className="flex w-2/4 justify-start items-start justify-items-start"
-                            href={log.target_url} target="_blank" rel="noreferrer">
-                            {
-                              // if target_url is too long display only the 13 first characters and add "..." at the end
-                              log.target_url.length > 60 ? log.target_url.substring(0, 60) + "..." : log.target_url
-                            }
-                          </a>
-                          <div className="flex w-1/4 justify-start items-start justify-items-start">
-                            {
-                              // convert log.time to a date format
-                              new Date(log.time).toLocaleString()
-                            }
-                          </div>
+                        <div className="flex w-1/4 justify-start items-start justify-items-start">
+                          {log.AttackType}
+                        </div>
 
+                        <a className="flex w-2/4 justify-start items-start justify-items-start"
+                          href={log.target_url} target="_blank" rel="noreferrer" id = "url_display">
+                          {
+                            //get the widht of the <a> tag and we know that each character is 12px wide so we can calculate the number of characters that can fit in the <a> tag
+                            log.target_url.length > url_lenght ? log.target_url.substring(0, url_lenght) + "..." : log.target_url                              
 
-
-                        </button>
+                          }
+                        </a>
+                        <div className="flex w-1/4 justify-start items-start justify-items-start">
+                          {
+                            // convert log.time to a date format
+                            new Date(log.time).toLocaleString()
+                          }
+                        </div>
+                      </button>
 
                       ))
                         : <div></div>
