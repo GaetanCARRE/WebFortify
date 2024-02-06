@@ -156,6 +156,18 @@ export default function Correction() {
 
                   </div>
 
+                  <div className="text-md mt-5 mb-2">
+                      Impact
+                    </div>
+
+                    <div className="text-[12px] p-4 rounded-md shadow-md border-2 h-auto w-full">
+
+                      {
+                        "By systematically probing a web server for hidden or vulnerable directories and files, attackers can potentially discover sensitive information or exploit vulnerabilities in the web application. This could lead to unauthorized access to restricted directories, disclosure of confidential data, or even compromise the integrity and security of the entire web server. Additionally, directory search attacks can facilitate further exploitation by providing attackers with valuable reconnaissance information about the target system's structure and potential attack vectors. "
+                      }
+
+                    </div>
+
                   <div className="text-md mb-2 mt-5">
                     Localisation de la vulnérabilité dans votre projet
                   </div>

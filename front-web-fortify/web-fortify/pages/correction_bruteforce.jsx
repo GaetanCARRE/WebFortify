@@ -168,6 +168,18 @@ export default function Correction() {
 
                     </div>
 
+                    <div className="text-md mt-5 mb-2">
+                      Impact
+                    </div>
+
+                    <div className="text-[12px] p-4 rounded-md shadow-md border-2 h-auto w-full">
+
+                      {
+                        "The repercussions of such an attack can be severe, ranging from compromised accounts and data breaches to reputation damage and legal consequences for the web page owner."
+                      }
+
+                    </div>
+
                     <div className="text-md mb-2 mt-5">
                       Localisation de la vulnérabilité dans votre projet
                     </div>

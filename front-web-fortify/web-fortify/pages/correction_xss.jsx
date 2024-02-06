@@ -217,6 +217,18 @@ export default function Correction() {
 
                       </div>
 
+                      <div className="text-md mt-5 mb-2">
+                      Impact
+                    </div>
+
+                    <div className="text-[12px] p-4 rounded-md shadow-md border-2 h-auto w-full">
+
+                      {
+                        "Attackers can hijack sessions, steal sensitive information, or even deface websites. This enables them to execute unauthorized actions on behalf of legitimate users, leading to account compromise, data theft, and reputational damage. Additionally, XSS attacks can facilitate further exploitation, such as phishing or malware distribution, exacerbating the impact and posing ongoing risks to affected systems and users. "
+                      }
+
+                    </div>
+
                       <div className="text-md mb-2 mt-5">
                         Localisation de la vulnérabilité dans votre projet
                       </div>

@@ -221,6 +221,17 @@ export default function Correction() {
 
                       </div>
 
+                      <div className="text-md mt-5 mb-2">
+                      Impact
+                    </div>
+
+                    <div className="text-[12px] p-4 rounded-md shadow-md border-2 h-auto w-full">
+                      {
+                        "This can lead to execution of harmful code, unauthorized server access, and data breaches. Such attacks pose significant risks, including service disruption, data theft, and compromise of sensitive information. "
+                      }
+
+                    </div>
+
                       <div className="text-md mb-2 mt-5">
                         Localisation de la vulnérabilité dans votre projet
                       </div>

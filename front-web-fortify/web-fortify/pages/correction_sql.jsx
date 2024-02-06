@@ -218,6 +218,18 @@ export default function Correction() {
 
                       </div>
 
+                      <div className="text-md mt-5 mb-2">
+                      Impact
+                    </div>
+
+                    <div className="text-[12px] p-4 rounded-md shadow-md border-2 h-auto w-full">
+
+                      {
+                        "Attackers can bypass authentication, access sensitive data, or even modify or delete database records. The impact of an SQL injection attack can be severe, resulting in data breaches, financial loss, and reputational damage for affected organizations. Additionally, attackers can leverage SQL injection vulnerabilities to execute further attacks, such as data exfiltration or unauthorized access to internal systems."
+                      }
+
+                    </div>
+
                       <div className="text-md mb-2 mt-5">
                         Localisation de la vulnérabilité dans votre projet
                       </div>
