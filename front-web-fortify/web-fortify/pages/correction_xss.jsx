@@ -187,10 +187,7 @@ export default function Correction() {
                                   " " + attack.AttackType.toUpperCase()
                                 }
                               </div>
-                              avec le payload
-                              <div className="font-bold mx-2">
-                                {attack.payload}
-                              </div>
+                              
                             </div>
                             : <></>
                         }

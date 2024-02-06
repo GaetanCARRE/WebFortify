@@ -151,7 +151,7 @@ export default function Dashboard({ projects }) {
           }         
 
           setAttacksLogs(logs)
-          setUrl_lenght(Math.floor((window.innerWidth - 400) / 12) - 10)
+
           break
         }
       }
@@ -161,10 +161,13 @@ export default function Dashboard({ projects }) {
 
 
     useEffect(() => {
-      console.log("URL LENGTH")
-      console.log(url_lenght)
-    }
-      , [url_lenght]);
+      const handleResize = () => {
+          setUrl_lenght(Math.floor((window.innerWidth - 600) / 12) - 10)
+      };
+      window.addEventListener("resize", handleResize);
+      handleResize();
+      return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
 
 
