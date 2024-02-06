@@ -67,7 +67,10 @@ class Bruteforce:
                         print(response_text.replace(" ", "").replace(user, ""))
                         print(f"Found user: {user} and password: {password}")
                         cred_list.append({"user": user, "password": password})
+        
         if cred_list:
+            cred_list.append({"explanation":"logins and passwords were found with a wordlist","correction":"function validatePassword($password) {\n// Configuration des critères de validation\n$minLength = 8;\n$minLowercase = 1;\n$minUppercase = 1;\n$minNumbers = 1;\n$minSymbols = 1;\n\n// Expression régulière pour vérifier la présence de minuscules, majuscules, chiffres et symboles\n$lowercaseRegex = '/[a-z]/';\n$uppercaseRegex = '/[A-Z]/';\n$numbersRegex = '/[0-9]/';\n$symbolsRegex = '/[^a-zA-Z0-9]/';\n\n// Vérification de la longueur minimale\nif (strlen($password) < $minLength) {return 'Le mot de passe est trop court (minimum ' . $minLength . ' caractères).';}\n\n// Vérification de la présence de minuscules\nif (!preg_match($lowercaseRegex, $password)) {return 'Le mot de passe doit contenir au moins ' . $minLowercase . ' lettre(s) minuscule(s).';}\n\n// Vérification de la présence de majuscules\nif (!preg_match($uppercaseRegex, $password)) {return 'Le mot de passe doit contenir au moins ' . $minUppercase . ' lettre(s) majuscule(s).';}\n\n// Vérification de la présence de chiffres\nif (!preg_match($numbersRegex, $password)) {return 'Le mot de passe doit contenir au moins ' . $minNumbers . ' chiffre(s).';}\n\n// Vérification de la présence de symboles\nif (!preg_match($symbolsRegex, $password)) {return 'Le mot de passe doit contenir au moins ' . $minSymbols . ' symbole(s).';}\n\n// Le mot de passe a passé toutes les vérifications, il est considéré comme fort\nreturn 'Mot de passe fort.';\n}"})
+    
             return cred_list
         else: 
             return None

@@ -271,7 +271,7 @@ export default function History({ projects }) {
                       // every time attacksLogs is updated, reload the logs display
                       logs ? logs.map((log, index) => (
 
-                        <button key={index} className=" shadow-md hover:shadow-xl transition ease-in-out  duration-500 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color }}
+                        <button key={index} className=" shadow-md hover:opacity-80 transition ease-in-out duration-75 flex w-full  rounded-md my-2 py-1 px-2 text-[12px]" style={{ backgroundColor: log.color }}
                         onClick={() => { 
                           //window.location.href = ("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id); 
                           setIframeurl("/correction_" + log.AttackType + "?attackID=" + log.index + "&project_name=" + projectName+"&id="+log.id)

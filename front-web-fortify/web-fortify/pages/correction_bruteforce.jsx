@@ -26,7 +26,7 @@ export default function Correction() {
   const [projectName, setProjectName] = useState("");
   const [attackid, setAttackid] = useState("");
   const [attack, setAttack] = useState("");
-  const [isOpen, setIsOpen] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -58,12 +58,14 @@ export default function Correction() {
 
                 console.log(projects[i].logs[j]);
 
-                let tabtmp = [];
+    
+               
+                setIsOpen(false)
 
-                for (var k = 0; k < projects[i].logs[j].credentials.length; k++) {
-                  tabtmp.push(false);
-                }
-                setIsOpen(tabtmp);
+                projects[i].logs[j].corrections = projects[i].logs[j].credentials.pop();
+
+                // delete last [-1] element of projects[i].logs[j].credentials
+                // projects[i].logs[j].credentials.pop();
 
 
                 setAttack(projects[i].logs[j]);
@@ -87,16 +89,9 @@ export default function Correction() {
   }, []);
 
 
-  const toggleAccordeon = (index) => {
-
-
-    for (var i = 0; i < isOpen.length; i++) {
-      if (i == index) {
-        isOpen[i] = !isOpen[i];
-      }
-    }
-
-    setIsOpen([...isOpen]);
+  const toggleAccordeon = () => {
+  
+    setIsOpen(!isOpen);
   }
 
 
@@ -112,17 +107,19 @@ export default function Correction() {
       >
 
 
-        <div className="flex h-full w-full">
+        <div className="flex h-full w-full justify-center items-center justify-items-center">
           {/* <SideBar projectName={projectName}></SideBar> */}
-          <div id="main" className="h-full w-full">
+          {!loading ?
 
-            {/* <Navbar></Navbar> */}
+            <div id="main" className="h-full w-full">
 
-            <hr className="w-full h-[6px] bg-grisclair"></hr>
+              {/* <Navbar></Navbar> */}
 
-            <div id="dashboard" className=" bg-white w-full h-[calc(100%-76px)] flex">
+              <hr className="w-full h-[6px] bg-grisclair"></hr>
 
-              {!loading ?
+              <div id="dashboard" className=" bg-white w-full h-[calc(100%-76px)] flex">
+
+
                 <div id="main" className="p-2 bg-white  w-full h-full ">
 
                   <div id="header" className="flex">
@@ -195,21 +192,21 @@ export default function Correction() {
                         {
 
                           attack && attack.credentials &&
-                          attack.credentials.map((credential, index) => (
-                            <div key={index} className="text-[12px]  rounded-md my-3 shadow-md  h-auto w-full border-2 border-black">
+                          
+                            <div  className="text-[12px]  rounded-md my-3 shadow-md  h-auto w-full border-2 border-black">
 
                               <button className="w-full p-4"
-                                onClick={() => { toggleAccordeon(index); }}
+                                onClick={() => { toggleAccordeon(); }}
                               >
                                 <div className="flex w-full">
                                   <div className="text-md w-4/5 justify-start flex font-bold ">
 
-                                    Credential vulnerability n°{index + 1}
+                                    Credential vulnerability
 
                                   </div>
                                   <div className="w-1/5 text-right flex justify-end items-center justify-items-end">
                                     {
-                                      isOpen[index] ? <img src="/assets/icons/up.svg" className="ml-2 w-3 h-3" /> : <img src="/assets/icons/bottom.svg" className="ml-2 w-3 h-3" />
+                                      isOpen ? <img src="/assets/icons/up.svg" className="ml-2 w-3 h-3" /> : <img src="/assets/icons/bottom.svg" className="ml-2 w-3 h-3" />
                                     }
 
                                   </div>
@@ -221,7 +218,7 @@ export default function Correction() {
                               {
                                 // if isOpen[index] == true else: <></>
 
-                                isOpen[index] ?
+                                isOpen ?
                                   <div className="bg-grisfonce">
 
                                     <hr className="h-[4px] bg-black " />
@@ -234,7 +231,16 @@ export default function Correction() {
                                         <span className="font-bold ml-2">
 
                                           {
-                                            credential && credential.user
+                                            attack && attack.credentials && 
+                                            attack.credentials.map((credential, index) => {
+                                              return (
+                                                <div key={index}>
+                                                    {credential.user},
+                                                </div>
+                                              )
+
+                                            }
+                                            )
                                           }
 
                                         </span>
@@ -246,6 +252,35 @@ export default function Correction() {
 
 
                                     </div>
+                                    
+                                    <hr className="h-[4px] bg-black " />
+
+                                    <div className="text-[12px] p-4  w-full">
+
+                                      <div>
+                                        
+                                        {
+                                          attack && attack.corrections &&
+                                          attack.corrections.explanation
+                                        }
+
+                                      </div>
+                                      <br />
+                                      <br />
+
+                                          
+                                    <CopyBlock text={
+                                        attack && attack.corrections &&
+                                        attack.corrections.correction
+                                      } language="php" theme="dracula"
+                                        showLineNumbers={true}
+                                        wrapLines={true}
+                                        codeBlock
+                                      />
+
+                                      
+                                    </div>
+
                                   </div>
                                   :
                                   <></>
@@ -255,7 +290,7 @@ export default function Correction() {
                               }
 
                             </div>
-                          ))
+                         
                         }
                       </>
 
@@ -271,16 +306,18 @@ export default function Correction() {
 
 
                 </div>
-                :
-                <div className="animate-spin rounded-full h-20 w-20 border-b-2 border-violet">
-                </div>
-              }
 
 
+
+
+              </div>
 
             </div>
 
-          </div>
+            :
+            <div className="animate-spin rounded-full h-20 w-20 border-b-2 border-violet">
+            </div>
+          }
 
 
         </div>
