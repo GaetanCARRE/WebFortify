@@ -71,6 +71,8 @@ export default function handler(req, res) {
 
             let URL = result[i].data[0].value.url
 
+            let Query = result[i].data[0].value.query
+
             let data = result[i].data[1].value[0].data
 
             let correction = result[i].corrections
@@ -85,7 +87,8 @@ export default function handler(req, res) {
 
                 log.AttackType = "sql"
                 log.Success = true
-                log.target_url = URL + "?" + item.payload
+                log.target_url = URL + "?" + Query
+                log.payload = item.payload
                 log.time = current_time
                 log.corrections = correction
                 SQLLogs.push(log)
@@ -104,7 +107,11 @@ export default function handler(req, res) {
           }
 
         }
-
+        SQLLogs = SQLLogs.filter((thing, index, self) =>
+          index === self.findIndex((t) => (
+            t.target_url === thing.target_url
+          ))
+        )
 
       }
       catch (err) {

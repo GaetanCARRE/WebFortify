@@ -106,7 +106,7 @@ export default function Correction() {
           }
         }
 
-        await sleep(2000);
+        await sleep(1000);
 
         setLoading(false);
       } catch (error) {

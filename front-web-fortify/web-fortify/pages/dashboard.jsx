@@ -162,7 +162,7 @@ export default function Dashboard({ projects }) {
 
     useEffect(() => {
       const handleResize = () => {
-          setUrl_lenght(Math.floor((window.innerWidth - 600) / 12) - 10)
+          setUrl_lenght(Math.floor((window.innerWidth/2) / 12) - 10)
       };
       window.addEventListener("resize", handleResize);
       handleResize();
@@ -227,7 +227,7 @@ export default function Dashboard({ projects }) {
 
   }
 
-  async function LocalRequest(type, local_logs, CurrentScanID) {
+  async function LocalRequest(type, local_logs, database_logs, CurrentScanID) {
     try {
       console.log("Start " + type + " Process for " + url)
       var myHeaders = new Headers();
@@ -265,9 +265,15 @@ export default function Dashboard({ projects }) {
         })
       }
       const updatedLogs = await ReOrderLogs(JSON.parse(result), local_logs.length, CurrentScanID)
+      console.log("updattteddddd")
+      console.log(updatedLogs)
       for (let i = 0; i < updatedLogs.length; i++) {
         local_logs.push(updatedLogs[i])
+        database_logs.push(updatedLogs[i])
       }
+      // add the new logs to the existing logs
+     
+      // console.log(local_test)
       setAttacksLogs(local_logs)
 
     } catch (error) {
@@ -280,36 +286,23 @@ export default function Dashboard({ projects }) {
   async function Run(newSelectedAttacks) {
 
     let locale_logs = []
+    let database_logs = []
     
     let CurrentScan = scanID + 1
     console.log("CurrentScan")
     console.log(CurrentScan)
-
-
-
-    // if (attacksLogs.length > 0) {
-    //   locale_logs = attacksLogs
-    //   console.log("Logs already exist")
-    // }
 
     console.log("Start Running Process")
     setScanningStatus(true)
     for (let i = 0; i < newSelectedAttacks.length; i++) {
       // console.log(newSelectedAttacks[i])
 
-      await LocalRequest(newSelectedAttacks[i], locale_logs, CurrentScan)
+      await LocalRequest(newSelectedAttacks[i], locale_logs, database_logs, CurrentScan)
+      await AddLogsToDatabase(database_logs)
+      database_logs = []
     }
-    console.log("attack_logs")
-    console.log(locale_logs)
-    /*
-    await LocalRequest("test_xss", locale_logs)
-
-    await LocalRequest("test_dirsearch", locale_logs)
-    */
 
     setScanningStatus(false)
-
-    await AddLogsToDatabase(locale_logs)
 
     setScanID(CurrentScan)
 

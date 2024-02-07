@@ -19,9 +19,31 @@ export default function Home({ projects }) {
 
   const [userprojects, setUserProjects] = useState([])
 
-  const [projectName , setProjectName] = useState("")
+  const [projectName, setProjectName] = useState("")
 
-  const [folderPath , setFolderPath] = useState("")
+  const [folderPath, setFolderPath] = useState("")
+
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    // Ajoute l'événement de redimensionnement et obtient immédiatement la taille de la fenêtre
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Obtient la taille de la fenêtre lors de l'entrée sur la page
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   async function createProject() {
     const res = await fetch('http://localhost:3000/api/createProject', {
@@ -37,11 +59,11 @@ export default function Home({ projects }) {
   }
 
   useEffect(() => {
-    console.log( {projects} )
+    console.log({ projects })
 
     setUserProjects(projects)
   }
-  , []);
+    , []);
 
   return (
     <>
@@ -51,83 +73,93 @@ export default function Home({ projects }) {
 
         <Navbar></Navbar>
         <hr className="w-full h-[6px] bg-grisclair"></hr>
-        <div className="flex h-[calc(100%-70px)] w-full">            
-            <div className="flex w-full items-center justify-center justify-items-center">
+        <div className="flex h-[calc(100%-70px)] w-full">
+          <div className="flex w-full mt-[2%] justify-center justify-items-center">
 
-                <div>
-                    <div className="text-2xl font-bold text-[#082431]">
-                        Welcome to WebFortify
-                    </div>
-                    <div className="text-[#5A6ACF] text-[12px] flex justify-center">
-                        Select a project to start
-                    </div>
+            <div>
+              <div className="flex justify-center items-center justify-items-center mb-[4%]">
+                {windowSize.width !== undefined && windowSize.height !== undefined ? (
+                  <div>
+                    <img src="/assets/images/logo-webfortify.png" alt="WebFortify Logo" height={windowSize.height * 0.1587} width={windowSize.width * 0.0651} />
 
-                    <div className="justify-center items-center justify-items-center">
+                  </div>
+                ) : (
+                  <p>Loading...</p>
+                )}
+              </div>
+              <div className="text-2xl font-bold text-[#082431]">
+                Welcome to WebFortify
+              </div>
+              <div className="text-[#5A6ACF] text-[12px] flex justify-center">
+                Select a project to start
+              </div>
 
-                        {
-                          userprojects.map((item, index) => (
-                            <button key={item.projectName} className="shadow-md hover:shadow-xl hover:scale-105  justify-center transition ease-in-out  duration-500 rounded bg-grisclair py-2 px-4 my-3 w-full flex  items-center "
-                            onClick={ () => {  window.location.href = ("/dashboard?projectName=" + item.projectName); } } >                       
-                                {item.projectName}
-                            </button>              
-                          ))
-                        }
+              <div className="justify-center items-center justify-items-center">
 
-                    </div>
+                {
+                  userprojects.map((item, index) => (
+                    <button key={item.projectName} className="shadow-md hover:shadow-xl hover:scale-105  justify-center transition ease-in-out  duration-500 rounded bg-grisclair py-2 px-4 my-3 w-full flex  items-center "
+                      onClick={() => { window.location.href = ("/dashboard?projectName=" + item.projectName); }} >
+                      {item.projectName}
+                    </button>
+                  ))
+                }
 
-                    <div className="text-[#5A6ACF] text-[12px] flex justify-center">
-                        or create a new one
-                    </div>
+              </div>
 
-                    <div className="justify-center items-center justify-items-center">
-                      <div className="mt-3 text-[12px] text-violet font-bold">
-                          Project Name
-                        </div>
-                        <input id="porjectName" className="shadow-md mt-1 w-full p-1  rounded-md bg-grisclair" type="text" placeholder=""
-                          onChange={(e) => setProjectName(e.target.value)} />
+              <div className="text-[#5A6ACF] text-[12px] flex justify-center">
+                or create a new one
+              </div>
 
-                        <div className="mt-3 text-[12px] text-violet font-bold">
-                          Project's Folder Path
-                        </div>
-                        <input id="porjectName" className="shadow-md mt-1 w-full p-1  rounded-md bg-grisclair" type="text" placeholder=""
-                          onChange={(e) => setFolderPath(e.target.value)} />
-
-
-                        <button
-                          onClick={createProject}
-                          type="button"
-                          className="flex shadow-lg w-full justify-center items-center px-4 py-2 mt-4 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring focus:border-blue-300"
-                          id="options-menu"
-                          aria-haspopup="true"
-                          aria-expanded="true"
-                        
-                        >
-
-                    
-                        <div className="flex justify-center w-full">
-                          Create
-                        </div>
-
-                        
-                        </button>
-                      
-                    </div>
-
-
-
+              <div className="justify-center items-center justify-items-center">
+                <div className="mt-3 text-[12px] text-violet font-bold">
+                  Project Name
                 </div>
-              
+                <input id="porjectName" className="shadow-md mt-1 w-full p-1  rounded-md bg-grisclair" type="text" placeholder=""
+                  onChange={(e) => setProjectName(e.target.value)} />
+
+                <div className="mt-3 text-[12px] text-violet font-bold">
+                  Project's Folder Path
+                </div>
+                <input id="porjectName" className="shadow-md mt-1 w-full p-1  rounded-md bg-grisclair" type="text" placeholder=""
+                  onChange={(e) => setFolderPath(e.target.value)} />
+
+
+                <button
+                  onClick={createProject}
+                  type="button"
+                  className="flex shadow-lg w-full justify-center items-center px-4 py-2 mt-4 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring focus:border-blue-300"
+                  id="options-menu"
+                  aria-haspopup="true"
+                  aria-expanded="true"
+
+                >
+
+
+                  <div className="flex justify-center w-full">
+                    Create
+                  </div>
+
+
+                </button>
+
+              </div>
+
+
+
             </div>
 
+          </div>
+
         </div>
-        
-    
-        
+
+
+
 
       </div>
 
-      
-           
+
+
     </>
   )
 }

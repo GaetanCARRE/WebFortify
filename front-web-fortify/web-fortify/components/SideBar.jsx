@@ -7,12 +7,11 @@ console.log(projectName)
             
         <div className="bg-[#D4DAF4] min-w-40">
             
-            <button className="flex py-2 px-4 h-16  items-center justify-items-center text-violet text-sm font-bold"
+            <button className="flex py-2 px-4 h-16 w-full items-center justify-items-center justify-center text-violet text-sm font-bold"
             onClick={ () => {  window.location.href = "/"; } } >
-                <div className="h-2 w-2 mr-1 rounded-full bg-[#5A67BA]">
+                  <img src="/assets/images/logo-webfortify.png" alt="WebFortify Logo"  height={50} width={50}/>
 
-                </div>
-                Home
+
             </button>
 
             <hr className="w-full h-[6px] bg-grisclair"></hr> 
