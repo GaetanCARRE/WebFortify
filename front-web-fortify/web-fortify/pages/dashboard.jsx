@@ -256,14 +256,14 @@ export default function Dashboard({ projects }) {
       }
 
       const result = await response.text();
-      if(JSON.parse(result).length == 0){
-        // alert("No "+type+"  vulnerabilities found for this url: "+url)
-        Swal.fire({
-          title: 'No '+type+' vulnerabilities found for this url: '+url,
-          icon: 'info',
-          confirmButtonText: 'OK'
-        })
-      }
+      // if(JSON.parse(result).length == 0){
+      //   // alert("No "+type+"  vulnerabilities found for this url: "+url)
+      //   Swal.fire({
+      //     title: 'No '+type+' vulnerabilities found for this url: '+url,
+      //     icon: 'info',
+      //     confirmButtonText: 'OK'
+      //   })
+      // }
       const updatedLogs = await ReOrderLogs(JSON.parse(result), local_logs.length, CurrentScanID)
       console.log("updattteddddd")
       console.log(updatedLogs)

@@ -8,6 +8,7 @@ import Footer from '../components/Footer'
 import Header from '../components/Header'
 import Navbar from '../components/Navbar'
 import SideBar from '../components/SideBar'
+import Swal from 'sweetalert2'
 
 
 import { useEffect } from 'react'
@@ -66,7 +67,12 @@ export default function Setting({ projects }) {
       body: JSON.stringify({ projectName: projectName, folderPath: projectFolderPath }),
     })
     const data = await res.json()
-    console.log(data)
+      Swal.fire({
+          title: 'Project path updated',
+          icon: 'info',
+          confirmButtonText: 'OK'
+        })
+      
     //window.location.reload()
   }
 
