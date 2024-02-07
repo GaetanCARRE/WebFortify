@@ -13,7 +13,11 @@ class DirsearchScanner:
 
     def run_dirsearch(self, target_url):
                 # Chemin vers l'environnement virtuel
+        linux_venv_path = ". venv/bin/activate"
         venv_path = ".\\venv\\Scripts\\activate"
+
+        if os.name == 'posix':
+            venv_path = linux_venv_path
 
         # Commande pour activer l'environnement virtuel et exécuter le script python
         dirsearch_command = [venv_path, "&&", "python", "./lib/dirsearch/dirsearch.py"]
